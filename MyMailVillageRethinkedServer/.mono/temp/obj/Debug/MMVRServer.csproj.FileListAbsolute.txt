@@ -1,0 +1,9 @@
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\bin\Debug\MMVRServer.dll
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\bin\Debug\MMVRServer.pdb
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.csproj.AssemblyReference.cache
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.AssemblyInfoInputs.cache
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.AssemblyInfo.cs
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.csproj.CoreCompileInputs.cache
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.dll
+C:\Users\Arcad\Documents\GodotProjects\MyMailVillageRethinked\MyMailVillageRethinkedServer\.mono\temp\obj\Debug\MMVRServer.pdb

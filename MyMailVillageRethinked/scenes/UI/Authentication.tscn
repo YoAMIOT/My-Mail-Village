@@ -1,0 +1,200 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://ressources/font/TiwipiFontSmall.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scripts/Authentication.cs" type="Script" id=3]
+
+[node name="Authentication" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Login" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UsernameInput" type="LineEdit" parent="Login"]
+anchor_left = 0.333
+anchor_top = 0.415
+anchor_right = 0.667
+anchor_bottom = 0.474
+margin_left = 0.640015
+margin_top = -0.200012
+margin_right = -0.640015
+margin_bottom = 0.0799561
+custom_fonts/font = ExtResource( 1 )
+align = 1
+max_length = 20
+placeholder_text = "Username"
+placeholder_alpha = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PasswordInput" type="LineEdit" parent="Login"]
+anchor_left = 0.333
+anchor_top = 0.533
+anchor_right = 0.667
+anchor_bottom = 0.593
+margin_left = 0.640015
+margin_top = 0.359924
+margin_right = -0.640015
+margin_bottom = -0.440063
+custom_fonts/font = ExtResource( 1 )
+align = 1
+max_length = 20
+secret = true
+placeholder_text = "Password"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoginBtn" type="Button" parent="Login"]
+anchor_left = 0.433
+anchor_top = 0.652
+anchor_right = 0.567
+anchor_bottom = 0.711
+margin_left = 0.639954
+margin_top = -0.160034
+margin_right = -0.640015
+margin_bottom = 0.119995
+custom_fonts/font = ExtResource( 1 )
+disabled = true
+text = "Log in"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RegisterBtn" type="Button" parent="Login"]
+anchor_left = 0.46
+anchor_top = 0.733
+anchor_right = 0.54
+anchor_bottom = 0.793
+margin_left = -0.200012
+margin_top = 0.359985
+margin_right = 0.199951
+margin_bottom = -0.440063
+custom_fonts/font = ExtResource( 2 )
+text = "First Connection"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Register" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RegUsernameInput" type="LineEdit" parent="Register"]
+anchor_left = 0.333
+anchor_top = 0.356
+anchor_right = 0.667
+anchor_bottom = 0.415
+margin_left = 0.640015
+margin_top = -0.480042
+margin_right = -0.640137
+margin_bottom = -0.200043
+custom_fonts/font = ExtResource( 1 )
+align = 1
+max_length = 20
+placeholder_text = "Username"
+placeholder_alpha = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RegPasswordInput" type="LineEdit" parent="Register"]
+anchor_left = 0.333
+anchor_top = 0.474
+anchor_right = 0.667
+anchor_bottom = 0.533
+margin_left = 0.640015
+margin_top = 0.079895
+margin_right = -0.640137
+margin_bottom = 0.359863
+custom_fonts/font = ExtResource( 1 )
+align = 1
+max_length = 20
+secret = true
+placeholder_text = "Password"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RegPasswordInputConfirm" type="LineEdit" parent="Register"]
+anchor_left = 0.333
+anchor_top = 0.593
+anchor_right = 0.667
+anchor_bottom = 0.652
+margin_left = 0.640015
+margin_top = -0.440125
+margin_right = -0.640015
+margin_bottom = -0.160095
+custom_fonts/font = ExtResource( 1 )
+align = 1
+max_length = 20
+secret = true
+placeholder_text = "Password Confirmation"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RegisterBtn" type="Button" parent="Register"]
+anchor_left = 0.433
+anchor_top = 0.711
+anchor_right = 0.567
+anchor_bottom = 0.77
+margin_left = 0.639954
+margin_top = 0.119995
+margin_right = -0.640137
+margin_bottom = 0.399963
+custom_fonts/font = ExtResource( 1 )
+disabled = true
+text = "Register"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoginBtn" type="Button" parent="Register"]
+anchor_left = 0.454
+anchor_top = 0.793
+anchor_right = 0.546
+anchor_bottom = 0.852
+margin_left = 0.319946
+margin_top = -0.440063
+margin_right = -0.320068
+margin_bottom = -0.160034
+custom_fonts/font = ExtResource( 2 )
+text = "Already registered"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Register"]
+anchor_left = 0.233
+anchor_top = 0.119
+anchor_right = 0.767
+anchor_bottom = 0.296
+margin_left = 0.639984
+margin_top = -0.520004
+margin_right = -0.640015
+margin_bottom = 0.320007
+custom_fonts/font = ExtResource( 2 )
+text = "-Your username must be between 4 and 20 characters, it can contain any letters, numbers and \"_\".
+
+-Your password must be between 8 and 20 characters, it can contain any letters, numbers and also special characters like \"_ @ $ ! % # ? &\"."
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

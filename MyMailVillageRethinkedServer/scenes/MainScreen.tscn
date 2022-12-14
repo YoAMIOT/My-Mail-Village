@@ -1,0 +1,143 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://ressources/font/TiwipiFontSmall.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scripts/Server.cs" type="Script" id=3]
+[ext_resource path="res://ressources/animations/loading/loading1.png" type="Texture" id=4]
+[ext_resource path="res://ressources/animations/loading/loading2.png" type="Texture" id=5]
+[ext_resource path="res://ressources/animations/loading/loading8.png" type="Texture" id=6]
+[ext_resource path="res://ressources/animations/loading/loading7.png" type="Texture" id=7]
+[ext_resource path="res://ressources/animations/loading/loading5.png" type="Texture" id=8]
+[ext_resource path="res://ressources/animations/loading/loading4.png" type="Texture" id=9]
+[ext_resource path="res://ressources/animations/loading/loading6.png" type="Texture" id=10]
+[ext_resource path="res://ressources/animations/loading/loading3.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[node name="Server" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="Polygon2D" parent="."]
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+polygon = PoolVector2Array( 0, 0, 192, 0, 192, 600, 0, 600 )
+
+[node name="QuitButton" type="Button" parent="."]
+margin_right = 32.0
+margin_bottom = 32.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "X"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartServerBtn" type="Button" parent="."]
+anchor_top = 0.393
+anchor_right = 0.187
+anchor_bottom = 0.5
+margin_top = 0.199997
+margin_right = 0.511993
+custom_fonts/font = ExtResource( 1 )
+text = "Start Server"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StopServerBtn" type="Button" parent="."]
+anchor_top = 0.5
+anchor_right = 0.187
+anchor_bottom = 0.607
+margin_right = 0.511993
+margin_bottom = -0.200043
+custom_fonts/font = ExtResource( 1 )
+disabled = true
+text = "Stop Server"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Log" type="RichTextLabel" parent="."]
+anchor_left = 0.187
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.511993
+custom_fonts/normal_font = ExtResource( 2 )
+bbcode_enabled = true
+scroll_following = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitConfirm" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="Polygon2D" parent="QuitConfirm"]
+scale = Vector2( 5.33333, 1 )
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+polygon = PoolVector2Array( 0, 0, 192, 0, 192, 600, 0, 600 )
+
+[node name="UI" type="Control" parent="QuitConfirm"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="QuitConfirm/UI"]
+anchor_left = 0.227
+anchor_top = 0.4
+anchor_right = 0.773
+anchor_bottom = 0.467
+margin_left = -0.448013
+margin_right = 0.447937
+margin_bottom = -0.200012
+custom_fonts/font = ExtResource( 1 )
+text = "Do you really want to close the server?"
+align = 1
+valign = 1
+
+[node name="ConfirmBtn" type="Button" parent="QuitConfirm/UI"]
+anchor_left = 0.437
+anchor_top = 0.533
+anchor_right = 0.562
+anchor_bottom = 0.603
+margin_left = 0.511993
+margin_top = 0.199982
+margin_right = 0.511963
+margin_bottom = 0.199982
+custom_fonts/font = ExtResource( 1 )
+text = "Confirm"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WaitToQuit" type="Control" parent="QuitConfirm"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="QuitConfirm/WaitToQuit"]
+position = Vector2( 512, 296 )
+scale = Vector2( 42.6667, 42.6667 )
+frames = SubResource( 1 )
+playing = true
+
+[node name="AutoSave" type="Timer" parent="."]
+wait_time = 180.0
+autostart = true
