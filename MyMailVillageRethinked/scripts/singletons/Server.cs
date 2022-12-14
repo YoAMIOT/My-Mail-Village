@@ -50,11 +50,13 @@ public class Server : Node{
     }
 
     [Remote]
-    public void logIn(bool firstConnection){
-        if(!firstConnection){
-            GD.Print("LOGIN AND GET THE F*** IN GAME");
-        } else if(firstConnection){
-            GD.Print("LOGIN AND CUSTOMIZE YOUR HOME AND PLAYER");
-        }
+    public void logIn(){
+        GD.Print("LOGIN AND GET THE F*** IN GAME");
+    }
+
+    [Remote]
+    public void firstConnection(Godot.Collections.Dictionary addresses){
+        GD.Print("LOGIN AND CUSTOMIZE YOUR HOME AND PLAYER");
+        GD.Print(addresses);
     }
 }

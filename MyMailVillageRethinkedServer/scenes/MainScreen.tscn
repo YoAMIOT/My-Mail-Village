@@ -71,7 +71,8 @@ __meta__ = {
 anchor_left = 0.187
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.511993
+margin_left = 1.51199
+margin_right = 1.0
 custom_fonts/normal_font = ExtResource( 2 )
 bbcode_enabled = true
 scroll_following = true
@@ -136,6 +137,7 @@ anchor_bottom = 1.0
 position = Vector2( 512, 296 )
 scale = Vector2( 42.6667, 42.6667 )
 frames = SubResource( 1 )
+frame = 7
 playing = true
 
 [node name="AutoSave" type="Timer" parent="."]

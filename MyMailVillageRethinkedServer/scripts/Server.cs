@@ -11,10 +11,12 @@ public class Server : Control{
     private bool serverStarted = false;
     private CredentialsManager CredentialsManager;
     private DataManager DataManager;
+    private AddressManager AddressManager;
 
     public override void _Ready(){
         CredentialsManager = GetNode<CredentialsManager>("/root/CredentialsManager");
         DataManager = GetNode<DataManager>("/root/DataManager");
+        AddressManager = GetNode<AddressManager>("/root/AddressManager");
         GetTree().SetAutoAcceptQuit(false);
         UPNP.Discover(2000, 2, "InternetGatewayDevice");
         ip = UPNP.QueryExternalAddress();
@@ -84,7 +86,11 @@ public class Server : Control{
     }
 
     public void logIn(int userId, bool firstConnection){
-        RpcId(userId, "logIn", firstConnection);
+        if(!firstConnection){
+            RpcId(userId, "logIn");
+        } else {
+            RpcId(userId, "firstConnection", AddressManager.addresses);
+        }
     }
 
 
