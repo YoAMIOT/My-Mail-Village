@@ -1,10 +1,12 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Server : Node{
     private NetworkedMultiplayerENet Network = new NetworkedMultiplayerENet();
     private string ip = "86.211.252.181";
     private int port = 4180;
+    public Godot.Collections.Dictionary addresses = new Godot.Collections.Dictionary();
 
     public override void _Ready(){
         connectToServer();
@@ -57,6 +59,7 @@ public class Server : Node{
     [Remote]
     public void firstConnection(Godot.Collections.Dictionary addresses){
         GD.Print("LOGIN AND CUSTOMIZE YOUR HOME AND PLAYER");
-        GD.Print(addresses);
+        this.addresses = addresses;
+        GetTree().ChangeScene("res://scenes/UI/AddressSelector.tscn");
     }
 }

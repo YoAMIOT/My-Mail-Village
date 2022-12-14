@@ -1,2 +1,0 @@
-﻿54284
-C:/Program Files/godot/Godot-3.4.2.exe
