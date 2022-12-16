@@ -58,7 +58,6 @@ public class Server : Node{
 
     [Remote]
     public void firstConnection(Godot.Collections.Dictionary addresses){
-        GD.Print("LOGIN AND CUSTOMIZE YOUR HOME AND PLAYER");
         this.addresses = addresses;
         GetTree().ChangeScene("res://scenes/UI/AddressSelector.tscn");
     }
