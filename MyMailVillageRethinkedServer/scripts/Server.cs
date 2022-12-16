@@ -51,6 +51,7 @@ public class Server : Control{
         }
         var t = Task.Run(() => DataManager.savePlayersDatas());
         t.Wait();
+        t = Task.Run(() => DataManager.saveAddresses());
         GetTree().NetworkPeer = null;
         serverStarted = false;
         Network.Disconnect("peer_connected", this, "PeerConnected");
@@ -95,9 +96,18 @@ public class Server : Control{
 
 
 
+//ADDRESS RELATED
+    [Remote]
+    public void receiveAddressRequest(string username, string letter, Vector2 coords){
+        AddressManager.allocateAddressSlot(username, letter, coords);
+    }
+
+
+
 //DATAS RELATED
     private void autoSave(){
         DataManager.savePlayersDatas();
+        DataManager.saveAddresses();
     }
     public void logPrint(string txt){
         GetNode<RichTextLabel>("Log").BbcodeText += "\n" + txt;
@@ -125,7 +135,8 @@ public class Server : Control{
         } else {
             var t = Task.Run(() => DataManager.savePlayersDatas());
             t.Wait();
-            //bool save = await DataManager.savePlayersDatas();
+            t = Task.Run(() => DataManager.saveAddresses());
+            t.Wait();
         }
         GetTree().Quit();
     }

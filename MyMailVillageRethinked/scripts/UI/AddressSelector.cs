@@ -33,7 +33,7 @@ public class AddressSelector : Control{
             foreach (string s in (addresses[selectedLetter] as Godot.Collections.Dictionary).Keys){
                 if(s != "minX" && s != "minY" && s != "maxX" && s != "maxY"){
                     Godot.Collections.Dictionary alreadyAllocated = (addresses[selectedLetter] as Godot.Collections.Dictionary)[s]as Godot.Collections.Dictionary;
-                    Vector2 allocatedCoords = new Vector2((Single)alreadyAllocated["x"] - min.x, (Single)alreadyAllocated["y"] - min.y);
+                    Vector2 allocatedCoords = new Vector2((int)alreadyAllocated["x"] - min.x, (int)alreadyAllocated["y"] - min.y);
                     GetNode<Button>("Coords/" + allocatedCoords.x.ToString() + "," + allocatedCoords.y.ToString()).Disabled = true;
                 }
             }
@@ -50,7 +50,7 @@ public class AddressSelector : Control{
     }
 
     private void confirmCoords(){
-        GD.Print("ok");
+        Server.allocateAddress(selectedLetter, realCoords);
     }
 
     private void cancelCoords(){

@@ -40,11 +40,21 @@ public class AddressManager : Node{
         };
     }
 
-    public void allocateAddressSlot(string username, Vector2 slotCoordinates){
-        foreach (string letter in addresses.Keys){
-            Vector2 min = new Vector2((int)(addresses[letter] as Godot.Collections.Dictionary)["minX"],(int)(addresses[letter] as Godot.Collections.Dictionary)["minY"]);
-            Vector2 max = new Vector2((int)(addresses[letter] as Godot.Collections.Dictionary)["maxX"],(int)(addresses[letter] as Godot.Collections.Dictionary)["maxY"]);
-            if ((slotCoordinates.x >= min.x && slotCoordinates.x <= max.x) && (slotCoordinates.y >= min.y && slotCoordinates.y <= max.y)){
+    public void allocateAddressSlot(string username, string letter,  Vector2 slotCoordinates){
+        Vector2 min = new Vector2((int)(addresses[letter] as Godot.Collections.Dictionary)["minX"],(int)(addresses[letter] as Godot.Collections.Dictionary)["minY"]);
+        Vector2 max = new Vector2((int)(addresses[letter] as Godot.Collections.Dictionary)["maxX"],(int)(addresses[letter] as Godot.Collections.Dictionary)["maxY"]);
+        if((slotCoordinates.x >= min.x && slotCoordinates.x <= max.x) && (slotCoordinates.y >= min.y && slotCoordinates.y <= max.y)){
+            bool alreadyAllocated = false;
+            foreach (string s in (addresses[letter] as Godot.Collections.Dictionary).Keys){
+                if(s != "minX" && s != "minY" && s != "maxX" && s != "maxY"){
+                    Godot.Collections.Dictionary allocatedAddress = (addresses[letter] as Godot.Collections.Dictionary)[s]as Godot.Collections.Dictionary;
+                    Vector2 allocatedCoords = new Vector2((int)allocatedAddress["x"], (int)allocatedAddress["y"]);
+                    if(slotCoordinates == allocatedCoords){
+                        alreadyAllocated = true;
+                    }
+                }
+            }
+            if(alreadyAllocated == false){
                 (addresses[letter] as Godot.Collections.Dictionary)[username] = new Godot.Collections.Dictionary(){{"x", slotCoordinates.x}, {"y", slotCoordinates.y}};
             }
         }
