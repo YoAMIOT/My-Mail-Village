@@ -14,7 +14,7 @@ public class DataManager : Node{
         loadAddresses();
     }
 
-    //PLAYERS DATAS RELATED
+//PLAYERS DATAS RELATED
     private void loadPlayersDatas(){
         File file = new File();
         if (!file.FileExists(playersDatasFile)) {
@@ -35,6 +35,7 @@ public class DataManager : Node{
         file.Close();
     }
 
+    //Creates the formatted datas to store the player datas
     public void createDatasOfAPlayer(string username, string password, string salt){
         playersDatas[username] = new Godot.Collections.Dictionary(){
             {"password", password},
@@ -42,6 +43,7 @@ public class DataManager : Node{
         };
     }
 
+    //Checks in the stored datas if a player exists
     public bool userExists(string username){
         bool exists = false;
         foreach (string user in playersDatas.Keys){
@@ -54,7 +56,7 @@ public class DataManager : Node{
 
 
 
-    //ADDRESSES RELATED
+//ADDRESS RELATED
     private void loadAddresses(){
         File file = new File();
         if (!file.FileExists(addressesFile)) {

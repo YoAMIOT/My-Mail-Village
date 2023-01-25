@@ -67,4 +67,10 @@ public class Server : Node{
     public void allocateAddress(string letter, Vector2 coords){
         RpcId(1, "receiveAddressRequest", name, letter, coords);
     }
+
+    [Remote]
+    public void addressAllocationFeedback(bool success){
+        //TO-DO make changes to the address selection scene depending on success 
+        GD.Print(success);
+    }
 }

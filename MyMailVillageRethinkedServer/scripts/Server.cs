@@ -30,6 +30,7 @@ public class Server : Control{
     }
 
 //SERVER STATES AND CONNECTIONS//
+    //Starts server
     private void startServer(){
         serverStarted = true;
         GetNode<Button>("StartServerBtn").Disabled = true;
@@ -44,11 +45,13 @@ public class Server : Control{
     private void stopServerPressed(){
         stopServer();
     }
-
+    //Stops server
     private void stopServer(){
+        //kick every player one by one
         foreach(var i in GetTree().Multiplayer.GetNetworkConnectedPeers()){
             kickPlayer(i, "Server Closed");
         }
+        //Saves datas
         var t = Task.Run(() => DataManager.savePlayersDatas());
         t.Wait();
         t = Task.Run(() => DataManager.saveAddresses());
@@ -69,7 +72,7 @@ public class Server : Control{
     private void PeerDisconnected(int playerId) {
         logPrint(playerId + " disconnected.");
     }
-
+    //Kicks a player
     public void kickPlayer(int playerId, string reason = "Disconnected from server."){
         logPrint("!- " + playerId + " was kicked: " + reason + " -!");
         RpcId(playerId, "kickedFromServer", reason);
@@ -78,20 +81,25 @@ public class Server : Control{
 
 
 //CREDENTIALS RELATED
+    //Receives a credential validation request
     [Remote]
     public void credentialsValidationRequest(bool register, string username, string password, int userId){
         CredentialsManager.checkCredentials(register, username, password, userId);
     }
 
+    //Sends an error about the auhthentication
     public void sendAuthError(int userId, string error){
         RpcId(userId, "authError", error);
     }
 
+    //Dispatching the loging in
     public void logIn(int userId, string username){
         bool hasAllocatedAddress = AddressManager.addressAllocatedForAPlayer(username);
         if(hasAllocatedAddress){
+            //Gets in the game
             RpcId(userId, "logIn");
         } else {
+            //Gets in the address selection etc...
             RpcId(userId, "goThroughFirstSteps", AddressManager.addresses);
         }
     }
@@ -99,9 +107,14 @@ public class Server : Control{
 
 
 //ADDRESS RELATED
+    //Receives the address validation request
     [Remote]
     public void receiveAddressRequest(string username, string letter, Vector2 coords){
-        AddressManager.allocateAddressSlot(username, letter, coords);
+        AddressManager.allocateAddressSlot(username, GetTree().GetRpcSenderId(), letter, coords);
+    }
+    //Sends a feedback about how the address allocation went
+    public void addressAllocationFeedback(int userId, bool success){
+        RpcId(userId, "addressAllocationFeedback", success);
     }
 
 
@@ -111,6 +124,7 @@ public class Server : Control{
         DataManager.savePlayersDatas();
         DataManager.saveAddresses();
     }
+    //Prints a line in the server console
     public void logPrint(string txt){
         GetNode<RichTextLabel>("Log").BbcodeText += "\n" + txt;
     }
@@ -121,7 +135,7 @@ public class Server : Control{
     private void tryToClose(){
         GetNode<Control>("QuitConfirm").Visible = true;
     }
-
+    //Closes the server client
     private async void quitConfirm(){
         GetNode<Control>("QuitConfirm/UI").Visible = false;
         GetNode<Control>("QuitConfirm/WaitToQuit").Visible = true;
@@ -131,6 +145,7 @@ public class Server : Control{
         this.AddChild(timer);
         await ToSignal(timer, "timeout");
         timer.QueueFree();
+        //Saves before quitting
         if(serverStarted){
             var t = Task.Run(() =>  stopServer());
             t.Wait();

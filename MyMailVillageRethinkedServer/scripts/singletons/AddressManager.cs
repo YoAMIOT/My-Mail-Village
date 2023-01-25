@@ -36,13 +36,20 @@ public class AddressManager : Node{
         //last section
         {"z", new Godot.Collections.Dictionary(){{"minX", 20}, {"minY", 50}, {"maxX", 29}, {"maxY", 59}}}
     };
+    Server Server = new Server();
 
-    public void allocateAddressSlot(string username, string letter,  Vector2 slotCoordinates){
+    public override void _Ready(){
+        Server = GetNode<Server>("/root/Server");
+    }
+
+    //Allocate an address slot based on coordinates and sends a feedback
+    public void allocateAddressSlot(string username, int userId, string letter,  Vector2 slotCoordinates){
         Vector2 min = new Vector2(Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["minX"]),Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["minY"]));
         Vector2 max = new Vector2(Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["maxX"]),Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["maxY"]));
         bool success = false;
         if((slotCoordinates.x >= min.x && slotCoordinates.x <= max.x) && (slotCoordinates.y >= min.y && slotCoordinates.y <= max.y)){
             bool alreadyAllocated = false;
+            //Gets every already allocated address in a dictionnary and checks if the address isn't alreadt allocated
             foreach (string s in (addresses[letter] as Godot.Collections.Dictionary).Keys){
                 if(s != "minX" && s != "minY" && s != "maxX" && s != "maxY"){
                     Godot.Collections.Dictionary allocatedAddress = (addresses[letter] as Godot.Collections.Dictionary)[s]as Godot.Collections.Dictionary;
@@ -52,14 +59,17 @@ public class AddressManager : Node{
                     }
                 }
             }
+            //If not already allocated save the datas
             if(alreadyAllocated == false){
                 (addresses[letter] as Godot.Collections.Dictionary)[username] = new Godot.Collections.Dictionary(){{"x", slotCoordinates.x}, {"y", slotCoordinates.y}};
                 success = true;
             }
-            //TO-DO Feedback to client that the slot has been successfully attributed or not using the "success" bool
         }
+        //Sends a feedback
+        Server.addressAllocationFeedback(userId, success);
     }
 
+    //Check if a player already got an address
     public bool addressAllocatedForAPlayer(string username){
         bool allocated = false;
         foreach (string letter in addresses.Keys){
