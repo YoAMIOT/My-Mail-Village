@@ -2,9 +2,7 @@ using Godot;
 using System;
 
 public class AddressManager : Node{
-    public Godot.Collections.Dictionary addresses;
-    public override void _Ready(){
-        addresses = new Godot.Collections.Dictionary(){
+    public Godot.Collections.Dictionary addresses = new Godot.Collections.Dictionary(){
             //first row
             {"a", new Godot.Collections.Dictionary(){{"minX", 0}, {"minY", 0}, {"maxX", 9}, {"maxY", 9}}},
             {"b", new Godot.Collections.Dictionary(){{"minX", 10}, {"minY", 0}, {"maxX", 19}, {"maxY", 9}}},
@@ -38,17 +36,17 @@ public class AddressManager : Node{
             //last section
             {"z", new Godot.Collections.Dictionary(){{"minX", 20}, {"minY", 50}, {"maxX", 29}, {"maxY", 59}}}
         };
-    }
 
     public void allocateAddressSlot(string username, string letter,  Vector2 slotCoordinates){
-        Vector2 min = new Vector2((int)(addresses[letter] as Godot.Collections.Dictionary)["minX"],(int)(addresses[letter] as Godot.Collections.Dictionary)["minY"]);
-        Vector2 max = new Vector2((int)(addresses[letter] as Godot.Collections.Dictionary)["maxX"],(int)(addresses[letter] as Godot.Collections.Dictionary)["maxY"]);
+        Vector2 min = new Vector2(Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["minX"]),Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["minY"]));
+        Vector2 max = new Vector2(Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["maxX"]),Convert.ToInt32((addresses[letter] as Godot.Collections.Dictionary)["maxY"]));
+        bool success = false;
         if((slotCoordinates.x >= min.x && slotCoordinates.x <= max.x) && (slotCoordinates.y >= min.y && slotCoordinates.y <= max.y)){
             bool alreadyAllocated = false;
             foreach (string s in (addresses[letter] as Godot.Collections.Dictionary).Keys){
                 if(s != "minX" && s != "minY" && s != "maxX" && s != "maxY"){
                     Godot.Collections.Dictionary allocatedAddress = (addresses[letter] as Godot.Collections.Dictionary)[s]as Godot.Collections.Dictionary;
-                    Vector2 allocatedCoords = new Vector2((int)allocatedAddress["x"], (int)allocatedAddress["y"]);
+                    Vector2 allocatedCoords = new Vector2(Convert.ToInt32(allocatedAddress["x"]), Convert.ToInt32(allocatedAddress["y"]));
                     if(slotCoordinates == allocatedCoords){
                         alreadyAllocated = true;
                     }
@@ -56,7 +54,11 @@ public class AddressManager : Node{
             }
             if(alreadyAllocated == false){
                 (addresses[letter] as Godot.Collections.Dictionary)[username] = new Godot.Collections.Dictionary(){{"x", slotCoordinates.x}, {"y", slotCoordinates.y}};
+                success = true;
             }
+            //TO-DO Feedback to client that the slot has been successfully attributed or not using the "success" bool
         }
     }
+
+    //TO-DO A public function that search in all the addresses to see if a player already has an allocated address or not
 }

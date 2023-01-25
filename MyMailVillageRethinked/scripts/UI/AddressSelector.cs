@@ -28,12 +28,12 @@ public class AddressSelector : Control{
         if (GetNode<ItemList>("LetterList").GetItemText(index) != ""){
             GetNode<Control>("Coords").Visible = true;
             selectedLetter = GetNode<ItemList>("LetterList").GetItemText(index).ToLower();
-            min = new Vector2((int)(addresses[selectedLetter] as Godot.Collections.Dictionary)["minX"],(int)(addresses[selectedLetter] as Godot.Collections.Dictionary)["minY"]);
-            max = new Vector2((int)(addresses[selectedLetter] as Godot.Collections.Dictionary)["maxX"],(int)(addresses[selectedLetter] as Godot.Collections.Dictionary)["maxY"]);
+            min = new Vector2(Convert.ToInt32((addresses[selectedLetter] as Godot.Collections.Dictionary)["minX"]),Convert.ToInt32((addresses[selectedLetter] as Godot.Collections.Dictionary)["minY"]));
+            max = new Vector2(Convert.ToInt32((addresses[selectedLetter] as Godot.Collections.Dictionary)["maxX"]),Convert.ToInt32((addresses[selectedLetter] as Godot.Collections.Dictionary)["maxY"]));
             foreach (string s in (addresses[selectedLetter] as Godot.Collections.Dictionary).Keys){
                 if(s != "minX" && s != "minY" && s != "maxX" && s != "maxY"){
                     Godot.Collections.Dictionary alreadyAllocated = (addresses[selectedLetter] as Godot.Collections.Dictionary)[s]as Godot.Collections.Dictionary;
-                    Vector2 allocatedCoords = new Vector2((int)alreadyAllocated["x"] - min.x, (int)alreadyAllocated["y"] - min.y);
+                    Vector2 allocatedCoords = new Vector2(Convert.ToInt32(alreadyAllocated["x"]) - min.x, Convert.ToInt32(alreadyAllocated["y"]) - min.y);
                     GetNode<Button>("Coords/" + allocatedCoords.x.ToString() + "," + allocatedCoords.y.ToString()).Disabled = true;
                 }
             }

@@ -52,6 +52,7 @@ public class Server : Control{
         var t = Task.Run(() => DataManager.savePlayersDatas());
         t.Wait();
         t = Task.Run(() => DataManager.saveAddresses());
+        t.Wait();
         GetTree().NetworkPeer = null;
         serverStarted = false;
         Network.Disconnect("peer_connected", this, "PeerConnected");
