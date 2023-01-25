@@ -87,11 +87,12 @@ public class Server : Control{
         RpcId(userId, "authError", error);
     }
 
-    public void logIn(int userId, bool firstConnection){
-        if(!firstConnection){
+    public void logIn(int userId, string username){
+        bool hasAllocatedAddress = AddressManager.addressAllocatedForAPlayer(username);
+        if(hasAllocatedAddress){
             RpcId(userId, "logIn");
         } else {
-            RpcId(userId, "firstConnection", AddressManager.addresses);
+            RpcId(userId, "goThroughFirstSteps", AddressManager.addresses);
         }
     }
 

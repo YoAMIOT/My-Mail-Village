@@ -59,7 +59,7 @@ public class Server : Node{
     }
 
     [Remote]
-    public void firstConnection(Godot.Collections.Dictionary addresses){
+    public void goThroughFirstSteps(Godot.Collections.Dictionary addresses){
         this.addresses = addresses;
         GetTree().ChangeScene("res://scenes/UI/AddressSelector.tscn");
     }

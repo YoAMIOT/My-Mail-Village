@@ -27,7 +27,7 @@ public class CredentialsManager : Node{
         return txt;
     }
 
-    public void checkCredentials(bool register, string username, string password, int userId, bool firstConnection = false){
+    public void checkCredentials(bool register, string username, string password, int userId){
         RegEx regEx = new RegEx();
         regEx.Compile(usernameRegEx);
         Godot.RegExMatch usernameResult = regEx.Search(username);
@@ -39,7 +39,7 @@ public class CredentialsManager : Node{
                     string savedSalt = (string)(DataManager.playersDatas[username] as Godot.Collections.Dictionary)["salt"];
                     string hashedPassword = generateHashedString(password, savedSalt);
                     if(hashedPassword == (string)(DataManager.playersDatas[username] as Godot.Collections.Dictionary)["password"]){
-                        Server.logIn(userId, firstConnection);
+                        Server.logIn(userId, username);
                     } else if (hashedPassword != (string)(DataManager.playersDatas[username] as Godot.Collections.Dictionary)["password"]){
                         Server.sendAuthError(userId, "Wrong password.");
                     }
@@ -53,7 +53,7 @@ public class CredentialsManager : Node{
                     string salt = generateSalt();
                     string hashedPassword = generateHashedString(password, salt);
                     DataManager.createDatasOfAPlayer(username, hashedPassword, salt);
-                    checkCredentials(false, username, password, userId, true);
+                    checkCredentials(false, username, password, userId);
                 }
             }
         } else {
