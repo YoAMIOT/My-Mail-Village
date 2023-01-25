@@ -9,6 +9,7 @@ public class AddressSelector : Control{
     private Vector2 min = new Vector2();
     private Vector2 max = new Vector2();
     private Vector2 realCoords = new Vector2();
+
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
         this.addresses = Server.addresses;
@@ -16,10 +17,12 @@ public class AddressSelector : Control{
         foreach (Button b in GetNode<Control>("Coords").GetChildren()){
             b.Connect("pressed", this, "coordSelected", new Godot.Collections.Array((Button)b));
         }
-        GetNode<Button>("Confirm/ConfirmBtn").Connect("pressed", this, "confirmCoords");
-        GetNode<Button>("Confirm/CancelBtn").Connect("pressed", this, "cancelCoords");
+        GetNode<Button>("Confirm/Select/ConfirmBtn").Connect("pressed", this, "confirmCoords");
+        GetNode<Button>("Confirm/Select/CancelBtn").Connect("pressed", this, "cancelCoords");
     }
 
+//LETTER RELATED
+    //Triggered when the a letter has been clicked
     private void letterSelected(int index){
         foreach (Button b in GetNode<Control>("Coords").GetChildren()){
             b.Disabled = false;
@@ -40,6 +43,9 @@ public class AddressSelector : Control{
         }
     }
 
+
+//COORDINATE RELATED
+    //Triggered when coords are selected and open the confirmation menu
     private void coordSelected(Button button){
         char[] separator = {','};
         string[] coordsString = button.Name.Split(separator);
@@ -48,12 +54,14 @@ public class AddressSelector : Control{
             GetNode<Control>("Confirm").Visible = true;
         }
     }
-
+    //Sends coordinates to server for verifying if the slot isn't allowed
     private void confirmCoords(){
         Server.allocateAddress(selectedLetter, realCoords);
+        GetNode<Control>("Confirm/Select").Visible = false;
+        GetNode<Control>("Confirm/Checks").Visible = true;
     }
-
-    private void cancelCoords(){
+    //Triggered when the player has pressed "No" and resets the selection menu
+    public void cancelCoords(){
         GetNode<ItemList>("LetterList").Unselect(selectedLetterIndex);
         selectedLetter = "";
         min = new Vector2();
@@ -61,5 +69,7 @@ public class AddressSelector : Control{
         realCoords = new Vector2();
         GetNode<Control>("Coords").Visible = false;
         GetNode<Control>("Confirm").Visible = false;
+        GetNode<Control>("Confirm/Checks").Visible = false;
+        GetNode<Control>("Confirm/Select").Visible = true;
     }
 }

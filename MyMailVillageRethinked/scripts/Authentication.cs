@@ -6,6 +6,7 @@ public class Authentication : Control{
     private string passwordRegEx = "^[A-Za-z0-9_@$!%*#?&]{8,20}$";
     private RegEx regEx = new RegEx();
     private Server Server;
+
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
         GetNode<Button>("Login/RegisterBtn").Connect("pressed", this, "switchTabToReg");
@@ -19,6 +20,8 @@ public class Authentication : Control{
         GetNode<LineEdit>("Register/RegPasswordInputConfirm").Connect("text_changed", this, "checkPossibilityReg");
     }
 
+//UI RELATED
+    //Switch to the register form
     private void switchTabToReg(){
         GetNode<Control>("Login").Visible = false;
         GetNode<Control>("Register").Visible = true;
@@ -26,7 +29,7 @@ public class Authentication : Control{
         GetNode<LineEdit>("Login/PasswordInput").Text = "";
         GetNode<Button>("Login/LoginBtn").Disabled = true;
     }
-
+    //Switch to the login form
     private void switchTabToLogin(){
         GetNode<Control>("Register").Visible = false;
         GetNode<Control>("Login").Visible = true;
@@ -36,6 +39,8 @@ public class Authentication : Control{
         GetNode<Button>("Register/RegisterBtn").Disabled = true;
     }
 
+//CREDENTIALS RELATED
+    //Checks if every field passes the tests so the login button unlocks
     private void checkPossibilityLogin(string txt){
         if(GetNode<LineEdit>("Login/UsernameInput").Text != "" && GetNode<LineEdit>("Login/PasswordInput").Text != ""){
             if(GetNode<LineEdit>("Login/UsernameInput").Text.Length() >= 4 && GetNode<LineEdit>("Login/PasswordInput").Text.Length() >= 8){
@@ -55,7 +60,7 @@ public class Authentication : Control{
             GetNode<Button>("Login/LoginBtn").Disabled = true;
         }
     }
-
+    //Checks credentials and sends them to the server for checkups
     private void login(){
         string usernameTxt = GetNode<LineEdit>("Login/UsernameInput").Text;
         string passwordTxt = GetNode<LineEdit>("Login/PasswordInput").Text;
@@ -71,7 +76,7 @@ public class Authentication : Control{
             }
         }
     }
-
+    //Checks if every field passes the tests so the register button unlocks
     private void checkPossibilityReg(string txt){
         if(GetNode<LineEdit>("Register/RegUsernameInput").Text != "" && GetNode<LineEdit>("Register/RegPasswordInput").Text != "" && GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text != ""){
             if(GetNode<LineEdit>("Register/RegUsernameInput").Text.Length() >= 4 && GetNode<LineEdit>("Register/RegPasswordInput").Text.Length() >= 8 && GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text.Length() >= 8){
@@ -96,7 +101,7 @@ public class Authentication : Control{
             GetNode<Button>("Register/RegisterBtn").Disabled = true;
         }
     }
-
+    //Checks credentials and sends them to the server for checkups
     private void register(){
         string usernameTxt = GetNode<LineEdit>("Register/RegUsernameInput").Text;
         string passwordTxt = GetNode<LineEdit>("Register/RegPasswordInput").Text;
