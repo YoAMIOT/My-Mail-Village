@@ -18,6 +18,7 @@ public class Authentication : Control{
         GetNode<LineEdit>("Register/RegUsernameInput").Connect("text_changed", this, "checkPossibilityReg");
         GetNode<LineEdit>("Register/RegPasswordInput").Connect("text_changed", this, "checkPossibilityReg");
         GetNode<LineEdit>("Register/RegPasswordInputConfirm").Connect("text_changed", this, "checkPossibilityReg");
+        GetNode<Button>("AuthError/OkButton").Connect("pressed", this, "okButtonError");
     }
 
 //UI RELATED
@@ -37,6 +38,14 @@ public class Authentication : Control{
         GetNode<LineEdit>("Register/RegPasswordInput").Text = "";
         GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text = "";
         GetNode<Button>("Register/RegisterBtn").Disabled = true;
+    }
+    private void okButtonError(){
+        GetNode<Label>("AuthError/Label").Text = "";
+        GetNode<Control>("AuthError").Visible = false;
+    }
+    public void authError(string error){
+        GetNode<Label>("AuthError/Label").Text = error;
+        GetNode<Control>("AuthError").Visible = true;
     }
 
 //CREDENTIALS RELATED

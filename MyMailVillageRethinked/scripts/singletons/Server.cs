@@ -53,7 +53,9 @@ public class Server : Node{
     //Receives an error about authentication
     [Remote]
     public void authError(string error){
-        GD.Print(error);
+        if(GetParent().HasNode("Authentication")){
+            GetNode<Authentication>("/root/Authentication").authError(error);
+        }
     }
     //Gets in the game
     [Remote]
@@ -72,11 +74,13 @@ public class Server : Node{
     }
     //Receives the feedback after the allocation request has been processed
     [Remote]
-    public void addressAllocationFeedback(bool success){
-        if(GetParent().HasNode("AddressSelector") && !success){
-            GetNode<AddressSelector>("/root/AddressSelector").cancelCoords();
+    public void addressAllocationFeedback(bool success, Godot.Collections.Dictionary refreshedAddresses){
+        //If the request has failed then select again
+        if(!success){
+            GetNode<AddressSelector>("/root/AddressSelector").resetCoords(refreshedAddresses, true);
         } else if (success){
-            //TO-DO Do something
+            //TO-DO something
+            GD.Print("Allocation succeeded now customize character!");
         }
     }
 }

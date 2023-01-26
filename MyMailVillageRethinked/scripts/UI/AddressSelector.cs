@@ -19,6 +19,7 @@ public class AddressSelector : Control{
         }
         GetNode<Button>("Confirm/Select/ConfirmBtn").Connect("pressed", this, "confirmCoords");
         GetNode<Button>("Confirm/Select/CancelBtn").Connect("pressed", this, "cancelCoords");
+        GetNode<Button>("ErrorMsg/OkButton").Connect("pressed", this,"okButton");
     }
 
 //LETTER RELATED
@@ -42,6 +43,29 @@ public class AddressSelector : Control{
             }
         }
     }
+    //Triggered when the player has pressed "No" and resets the selection menu
+    public void cancelCoords(){
+        resetCoords(addresses);
+    }
+    //Resets the selection menu
+    public void resetCoords(Godot.Collections.Dictionary refreshedAddresses, bool failToAllocate = false){
+        GetNode<ItemList>("LetterList").Unselect(selectedLetterIndex);
+        selectedLetter = "";
+        min = new Vector2();
+        max = new Vector2();
+        realCoords = new Vector2();
+        GetNode<Control>("Coords").Visible = false;
+        GetNode<Control>("Confirm").Visible = false;
+        GetNode<Control>("Confirm/Checks").Visible = false;
+        GetNode<Control>("Confirm/Select").Visible = true;
+        if(failToAllocate){
+            GetNode<Control>("ErrorMsg").Visible = true;
+        }
+        this.addresses = refreshedAddresses;
+    }
+    public void okButton(){
+        GetNode<Control>("ErrorMsg").Visible = false;
+    }
 
 
 //COORDINATE RELATED
@@ -59,17 +83,5 @@ public class AddressSelector : Control{
         Server.allocateAddress(selectedLetter, realCoords);
         GetNode<Control>("Confirm/Select").Visible = false;
         GetNode<Control>("Confirm/Checks").Visible = true;
-    }
-    //Triggered when the player has pressed "No" and resets the selection menu
-    public void cancelCoords(){
-        GetNode<ItemList>("LetterList").Unselect(selectedLetterIndex);
-        selectedLetter = "";
-        min = new Vector2();
-        max = new Vector2();
-        realCoords = new Vector2();
-        GetNode<Control>("Coords").Visible = false;
-        GetNode<Control>("Confirm").Visible = false;
-        GetNode<Control>("Confirm/Checks").Visible = false;
-        GetNode<Control>("Confirm/Select").Visible = true;
     }
 }

@@ -114,7 +114,7 @@ public class Server : Control{
     }
     //Sends a feedback about how the address allocation went
     public void addressAllocationFeedback(int userId, bool success){
-        RpcId(userId, "addressAllocationFeedback", success);
+        RpcId(userId, "addressAllocationFeedback", success, AddressManager.addresses);
     }
 
 
