@@ -30,11 +30,15 @@ public class Server : Node{
     }
     //Triggered when connection to server has failed 
     private void connectionFailed(){
-        GD.Print("failed to connect");
+        if (GetParent().HasNode("Authentication")){
+            GetNode<Authentication>("/root/Authentication").authError("Failed to connect to the server");
+        }
     }
     //Triggered when connection to server succeeded 
     private void connectionSucceeded(){
-        GD.Print("success");
+        if (GetParent().HasNode("Authentication")){
+            GetNode<Control>("/root/Authentication/Login").Visible = true;
+        }
     }
     //Triggered by the server to kick the player
     [Remote]

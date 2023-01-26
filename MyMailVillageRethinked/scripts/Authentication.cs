@@ -39,14 +39,22 @@ public class Authentication : Control{
         GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text = "";
         GetNode<Button>("Register/RegisterBtn").Disabled = true;
     }
-    private void okButtonError(){
-        GetNode<Label>("AuthError/Label").Text = "";
-        GetNode<Control>("AuthError").Visible = false;
-    }
+    //Shows an error message
     public void authError(string error){
         GetNode<Label>("AuthError/Label").Text = error;
         GetNode<Control>("AuthError").Visible = true;
     }
+    //Triggered when the player pressed OK on the error message
+    private void okButtonError(){
+        GetNode<Label>("AuthError/Label").Text = "";
+        GetNode<Control>("AuthError").Visible = false;
+        GetNode<LineEdit>("Register/RegPasswordInput").Text = "";
+        GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text = "";
+        GetNode<LineEdit>("Login/PasswordInput").Text = "";
+        GetNode<Button>("Login/RegisterBtn").Disabled = false;
+        GetNode<Button>("Register/LoginBtn").Disabled = false;
+    }
+
 
 //CREDENTIALS RELATED
     //Checks if every field passes the tests so the login button unlocks
@@ -71,6 +79,8 @@ public class Authentication : Control{
     }
     //Checks credentials and sends them to the server for checkups
     private void login(){
+        GetNode<Button>("Login/LoginBtn").Disabled = true;
+        GetNode<Button>("Login/RegisterBtn").Disabled = true;
         string usernameTxt = GetNode<LineEdit>("Login/UsernameInput").Text;
         string passwordTxt = GetNode<LineEdit>("Login/PasswordInput").Text;
         if(usernameTxt != "" && passwordTxt != ""){
@@ -112,6 +122,8 @@ public class Authentication : Control{
     }
     //Checks credentials and sends them to the server for checkups
     private void register(){
+        GetNode<Button>("Register/LoginBtn").Disabled = true;
+        GetNode<Button>("Register/RegisterBtn").Disabled = true;
         string usernameTxt = GetNode<LineEdit>("Register/RegUsernameInput").Text;
         string passwordTxt = GetNode<LineEdit>("Register/RegPasswordInput").Text;
         string confirmPasswordTxt = GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text;
