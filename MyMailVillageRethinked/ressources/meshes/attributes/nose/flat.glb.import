@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/Char.glb-1473b892599cc3f065ce08b6383c42b1.scn"
+path="res://.import/flat.glb-9bde6b7054cb53d1e914fc3b8b3c8dd5.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/Char.glb"
-dest_files=[ "res://.import/Char.glb-1473b892599cc3f065ce08b6383c42b1.scn" ]
+source_file="res://ressources/meshes/attributes/nose/flat.glb"
+dest_files=[ "res://.import/flat.glb-9bde6b7054cb53d1e914fc3b8b3c8dd5.scn" ]
 
 [params]
 
@@ -21,7 +21,7 @@ materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
 meshes/octahedral_compression=true
-meshes/compress=190
+meshes/compress=4286
 meshes/ensure_tangents=true
 meshes/storage=0
 meshes/light_baking=0
@@ -37,7 +37,7 @@ animation/optimizer/enabled=true
 animation/optimizer/max_linear_error=0.05
 animation/optimizer/max_angular_error=0.01
 animation/optimizer/max_angle=22
-animation/optimizer/remove_unused_tracks=false
+animation/optimizer/remove_unused_tracks=true
 animation/clips/amount=0
 animation/clip_1/name=""
 animation/clip_1/start_frame=0
