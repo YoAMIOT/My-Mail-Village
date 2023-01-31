@@ -477,7 +477,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -5.42646e-09, 2.37847e-07, 1.08699e-08, 0.999738, -0.0228922, -2.3766e-07, 0.0228922, 0.999738, 1.09928e-08, 2.50784, -0.0343614 )
+transform = Transform( 1, -2.88683e-09, 2.38131e-07, 1.08747e-08, 0.999437, -0.0335511, -2.37899e-07, 0.0335511, 0.999437, 5.84118e-09, 2.51522, -0.0563001 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -493,6 +493,7 @@ transform = Transform( 1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0
 spring_length = 12.0
 
 [node name="Camera" type="Camera" parent="SpringArm"]
+current = true
 fov = 102.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/flat.glb-9bde6b7054cb53d1e914fc3b8b3c8dd5.scn"
+path="res://.import/big.glb-4b8c3742b4caf87cb9b4f79f45ea4c66.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/attributes/nose/flat.glb"
-dest_files=[ "res://.import/flat.glb-9bde6b7054cb53d1e914fc3b8b3c8dd5.scn" ]
+source_file="res://ressources/meshes/attributes/noses/big.glb"
+dest_files=[ "res://.import/big.glb-4b8c3742b4caf87cb9b4f79f45ea4c66.scn" ]
 
 [params]
 

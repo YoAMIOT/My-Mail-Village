@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/oldMan.glb-874c283741dd383fd9779346b353c818.scn"
+path="res://.import/round.glb-51bfa4805b9c4ba9599c9f76c90d5f81.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/attributes/nose/oldMan.glb"
-dest_files=[ "res://.import/oldMan.glb-874c283741dd383fd9779346b353c818.scn" ]
+source_file="res://ressources/meshes/attributes/noses/round.glb"
+dest_files=[ "res://.import/round.glb-51bfa4805b9c4ba9599c9f76c90d5f81.scn" ]
 
 [params]
 

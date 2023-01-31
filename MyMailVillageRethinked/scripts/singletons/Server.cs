@@ -84,7 +84,7 @@ public class Server : Node{
             GetNode<AddressSelector>("/root/AddressSelector").resetCoords(refreshedAddresses, true);
         } else if (success){
             //TO-DO something
-            GD.Print("Allocation succeeded now customize character!");
+            GetTree().ChangeScene("res://scenes/3D/CharacterCustomization.tscn");
         }
     }
 }

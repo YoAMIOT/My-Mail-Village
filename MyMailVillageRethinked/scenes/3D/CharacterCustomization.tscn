@@ -1,0 +1,153 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/3D/entities/DummyCharacter.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scripts/UI/CharacterCustomization.cs" type="Script" id=3]
+
+[sub_resource type="PlaneMesh" id=4]
+size = Vector2( 80, 80 )
+
+[sub_resource type="ConcavePolygonShape" id=5]
+data = PoolVector3Array( 40, 0, 40, -40, 0, 40, 40, 0, -40, -40, 0, 40, -40, 0, -40, 40, 0, -40 )
+
+[sub_resource type="ProceduralSky" id=3]
+sky_top_color = Color( 0.854902, 0.721569, 0.623529, 1 )
+sky_curve = 0.0682072
+sun_latitude = 151.36
+sun_curve = 0.0120742
+
+[sub_resource type="Environment" id=6]
+background_mode = 2
+background_sky = SubResource( 3 )
+background_color = Color( 0.909804, 0.741176, 0.741176, 1 )
+
+[node name="CharacterCustomization" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="Ground" type="MeshInstance" parent="."]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Ground"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground/StaticBody"]
+shape = SubResource( 5 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.999955, 1.32248e-07, 0.00947731, -0.00545502, 0.817748, 0.57555, -0.00774998, -0.575576, 0.817712, 0, 0, 0 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 6 )
+
+[node name="Char" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.894818, 0, 0.446432, 0, 1, 0, -0.446432, 0, 0.894818, 0, 0, 0 )
+
+[node name="HeadAttachment" parent="Char/Armature/Skeleton" index="1"]
+transform = Transform( 1, 4.44089e-14, 2.38419e-07, 1.0877e-08, 0.998958, -0.0456214, -2.3817e-07, 0.0456214, 0.998958, 2.34605e-14, 2.52329, -0.0811625 )
+
+[node name="AnimationPlayer" parent="Char" index="2"]
+autoplay = "idle_loop"
+reset_on_save = true
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.9796, -0.0433173, 0.196234, 0, 0.976492, 0.215553, -0.200958, -0.211156, 0.956571, 3.031, 3.014, 3.258 )
+current = true
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bg" type="Polygon2D" parent="UI"]
+position = Vector2( 120, 0 )
+scale = Vector2( 0.9375, 1 )
+color = Color( 0, 0, 0, 0.317647 )
+polygon = PoolVector2Array( 896, 0, 1920, 0, 1920, 1080, 896, 1080 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_right = -64.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HairLabel" type="Label" parent="UI/VBoxContainer"]
+margin_top = 370.0
+margin_right = 832.0
+margin_bottom = 406.0
+custom_fonts/font = ExtResource( 2 )
+text = "Hair style:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HairOption" type="OptionButton" parent="UI/VBoxContainer"]
+margin_top = 410.0
+margin_right = 832.0
+margin_bottom = 452.0
+custom_fonts/font = ExtResource( 2 )
+align = 1
+
+[node name="HairColorLabel" type="Label" parent="UI/VBoxContainer"]
+margin_top = 456.0
+margin_right = 832.0
+margin_bottom = 492.0
+custom_fonts/font = ExtResource( 2 )
+text = "Hair color:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="UI/VBoxContainer"]
+margin_top = 496.0
+margin_right = 832.0
+margin_bottom = 538.0
+custom_fonts/font = ExtResource( 2 )
+color = Color( 0.364706, 0.215686, 0.215686, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EyesLabel" type="Label" parent="UI/VBoxContainer"]
+margin_top = 542.0
+margin_right = 832.0
+margin_bottom = 578.0
+custom_fonts/font = ExtResource( 2 )
+text = "Eyes type:"
+align = 1
+valign = 1
+
+[node name="EyesOption" type="OptionButton" parent="UI/VBoxContainer"]
+margin_top = 582.0
+margin_right = 832.0
+margin_bottom = 624.0
+custom_fonts/font = ExtResource( 2 )
+align = 1
+
+[node name="NosesLabel" type="Label" parent="UI/VBoxContainer"]
+margin_top = 628.0
+margin_right = 832.0
+margin_bottom = 664.0
+custom_fonts/font = ExtResource( 2 )
+text = "Nose type:"
+align = 1
+valign = 1
+
+[node name="NosesOption" type="OptionButton" parent="UI/VBoxContainer"]
+margin_top = 668.0
+margin_right = 832.0
+margin_bottom = 710.0
+custom_fonts/font = ExtResource( 2 )
+align = 1
+
+[editable path="Char"]

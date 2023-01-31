@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/witch.glb-a83aadf8ec22097a63cc87f0b3571d11.scn"
+path="res://.import/flat.glb-af341c6f0921b6a6f4ffda7724dd62a4.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/attributes/nose/witch.glb"
-dest_files=[ "res://.import/witch.glb-a83aadf8ec22097a63cc87f0b3571d11.scn" ]
+source_file="res://ressources/meshes/attributes/noses/flat.glb"
+dest_files=[ "res://.import/flat.glb-af341c6f0921b6a6f4ffda7724dd62a4.scn" ]
 
 [params]
 

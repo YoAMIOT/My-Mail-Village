@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/grumpy.glb-920a33ec274887a18e0cafcacf6a7c3f.scn"
+path="res://.import/oldMan.glb-1cd522e4f49fa3714aa6aa2af35a12f1.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/attributes/nose/grumpy.glb"
-dest_files=[ "res://.import/grumpy.glb-920a33ec274887a18e0cafcacf6a7c3f.scn" ]
+source_file="res://ressources/meshes/attributes/noses/oldMan.glb"
+dest_files=[ "res://.import/oldMan.glb-1cd522e4f49fa3714aa6aa2af35a12f1.scn" ]
 
 [params]
 

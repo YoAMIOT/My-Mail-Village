@@ -6,7 +6,7 @@ public class testChar : KinematicBody{
     private const int SPEED = 7;
     private Vector3 _velocity = Vector3.Zero;
     private const float LERP_VAL = .15F;
-    private const float ZOOM_MIN = 8F;
+    private const float ZOOM_MIN = 4F;
     private const float ZOOM_MAX = 20F;
     private const float ZOOM_SPEED = 4F;
 
@@ -29,7 +29,6 @@ public class testChar : KinematicBody{
     }
 
     public override void _PhysicsProcess(float delta){
-        GD.Print(GetNode<SpringArm>("SpringArm").SpringLength, " ", GetNode<Tween>("ZoomTween").IsActive());
         Vector3 direction = Vector3.Zero;
         if (Input.IsActionJustPressed("cameraRotateRight") && !GetNode<Tween>("CamTween").IsActive()){
             GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y + 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);

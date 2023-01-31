@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/thin.glb-31c2651ba7f05172eeb7081d022b4eec.scn"
+path="res://.import/piggy.glb-9580f6b4535294f1a54ea41f90ca1cd9.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/attributes/nose/thin.glb"
-dest_files=[ "res://.import/thin.glb-31c2651ba7f05172eeb7081d022b4eec.scn" ]
+source_file="res://ressources/meshes/attributes/noses/piggy.glb"
+dest_files=[ "res://.import/piggy.glb-9580f6b4535294f1a54ea41f90ca1cd9.scn" ]
 
 [params]
 
