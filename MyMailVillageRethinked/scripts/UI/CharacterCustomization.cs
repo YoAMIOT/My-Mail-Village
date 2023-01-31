@@ -5,9 +5,9 @@ public class CharacterCustomization : Spatial{
     public override void _Ready(){
         Godot.Collections.Array eyes = getFilesInDirectory("res://ressources/meshes/attributes/", nameof(eyes));
         Godot.Collections.Array noses = getFilesInDirectory("res://ressources/meshes/attributes/", nameof(noses));
-        Godot.Collections.Array hair = getFilesInDirectory("", nameof(hair));
+        Godot.Collections.Array hair = getFilesInDirectory("res://ressources/meshes/attributes/", nameof(hair));
         Godot.Collections.Array[] attributes =  new Godot.Collections.Array[]{eyes, noses, hair};
-        //For each attributes of the arrays add the item to the options
+        //For each attributes of the arrays add the item to the options and to the scene
         foreach (Godot.Collections.Array attributeType in attributes){
             var i = 1;
             string type = "";
@@ -17,6 +17,11 @@ public class CharacterCustomization : Spatial{
                     i++;
                 } else {
                     GetNode<OptionButton>("UI/VBoxContainer/" + type + "Option").AddItem(item);
+                    PackedScene itemScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/" + type.ToLower() + "/" + item + ".glb");
+                    Spatial itemInstance = (Spatial)itemScene.Instance();
+                    itemInstance.Visible = false;
+                    GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/" + type).AddChild(itemInstance);
+                    //TO-DO CHANGE APPEARANCE BY SELECTION
                 }
             }
         }

@@ -42,8 +42,17 @@ environment = SubResource( 6 )
 [node name="Char" parent="." instance=ExtResource( 1 )]
 transform = Transform( 0.894818, 0, 0.446432, 0, 1, 0, -0.446432, 0, 0.894818, 0, 0, 0 )
 
+[node name="Skeleton" parent="Char/Armature" index="0"]
+bones/1/bound_children = [ NodePath("HeadAttachment") ]
+
 [node name="HeadAttachment" parent="Char/Armature/Skeleton" index="1"]
 transform = Transform( 1, 4.44089e-14, 2.38419e-07, 1.0877e-08, 0.998958, -0.0456214, -2.3817e-07, 0.0456214, 0.998958, 2.34605e-14, 2.52329, -0.0811625 )
+
+[node name="Hair" type="Spatial" parent="Char/Armature/Skeleton/HeadAttachment/Position3D" index="0"]
+
+[node name="Eyes" type="Spatial" parent="Char/Armature/Skeleton/HeadAttachment/Position3D" index="1"]
+
+[node name="Noses" type="Spatial" parent="Char/Armature/Skeleton/HeadAttachment/Position3D" index="2"]
 
 [node name="AnimationPlayer" parent="Char" index="2"]
 autoplay = "idle_loop"
