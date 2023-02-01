@@ -14,17 +14,21 @@ public class CharacterCustomization : Spatial{
             foreach (string item in attributeType){
                 if (i == 1){
                     type = item.Capitalize();
-                    i++;
                 } else {
                     GetNode<OptionButton>("UI/VBoxContainer/" + type + "Option").AddItem(item);
                     PackedScene itemScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/" + type.ToLower() + "/" + item + ".glb");
                     Spatial itemInstance = (Spatial)itemScene.Instance();
-                    itemInstance.Visible = false;
+                    if (i > 2){
+                        itemInstance.Visible = false;
+                    }
                     GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/" + type).AddChild(itemInstance);
-                    //TO-DO CHANGE APPEARANCE BY SELECTION
                 }
+                i++;
             }
         }
+        GetNode<OptionButton>("UI/VBoxContainer/HairOption").Connect("item_selected", this, "hairSelected");
+        GetNode<OptionButton>("UI/VBoxContainer/EyesOption").Connect("item_selected", this, "eyesSelected");
+        GetNode<OptionButton>("UI/VBoxContainer/NosesOption").Connect("item_selected", this, "noseSelected");
     }
 
     private Godot.Collections.Array getFilesInDirectory(string pathToParentFolder, string folderName){
@@ -46,5 +50,24 @@ public class CharacterCustomization : Spatial{
 
         dir.ListDirEnd();
         return files;
+    }
+
+    private void hairSelected(int index){
+        foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair").GetChildren()){
+            node.Visible = false;
+        }
+        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair/" + GetNode<OptionButton>("UI/VBoxContainer/HairOption").GetItemText(index)).Visible = true;
+    }
+    private void eyesSelected(int index){
+        foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes").GetChildren()){
+            node.Visible = false;
+        }
+        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes/" + GetNode<OptionButton>("UI/VBoxContainer/EyesOption").GetItemText(index)).Visible = true;
+    }
+    private void noseSelected(int index){
+        foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses").GetChildren()){
+            node.Visible = false;
+        }
+        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses/" + GetNode<OptionButton>("UI/VBoxContainer/NosesOption").GetItemText(index)).Visible = true;
     }
 }
