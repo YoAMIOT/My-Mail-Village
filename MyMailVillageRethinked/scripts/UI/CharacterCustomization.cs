@@ -22,7 +22,7 @@ public class CharacterCustomization : Spatial{
                     type = item.Capitalize();
                 } else {
                     GetNode<OptionButton>("UI/VBoxContainer/" + type + "Option").AddItem(item);
-                    PackedScene itemScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/" + type.ToLower() + "/" + item + ".glb");
+                    PackedScene itemScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/" + type.ToLower() + "/" + item.ToLower() + ".glb");
                     Spatial itemInstance = (Spatial)itemScene.Instance();
                     if (type == "Hair"){
                         itemInstance.GetChild<MeshInstance>(0).MaterialOverride = hairColor;
@@ -44,6 +44,9 @@ public class CharacterCustomization : Spatial{
         GetNode<ColorPickerButton>("UI/VBoxContainer/HairColor").Connect("color_changed", this, "hairColorChanged");
         GetNode<ColorPickerButton>("UI/VBoxContainer/SkinColor").Connect("color_changed", this, "skinColorChanged");
         GetNode<HSlider>("UI/CharacterRotationSlider").Connect("value_changed", this, "characterRotated");
+        GetNode<Button>("UI/DoneBtn").Connect("pressed", this, "donePressed");
+        GetNode<Button>("Confirm/ConfirmMenu/ConfirmBtn").Connect("pressed", this, "confirmPressed");
+        GetNode<Button>("Confirm/ConfirmMenu/CancelBtn").Connect("pressed", this, "cancelConfirmationPressed");
     }
 
     private Godot.Collections.Array getFilesInDirectory(string pathToParentFolder, string folderName){
@@ -59,7 +62,7 @@ public class CharacterCustomization : Spatial{
                 break;
             } else if (file.EndsWith(".glb")){
                 string fileTrimmed = file.Remove(file.Length - 4, 4);
-                files.Add(fileTrimmed);
+                files.Add(fileTrimmed.Capitalize());
             }
         }
 
@@ -71,19 +74,19 @@ public class CharacterCustomization : Spatial{
         foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair").GetChildren()){
             node.Visible = false;
         }
-        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair/" + GetNode<OptionButton>("UI/VBoxContainer/HairOption").GetItemText(index)).Visible = true;
+        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair/" + GetNode<OptionButton>("UI/VBoxContainer/HairOption").GetItemText(index).ToLower()).Visible = true;
     }
     private void eyesSelected(int index){
         foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes").GetChildren()){
             node.Visible = false;
         }
-        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes/" + GetNode<OptionButton>("UI/VBoxContainer/EyesOption").GetItemText(index)).Visible = true;
+        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes/" + GetNode<OptionButton>("UI/VBoxContainer/EyesOption").GetItemText(index).ToLower()).Visible = true;
     }
     private void noseSelected(int index){
         foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses").GetChildren()){
             node.Visible = false;
         }
-        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses/" + GetNode<OptionButton>("UI/VBoxContainer/NosesOption").GetItemText(index)).Visible = true;
+        GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses/" + GetNode<OptionButton>("UI/VBoxContainer/NosesOption").GetItemText(index).ToLower()).Visible = true;
     }
 
     private void hairColorChanged(Color newColor){
@@ -100,5 +103,29 @@ public class CharacterCustomization : Spatial{
 
     private void characterRotated(float rotation){
         GetNode<KinematicBody>("Char").RotationDegrees = new Vector3(0, 26 + rotation, 0);
+    }
+
+    private void donePressed(){
+        GetNode<Control>("UI").Visible = false;
+        GetNode<Control>("Confirm").Visible = true;
+        GetNode<Control>("Confirm/ConfirmMenu").Visible = true;
+    }
+
+    private void confirmPressed(){
+        GetNode<Control>("Confirm/ConfirmMenu").Visible = false;
+        GetNode<Control>("Confirm/Checks").Visible = true;
+        string hairStyle = GetNode<OptionButton>("UI/VBoxContainer/HairOption").GetItemText(GetNode<OptionButton>("UI/VBoxContainer/HairOption").GetSelectedId());
+        string eyesType = GetNode<OptionButton>("UI/VBoxContainer/EyesOption").GetItemText(GetNode<OptionButton>("UI/VBoxContainer/EyesOption").GetSelectedId());
+        string noseType = GetNode<OptionButton>("UI/VBoxContainer/NosesOption").GetItemText(GetNode<OptionButton>("UI/VBoxContainer/NosesOption").GetSelectedId());
+        Color hairColor = GetNode<ColorPickerButton>("UI/VBoxContainer/HairColor").Color;
+        Color skinColor = GetNode<ColorPickerButton>("UI/VBoxContainer/SkinColor").Color;
+        Server Server = GetNode<Server>("/root/Server");
+        Server.SendCharacterDatas(hairStyle, eyesType, noseType, hairColor, skinColor);
+    }
+
+    private void cancelConfirmationPressed(){
+        GetNode<Control>("Confirm/ConfirmMenu").Visible = false;
+        GetNode<Control>("Confirm").Visible = false;
+        GetNode<Control>("UI").Visible = true;
     }
 }

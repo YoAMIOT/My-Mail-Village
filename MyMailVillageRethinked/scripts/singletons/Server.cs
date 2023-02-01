@@ -66,6 +66,8 @@ public class Server : Node{
     public void logIn(){
         GD.Print("LOGIN AND GET THE F*** IN GAME");
     }
+
+//FIRSTS STEPS RELATED
     //Get throught the first steps of the game like selecting the address, customize the house etc...
     [Remote]
     public void goThroughFirstSteps(Godot.Collections.Dictionary addresses){
@@ -86,5 +88,9 @@ public class Server : Node{
             //TO-DO something
             GetTree().ChangeScene("res://scenes/3D/CharacterCustomization.tscn");
         }
+    }
+    //Sends character customization datas to server
+    public void SendCharacterDatas(string hairStyle, string eyesType, string noseType, Color hairColor, Color skinColor){
+        RpcId(1, "receiveCharacterData", hairStyle, eyesType, noseType, hairColor, skinColor);
     }
 }

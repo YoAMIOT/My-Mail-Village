@@ -106,7 +106,7 @@ public class Server : Control{
 
 
 
-//ADDRESS RELATED
+//FIRSTS STEPS RELATED
     //Receives the address validation request
     [Remote]
     public void receiveAddressRequest(string username, string letter, Vector2 coords){
@@ -115,6 +115,12 @@ public class Server : Control{
     //Sends a feedback about how the address allocation went
     public void addressAllocationFeedback(int userId, bool success){
         RpcId(userId, "addressAllocationFeedback", success, AddressManager.addresses);
+    }
+    //Receives the character customization datas
+    [Remote]
+    public void receiveCharacterData(string hairStyle, string eyesType, string noseType, Color hairColor, Color skinColor){
+        GD.Print(hairStyle," ", eyesType," ", noseType, " ", hairColor, " ", skinColor);
+        //TO-DO Process datas
     }
 
 

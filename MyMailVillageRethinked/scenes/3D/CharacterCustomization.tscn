@@ -1,8 +1,16 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/3D/entities/DummyCharacter.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scripts/UI/CharacterCustomization.cs" type="Script" id=3]
+[ext_resource path="res://ressources/animations/loading/loading5.png" type="Texture" id=4]
+[ext_resource path="res://ressources/animations/loading/loading1.png" type="Texture" id=5]
+[ext_resource path="res://ressources/animations/loading/loading6.png" type="Texture" id=6]
+[ext_resource path="res://ressources/animations/loading/loading7.png" type="Texture" id=7]
+[ext_resource path="res://ressources/animations/loading/loading8.png" type="Texture" id=8]
+[ext_resource path="res://ressources/animations/loading/loading3.png" type="Texture" id=9]
+[ext_resource path="res://ressources/animations/loading/loading2.png" type="Texture" id=10]
+[ext_resource path="res://ressources/animations/loading/loading4.png" type="Texture" id=11]
 
 [sub_resource type="PlaneMesh" id=4]
 size = Vector2( 80, 80 )
@@ -20,6 +28,14 @@ sun_curve = 0.0120742
 background_mode = 2
 background_sky = SubResource( 3 )
 background_color = Color( 0.909804, 0.741176, 0.741176, 1 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
 
 [node name="CharacterCustomization" type="Spatial"]
 script = ExtResource( 3 )
@@ -72,7 +88,7 @@ __meta__ = {
 [node name="Bg" type="Polygon2D" parent="UI"]
 position = Vector2( 120, 0 )
 scale = Vector2( 0.9375, 1 )
-color = Color( 0, 0, 0, 0.317647 )
+color = Color( 0, 0, 0, 0.423529 )
 polygon = PoolVector2Array( 896, 0, 1920, 0, 1920, 1080, 896, 1080 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI"]
@@ -122,7 +138,7 @@ margin_top = 453.0
 margin_right = 832.0
 margin_bottom = 495.0
 custom_fonts/font = ExtResource( 2 )
-color = Color( 0.364706, 0.215686, 0.215686, 1 )
+color = Color( 0.392157, 0.227451, 0.227451, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -188,6 +204,119 @@ margin_right = -288.0
 margin_bottom = -16.24
 rect_scale = Vector2( 2, 2 )
 max_value = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DoneBtn" type="Button" parent="UI"]
+anchor_left = 0.667
+anchor_top = 0.77
+anchor_right = 0.833
+anchor_bottom = 0.889
+margin_left = -0.640137
+margin_top = 0.399963
+margin_right = 0.639893
+margin_bottom = -0.120056
+custom_fonts/font = ExtResource( 2 )
+text = "Done!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Confirm" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bg" type="Polygon2D" parent="Confirm"]
+position = Vector2( -1680, 0 )
+scale = Vector2( 1.875, 1 )
+color = Color( 0, 0, 0, 0.423529 )
+polygon = PoolVector2Array( 896, 0, 1920, 0, 1920, 1080, 896, 1080 )
+
+[node name="ConfirmMenu" type="Control" parent="Confirm"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Confirm/ConfirmMenu"]
+anchor_left = 0.191
+anchor_top = 0.355556
+anchor_right = 0.809
+anchor_bottom = 0.415
+margin_left = -0.720032
+margin_top = -0.000488281
+margin_right = 0.719971
+margin_bottom = -0.200012
+custom_fonts/font = ExtResource( 2 )
+text = "Do you really want to play the game with THAT character?"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmBtn" type="Button" parent="Confirm/ConfirmMenu"]
+anchor_left = 0.3
+anchor_top = 0.592593
+anchor_right = 0.433333
+anchor_bottom = 0.651852
+margin_right = 0.000610352
+margin_bottom = 0.000244141
+custom_fonts/font = ExtResource( 2 )
+text = "I guess?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CancelBtn" type="Button" parent="Confirm/ConfirmMenu"]
+anchor_left = 0.566667
+anchor_top = 0.593
+anchor_right = 0.7
+anchor_bottom = 0.657407
+margin_top = -0.440063
+margin_right = -0.00012207
+margin_bottom = -5.99976
+custom_fonts/font = ExtResource( 2 )
+text = "NOP!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Checks" type="Control" parent="Confirm"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Confirm/Checks"]
+position = Vector2( 960, 536 )
+scale = Vector2( 85.3333, 85.3333 )
+frames = SubResource( 7 )
+frame = 1
+playing = true
+
+[node name="Label" type="Label" parent="Confirm/Checks"]
+anchor_left = 0.192
+anchor_top = 0.296
+anchor_right = 0.809
+anchor_bottom = 0.356
+margin_left = -0.640015
+margin_top = 0.320007
+margin_right = 2.71997
+margin_bottom = -0.480011
+custom_fonts/font = ExtResource( 2 )
+text = "Ok... As you wish... I'm sending your \"thing\" to the master!"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
