@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/sleepy.glb-c8211141a6d688a308c694b1f010f541.scn"
+path="res://.import/bored.glb-7b99ef24c9175ac610c873d7329a4992.scn"
 
 [deps]
 
-source_file="res://ressources/meshes/attributes/eyes/sleepy.glb"
-dest_files=[ "res://.import/sleepy.glb-c8211141a6d688a308c694b1f010f541.scn" ]
+source_file="res://ressources/meshes/attributes/eyes/bored.glb"
+dest_files=[ "res://.import/bored.glb-7b99ef24c9175ac610c873d7329a4992.scn" ]
 
 [params]
 

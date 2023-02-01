@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/3D/testChar.cs" type="Script" id=1]
-[ext_resource path="res://ressources/meshes/Material_001.material" type="Material" id=2]
+[ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Char_Sphere003"
@@ -409,7 +409,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [  ]
+bones/1/bound_children = [ NodePath("HeadAttachment") ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -477,7 +477,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -2.88683e-09, 2.38131e-07, 1.08747e-08, 0.999437, -0.0335511, -2.37899e-07, 0.0335511, 0.999437, 5.84118e-09, 2.51522, -0.0563001 )
+transform = Transform( 1, 2.75375e-09, 2.40232e-07, -4.48803e-09, 0.999973, 0.00721955, -2.40205e-07, -0.00721955, 0.999973, -5.73177e-09, 2.48564, 0.0276021 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]

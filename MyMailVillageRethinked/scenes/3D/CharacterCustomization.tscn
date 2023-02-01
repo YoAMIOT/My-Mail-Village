@@ -40,7 +40,7 @@ transform = Transform( 0.999955, 1.32248e-07, 0.00947731, -0.00545502, 0.817748,
 environment = SubResource( 6 )
 
 [node name="Char" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.894818, 0, 0.446432, 0, 1, 0, -0.446432, 0, 0.894818, 0, 0, 0 )
+transform = Transform( 0.898794, 0, 0.438371, 0, 1, 0, -0.438371, 0, 0.898794, 0, 0, 0 )
 
 [node name="Skeleton" parent="Char/Armature" index="0"]
 bones/1/bound_children = [ NodePath("HeadAttachment") ]
@@ -59,7 +59,7 @@ autoplay = "idle_loop"
 reset_on_save = true
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.9796, -0.0433172, 0.196234, 0, 0.976492, 0.215553, -0.200958, -0.211156, 0.956572, 3.843, 3.315, 4.145 )
+transform = Transform( 0.9796, -0.0433172, 0.196234, 0, 0.976492, 0.215553, -0.200958, -0.211156, 0.956572, 3.843, 3.942, 4.145 )
 current = true
 
 [node name="UI" type="Control" parent="."]
@@ -87,9 +87,9 @@ __meta__ = {
 }
 
 [node name="HairLabel" type="Label" parent="UI/VBoxContainer"]
-margin_top = 370.0
+margin_top = 327.0
 margin_right = 832.0
-margin_bottom = 406.0
+margin_bottom = 363.0
 custom_fonts/font = ExtResource( 2 )
 text = "Hair style:"
 align = 1
@@ -99,16 +99,16 @@ __meta__ = {
 }
 
 [node name="HairOption" type="OptionButton" parent="UI/VBoxContainer"]
-margin_top = 410.0
+margin_top = 367.0
 margin_right = 832.0
-margin_bottom = 452.0
+margin_bottom = 409.0
 custom_fonts/font = ExtResource( 2 )
 align = 1
 
 [node name="HairColorLabel" type="Label" parent="UI/VBoxContainer"]
-margin_top = 456.0
+margin_top = 413.0
 margin_right = 832.0
-margin_bottom = 492.0
+margin_bottom = 449.0
 custom_fonts/font = ExtResource( 2 )
 text = "Hair color:"
 align = 1
@@ -117,10 +117,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="UI/VBoxContainer"]
-margin_top = 496.0
+[node name="HairColor" type="ColorPickerButton" parent="UI/VBoxContainer"]
+margin_top = 453.0
 margin_right = 832.0
-margin_bottom = 538.0
+margin_bottom = 495.0
 custom_fonts/font = ExtResource( 2 )
 color = Color( 0.364706, 0.215686, 0.215686, 1 )
 __meta__ = {
@@ -128,35 +128,68 @@ __meta__ = {
 }
 
 [node name="EyesLabel" type="Label" parent="UI/VBoxContainer"]
-margin_top = 542.0
+margin_top = 499.0
 margin_right = 832.0
-margin_bottom = 578.0
+margin_bottom = 535.0
 custom_fonts/font = ExtResource( 2 )
 text = "Eyes type:"
 align = 1
 valign = 1
 
 [node name="EyesOption" type="OptionButton" parent="UI/VBoxContainer"]
-margin_top = 582.0
+margin_top = 539.0
 margin_right = 832.0
-margin_bottom = 624.0
+margin_bottom = 581.0
 custom_fonts/font = ExtResource( 2 )
 align = 1
 
 [node name="NosesLabel" type="Label" parent="UI/VBoxContainer"]
-margin_top = 628.0
+margin_top = 585.0
 margin_right = 832.0
-margin_bottom = 664.0
+margin_bottom = 621.0
 custom_fonts/font = ExtResource( 2 )
 text = "Nose type:"
 align = 1
 valign = 1
 
 [node name="NosesOption" type="OptionButton" parent="UI/VBoxContainer"]
-margin_top = 668.0
+margin_top = 625.0
 margin_right = 832.0
-margin_bottom = 710.0
+margin_bottom = 667.0
 custom_fonts/font = ExtResource( 2 )
 align = 1
+
+[node name="SkinLabel" type="Label" parent="UI/VBoxContainer"]
+margin_top = 671.0
+margin_right = 832.0
+margin_bottom = 707.0
+custom_fonts/font = ExtResource( 2 )
+text = "Skin color:"
+align = 1
+valign = 1
+
+[node name="SkinColor" type="ColorPickerButton" parent="UI/VBoxContainer"]
+margin_top = 711.0
+margin_right = 832.0
+margin_bottom = 753.0
+custom_fonts/font = ExtResource( 2 )
+color = Color( 0.85098, 0.72549, 0.713726, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterRotationSlider" type="HSlider" parent="UI"]
+anchor_left = 0.1
+anchor_top = 0.948
+anchor_right = 0.4
+anchor_bottom = 0.978
+margin_top = 0.159912
+margin_right = -288.0
+margin_bottom = -16.24
+rect_scale = Vector2( 2, 2 )
+max_value = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [editable path="Char"]

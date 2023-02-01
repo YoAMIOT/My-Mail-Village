@@ -2,11 +2,17 @@ using Godot;
 using System;
 
 public class CharacterCustomization : Spatial{
+    private Material skinColor;
+    private Material hairColor;
+
     public override void _Ready(){
         Godot.Collections.Array eyes = getFilesInDirectory("res://ressources/meshes/attributes/", nameof(eyes));
         Godot.Collections.Array noses = getFilesInDirectory("res://ressources/meshes/attributes/", nameof(noses));
         Godot.Collections.Array hair = getFilesInDirectory("res://ressources/meshes/attributes/", nameof(hair));
         Godot.Collections.Array[] attributes =  new Godot.Collections.Array[]{eyes, noses, hair};
+        skinColor = GD.Load<Material>("res://ressources/meshes/skin.material");
+        hairColor = GD.Load<Material>("res://ressources/meshes/attributes/hair/hair.material");
+
         //For each attributes of the arrays add the item to the options and to the scene
         foreach (Godot.Collections.Array attributeType in attributes){
             var i = 1;
@@ -18,6 +24,12 @@ public class CharacterCustomization : Spatial{
                     GetNode<OptionButton>("UI/VBoxContainer/" + type + "Option").AddItem(item);
                     PackedScene itemScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/" + type.ToLower() + "/" + item + ".glb");
                     Spatial itemInstance = (Spatial)itemScene.Instance();
+                    if (type == "Hair"){
+                        itemInstance.GetChild<MeshInstance>(0).MaterialOverride = hairColor;
+                    } else if(type == "Noses"){
+                        itemInstance.GetChild<MeshInstance>(0).MaterialOverride = skinColor;
+                    }
+
                     if (i > 2){
                         itemInstance.Visible = false;
                     }
@@ -29,6 +41,9 @@ public class CharacterCustomization : Spatial{
         GetNode<OptionButton>("UI/VBoxContainer/HairOption").Connect("item_selected", this, "hairSelected");
         GetNode<OptionButton>("UI/VBoxContainer/EyesOption").Connect("item_selected", this, "eyesSelected");
         GetNode<OptionButton>("UI/VBoxContainer/NosesOption").Connect("item_selected", this, "noseSelected");
+        GetNode<ColorPickerButton>("UI/VBoxContainer/HairColor").Connect("color_changed", this, "hairColorChanged");
+        GetNode<ColorPickerButton>("UI/VBoxContainer/SkinColor").Connect("color_changed", this, "skinColorChanged");
+        GetNode<HSlider>("UI/CharacterRotationSlider").Connect("value_changed", this, "characterRotated");
     }
 
     private Godot.Collections.Array getFilesInDirectory(string pathToParentFolder, string folderName){
@@ -69,5 +84,21 @@ public class CharacterCustomization : Spatial{
             node.Visible = false;
         }
         GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses/" + GetNode<OptionButton>("UI/VBoxContainer/NosesOption").GetItemText(index)).Visible = true;
+    }
+
+    private void hairColorChanged(Color newColor){
+        foreach (Spatial hairStyle in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair").GetChildren()){
+            hairStyle.GetChild<MeshInstance>(0).MaterialOverride.Set("albedo_color", newColor);
+        }
+    }
+
+    private void skinColorChanged(Color newColor){
+        foreach (Spatial noseType in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses").GetChildren()){
+            noseType.GetChild<MeshInstance>(0).MaterialOverride.Set("albedo_color", newColor);
+        }
+    }
+
+    private void characterRotated(float rotation){
+        GetNode<KinematicBody>("Char").RotationDegrees = new Vector3(0, 26 + rotation, 0);
     }
 }
