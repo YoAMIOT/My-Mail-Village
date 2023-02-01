@@ -4,14 +4,18 @@ using System.Threading.Tasks;
 
 public class DataManager : Node{
     public Godot.Collections.Dictionary playersDatas = new Godot.Collections.Dictionary();
+    public Godot.Collections.Dictionary charactersDatas = new Godot.Collections.Dictionary();
+    public Godot.Collections.Dictionary connectedPlayers = new Godot.Collections.Dictionary();
     private string playersDatasFile = "res://data/playersDatas.json";
     private string addressesFile = "res://data/addresses.json";
+    private string charactersDatasFile = "res://data/characterDatas.json";
     private AddressManager AddressManager;
 
     public override void _Ready(){
         AddressManager = GetNode<AddressManager>("/root/AddressManager");
         loadPlayersDatas();
         loadAddresses();
+        loadCharactersDatas();
     }
 
 //PLAYERS DATAS RELATED
@@ -54,7 +58,13 @@ public class DataManager : Node{
         return exists;
     }
 
+    public void playerConnected(int userId, string username){
+        connectedPlayers[userId] = username;
+    }
 
+    public void playerDisconnected(int userId){
+        connectedPlayers.Remove(userId);
+    }
 
 //ADDRESS RELATED
     private void loadAddresses(){
@@ -75,5 +85,36 @@ public class DataManager : Node{
         file.Open(addressesFile, File.ModeFlags.Write);
         file.StoreLine(JSON.Print(AddressManager.addresses));
         file.Close();
+    }
+
+//CHARACTER RELATED
+    private void loadCharactersDatas(){
+        File file = new File();
+        if (!file.FileExists(charactersDatasFile)) {
+            saveCharactersDatas();
+            return;
+        }
+        file.Open(charactersDatasFile, File.ModeFlags.Read);
+        if (file.GetAsText() != "") {
+            charactersDatas = (Godot.Collections.Dictionary)JSON.Parse(file.GetAsText()).Result;
+            file.Close();
+        }
+    }
+
+    public void saveCharactersDatas(){
+        File file = new File();
+        file.Open(charactersDatasFile, File.ModeFlags.Write);
+        file.StoreLine(JSON.Print(charactersDatas));
+        file.Close();
+    }
+
+    public void createCharacterDatasOfAPlayer(int userId, string hairStyle, string eyesType, string noseType, string hairColor, string skinColor){
+        charactersDatas[connectedPlayers[userId]] = new Godot.Collections.Dictionary{
+            {"hairStyle" , hairStyle},
+            {"hairColor", hairColor},
+            {"eyesType", eyesType},
+            {"noseType", noseType},
+            {"skinColor", skinColor}
+        };
     }
 }

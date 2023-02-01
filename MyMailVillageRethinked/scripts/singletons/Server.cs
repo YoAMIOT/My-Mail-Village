@@ -91,6 +91,11 @@ public class Server : Node{
     }
     //Sends character customization datas to server
     public void SendCharacterDatas(string hairStyle, string eyesType, string noseType, Color hairColor, Color skinColor){
-        RpcId(1, "receiveCharacterData", hairStyle, eyesType, noseType, hairColor, skinColor);
+        RpcId(1, "receiveCharacterData", hairStyle, eyesType, noseType, hairColor.ToHtml(), skinColor.ToHtml());
+    }
+    [Remote]
+    public void characterDatasSaved(){
+        GD.Print("Character Datas Saved");
+        //TO-DO Next step
     }
 }

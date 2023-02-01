@@ -56,6 +56,8 @@ public class Server : Control{
         t.Wait();
         t = Task.Run(() => DataManager.saveAddresses());
         t.Wait();
+        t = Task.Run(() => DataManager.saveCharactersDatas());
+        t.Wait();
         GetTree().NetworkPeer = null;
         serverStarted = false;
         Network.Disconnect("peer_connected", this, "PeerConnected");
@@ -71,11 +73,13 @@ public class Server : Control{
     }
     private void PeerDisconnected(int playerId) {
         logPrint(playerId + " disconnected.");
+        DataManager.playerDisconnected(playerId);
     }
     //Kicks a player
     public void kickPlayer(int playerId, string reason = "Disconnected from server."){
         logPrint("!- " + playerId + " was kicked: " + reason + " -!");
         RpcId(playerId, "kickedFromServer", reason);
+        DataManager.playerDisconnected(playerId);
     }
 
 
@@ -94,6 +98,7 @@ public class Server : Control{
 
     //Dispatching the loging in
     public void logIn(int userId, string username){
+        DataManager.playerConnected(userId, username);
         bool hasAllocatedAddress = AddressManager.addressAllocatedForAPlayer(username);
         if(hasAllocatedAddress){
             //Gets in the game
@@ -118,9 +123,10 @@ public class Server : Control{
     }
     //Receives the character customization datas
     [Remote]
-    public void receiveCharacterData(string hairStyle, string eyesType, string noseType, Color hairColor, Color skinColor){
-        GD.Print(hairStyle," ", eyesType," ", noseType, " ", hairColor, " ", skinColor);
-        //TO-DO Process datas
+    public void receiveCharacterData(string hairStyle, string eyesType, string noseType, string hairColor, string skinColor){
+        int userId = GetTree().GetRpcSenderId();
+        DataManager.createCharacterDatasOfAPlayer(userId ,hairStyle, eyesType, noseType, hairColor, skinColor);
+        RpcId(userId, "characterDatasSaved");
     }
 
 
@@ -129,6 +135,7 @@ public class Server : Control{
     private void autoSave(){
         DataManager.savePlayersDatas();
         DataManager.saveAddresses();
+        DataManager.saveCharactersDatas();
     }
     //Prints a line in the server console
     public void logPrint(string txt){
@@ -159,6 +166,8 @@ public class Server : Control{
             var t = Task.Run(() => DataManager.savePlayersDatas());
             t.Wait();
             t = Task.Run(() => DataManager.saveAddresses());
+            t.Wait();
+            t = Task.Run(() => DataManager.saveCharactersDatas());
             t.Wait();
         }
         GetTree().Quit();
