@@ -21,6 +21,8 @@ public class Authentication : Control{
         GetNode<Button>("AuthError/OkButton").Connect("pressed", this, "okButtonError");
     }
 
+
+
 //UI RELATED
     //Switch to the register form
     private void switchTabToReg(){
@@ -30,6 +32,7 @@ public class Authentication : Control{
         GetNode<LineEdit>("Login/PasswordInput").Text = "";
         GetNode<Button>("Login/LoginBtn").Disabled = true;
     }
+
     //Switch to the login form
     private void switchTabToLogin(){
         GetNode<Control>("Register").Visible = false;
@@ -39,11 +42,13 @@ public class Authentication : Control{
         GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text = "";
         GetNode<Button>("Register/RegisterBtn").Disabled = true;
     }
+
     //Shows an error message
     public void authError(string error){
         GetNode<Label>("AuthError/Label").Text = error;
         GetNode<Control>("AuthError").Visible = true;
     }
+
     //Triggered when the player pressed OK on the error message
     private void okButtonError(){
         GetNode<Label>("AuthError/Label").Text = "";
@@ -54,6 +59,7 @@ public class Authentication : Control{
         GetNode<Button>("Login/RegisterBtn").Disabled = false;
         GetNode<Button>("Register/LoginBtn").Disabled = false;
     }
+
 
 
 //CREDENTIALS RELATED
@@ -77,6 +83,7 @@ public class Authentication : Control{
             GetNode<Button>("Login/LoginBtn").Disabled = true;
         }
     }
+
     //Checks credentials and sends them to the server for checkups
     private void login(){
         GetNode<Button>("Login/LoginBtn").Disabled = true;
@@ -95,6 +102,7 @@ public class Authentication : Control{
             }
         }
     }
+
     //Checks if every field passes the tests so the register button unlocks
     private void checkPossibilityReg(string txt){
         if(GetNode<LineEdit>("Register/RegUsernameInput").Text != "" && GetNode<LineEdit>("Register/RegPasswordInput").Text != "" && GetNode<LineEdit>("Register/RegPasswordInputConfirm").Text != ""){
@@ -120,6 +128,7 @@ public class Authentication : Control{
             GetNode<Button>("Register/RegisterBtn").Disabled = true;
         }
     }
+    
     //Checks credentials and sends them to the server for checkups
     private void register(){
         GetNode<Button>("Register/LoginBtn").Disabled = true;

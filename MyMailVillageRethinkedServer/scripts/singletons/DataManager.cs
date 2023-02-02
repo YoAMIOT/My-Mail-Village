@@ -10,13 +10,17 @@ public class DataManager : Node{
     private string addressesFile = "res://data/addresses.json";
     private string charactersDatasFile = "res://data/characterDatas.json";
     private AddressManager AddressManager;
+    private Server Server;
 
     public override void _Ready(){
         AddressManager = GetNode<AddressManager>("/root/AddressManager");
+        Server = GetNode<Server>("/root/Server");
         loadPlayersDatas();
         loadAddresses();
         loadCharactersDatas();
     }
+
+
 
 //PLAYERS DATAS RELATED
     private void loadPlayersDatas(){
@@ -66,6 +70,8 @@ public class DataManager : Node{
         connectedPlayers.Remove(userId);
     }
 
+
+
 //ADDRESS RELATED
     private void loadAddresses(){
         File file = new File();
@@ -86,6 +92,8 @@ public class DataManager : Node{
         file.StoreLine(JSON.Print(AddressManager.addresses));
         file.Close();
     }
+
+
 
 //CHARACTER RELATED
     private void loadCharactersDatas(){
@@ -116,5 +124,34 @@ public class DataManager : Node{
             {"noseType", noseType},
             {"skinColor", skinColor}
         };
+        Server.characterDatasSaved(userId);
+    }
+
+
+
+//FIRST STEP RELATED
+    //Check if a player already has a character saved
+    public bool checkCharacterDatasDone(string username){
+        bool done = false;
+        if(charactersDatas.Contains(username)){
+            done = true;
+        }
+        return done;
+    }
+
+    //Check if a player already got an address
+    public bool checkAddressAllocation(string username){
+        bool done = AddressManager.addressAllocatedForAPlayer(username);
+        return done;
+    }
+
+    //Check all first steps
+    public Godot.Collections.Dictionary checkEveryFirstSteps(string username){
+        Godot.Collections.Dictionary firstSteps = new Godot.Collections.Dictionary();
+        bool character = checkCharacterDatasDone(username);
+        bool address = checkAddressAllocation(username);
+        firstSteps["character"] = character;
+        firstSteps["address"] = address;
+        return firstSteps;
     }
 }

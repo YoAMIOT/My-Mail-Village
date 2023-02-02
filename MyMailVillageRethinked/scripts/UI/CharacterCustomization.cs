@@ -65,7 +65,6 @@ public class CharacterCustomization : Spatial{
                 files.Add(fileTrimmed.Capitalize());
             }
         }
-
         dir.ListDirEnd();
         return files;
     }
@@ -76,12 +75,14 @@ public class CharacterCustomization : Spatial{
         }
         GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Hair/" + GetNode<OptionButton>("UI/VBoxContainer/HairOption").GetItemText(index).ToLower()).Visible = true;
     }
+
     private void eyesSelected(int index){
         foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes").GetChildren()){
             node.Visible = false;
         }
         GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Eyes/" + GetNode<OptionButton>("UI/VBoxContainer/EyesOption").GetItemText(index).ToLower()).Visible = true;
     }
+    
     private void noseSelected(int index){
         foreach (Spatial node in GetNode<Spatial>("Char/Armature/Skeleton/HeadAttachment/Position3D/Noses").GetChildren()){
             node.Visible = false;

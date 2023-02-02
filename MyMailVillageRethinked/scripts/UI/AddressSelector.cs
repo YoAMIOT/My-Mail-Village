@@ -22,6 +22,8 @@ public class AddressSelector : Control{
         GetNode<Button>("ErrorMsg/OkButton").Connect("pressed", this,"okButton");
     }
 
+
+
 //LETTER RELATED
     //Triggered when the a letter has been clicked
     private void letterSelected(int index){
@@ -43,10 +45,12 @@ public class AddressSelector : Control{
             }
         }
     }
+
     //Triggered when the player has pressed "No" and resets the selection menu
     public void cancelCoords(){
         resetCoords(addresses);
     }
+
     //Resets the selection menu
     public void resetCoords(Godot.Collections.Dictionary refreshedAddresses, bool failToAllocate = false){
         GetNode<ItemList>("LetterList").Unselect(selectedLetterIndex);
@@ -63,9 +67,11 @@ public class AddressSelector : Control{
         }
         this.addresses = refreshedAddresses;
     }
+
     public void okButton(){
         GetNode<Control>("ErrorMsg").Visible = false;
     }
+
 
 
 //COORDINATE RELATED
@@ -78,6 +84,7 @@ public class AddressSelector : Control{
             GetNode<Control>("Confirm").Visible = true;
         }
     }
+    
     //Sends coordinates to server for verifying if the slot isn't allowed
     private void confirmCoords(){
         Server.allocateAddress(selectedLetter, realCoords);

@@ -29,6 +29,8 @@ public class Server : Control{
         GetNode<Button>("QuitConfirm/UI/ConfirmBtn").Connect("pressed", this, "quitConfirm");
     }
 
+
+
 //SERVER STATES AND CONNECTIONS//
     //Starts server
     private void startServer(){
@@ -45,6 +47,7 @@ public class Server : Control{
     private void stopServerPressed(){
         stopServer();
     }
+
     //Stops server
     private void stopServer(){
         //kick every player one by one
@@ -71,10 +74,12 @@ public class Server : Control{
     private void PeerConnected(int playerId) {
         logPrint(playerId + " connected.");
     }
+
     private void PeerDisconnected(int playerId) {
         logPrint(playerId + " disconnected.");
         DataManager.playerDisconnected(playerId);
     }
+
     //Kicks a player
     public void kickPlayer(int playerId, string reason = "Disconnected from server."){
         logPrint("!- " + playerId + " was kicked: " + reason + " -!");
@@ -99,13 +104,20 @@ public class Server : Control{
     //Dispatching the loging in
     public void logIn(int userId, string username){
         DataManager.playerConnected(userId, username);
-        bool hasAllocatedAddress = AddressManager.addressAllocatedForAPlayer(username);
-        if(hasAllocatedAddress){
+        Godot.Collections.Dictionary firstSteps = DataManager.checkEveryFirstSteps(username);
+        bool everySteps = true;
+        foreach (var step in firstSteps.Keys){
+            if ((bool)firstSteps[step] == false){
+                everySteps = false;
+            }
+        }
+
+        if(everySteps == true){
             //Gets in the game
             RpcId(userId, "logIn");
-        } else {
+        } else if (everySteps == false){
             //Gets in the address selection etc...
-            RpcId(userId, "goThroughFirstSteps", AddressManager.addresses);
+            RpcId(userId, "goThroughFirstSteps", firstSteps, AddressManager.addresses);
         }
     }
 
@@ -117,15 +129,21 @@ public class Server : Control{
     public void receiveAddressRequest(string username, string letter, Vector2 coords){
         AddressManager.allocateAddressSlot(username, GetTree().GetRpcSenderId(), letter, coords);
     }
+
     //Sends a feedback about how the address allocation went
     public void addressAllocationFeedback(int userId, bool success){
         RpcId(userId, "addressAllocationFeedback", success, AddressManager.addresses);
     }
+
     //Receives the character customization datas
     [Remote]
     public void receiveCharacterData(string hairStyle, string eyesType, string noseType, string hairColor, string skinColor){
         int userId = GetTree().GetRpcSenderId();
         DataManager.createCharacterDatasOfAPlayer(userId ,hairStyle, eyesType, noseType, hairColor, skinColor);
+    }
+
+    //Sends a feedback to the client
+    public void characterDatasSaved(int userId){
         RpcId(userId, "characterDatasSaved");
     }
 
@@ -137,6 +155,7 @@ public class Server : Control{
         DataManager.saveAddresses();
         DataManager.saveCharactersDatas();
     }
+
     //Prints a line in the server console
     public void logPrint(string txt){
         GetNode<RichTextLabel>("Log").BbcodeText += "\n" + txt;
@@ -148,6 +167,7 @@ public class Server : Control{
     private void tryToClose(){
         GetNode<Control>("QuitConfirm").Visible = true;
     }
+
     //Closes the server client
     private async void quitConfirm(){
         GetNode<Control>("QuitConfirm/UI").Visible = false;

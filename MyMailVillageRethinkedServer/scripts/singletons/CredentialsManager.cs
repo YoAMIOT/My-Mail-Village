@@ -18,6 +18,7 @@ public class CredentialsManager : Node{
         string salt = GD.Randi().ToString().SHA256Text();
         return salt;
     }
+    
     //Generate a hashed string by using SHA256 and a gain of salt
     public string generateHashedString(string txt, string salt) {
         int rounds = (int)Math.Pow(2, 18);
