@@ -12,6 +12,8 @@ public class DataManager : Node{
     private AddressManager AddressManager;
     private Server Server;
 
+
+
     public override void _Ready(){
         AddressManager = GetNode<AddressManager>("/root/AddressManager");
         Server = GetNode<Server>("/root/Server");
@@ -23,10 +25,10 @@ public class DataManager : Node{
 
 
 //PLAYERS DATAS RELATED
-    private void loadPlayersDatas(){
+    private async void loadPlayersDatas(){
         File file = new File();
         if (!file.FileExists(playersDatasFile)) {
-            savePlayersDatas();
+            bool saved = await savePlayersDatas();
             return;
         }
         file.Open(playersDatasFile, File.ModeFlags.Read);
@@ -36,11 +38,12 @@ public class DataManager : Node{
         }
     }
 
-    public void savePlayersDatas(){
+    public async Task<bool> savePlayersDatas(){
         File file = new File();
         file.Open(playersDatasFile, File.ModeFlags.Write);
         file.StoreLine(JSON.Print(playersDatas));
         file.Close();
+        return true;
     }
 
     //Creates the formatted datas to store the player datas
@@ -73,10 +76,10 @@ public class DataManager : Node{
 
 
 //ADDRESS RELATED
-    private void loadAddresses(){
+    private async void loadAddresses(){
         File file = new File();
         if (!file.FileExists(addressesFile)) {
-            saveAddresses();
+            bool saved = await saveAddresses();
             return;
         }
         file.Open(addressesFile, File.ModeFlags.Read);
@@ -86,20 +89,21 @@ public class DataManager : Node{
         }
     }
 
-    public void saveAddresses(){
+    public async Task<bool> saveAddresses(){
         File file = new File();
         file.Open(addressesFile, File.ModeFlags.Write);
         file.StoreLine(JSON.Print(AddressManager.addresses));
         file.Close();
+        return true;
     }
 
 
 
 //CHARACTER RELATED
-    private void loadCharactersDatas(){
+    private async void loadCharactersDatas(){
         File file = new File();
         if (!file.FileExists(charactersDatasFile)) {
-            saveCharactersDatas();
+            bool saved = await saveCharactersDatas();
             return;
         }
         file.Open(charactersDatasFile, File.ModeFlags.Read);
@@ -109,11 +113,12 @@ public class DataManager : Node{
         }
     }
 
-    public void saveCharactersDatas(){
+    public async Task<bool> saveCharactersDatas(){
         File file = new File();
         file.Open(charactersDatasFile, File.ModeFlags.Write);
         file.StoreLine(JSON.Print(charactersDatas));
         file.Close();
+        return true;
     }
 
     public void createCharacterDatasOfAPlayer(int userId, string hairStyle, string eyesType, string noseType, string hairColor, string skinColor){

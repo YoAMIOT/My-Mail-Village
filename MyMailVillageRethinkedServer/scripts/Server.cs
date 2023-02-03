@@ -44,23 +44,21 @@ public class Server : Control{
         GetNode<Button>("StopServerBtn").Disabled = false;
     }
 
-    private void stopServerPressed(){
-        stopServer();
+    private async void stopServerPressed(){
+        bool serverStopped = await stopServer();
     }
 
     //Stops server
-    private void stopServer(){
+    private async Task<bool> stopServer(){
         //kick every player one by one
         foreach(var i in GetTree().Multiplayer.GetNetworkConnectedPeers()){
             kickPlayer(i, "Server Closed");
         }
+        await ToSignal(GetTree().CreateTimer(1), "timeout");
         //Saves datas
-        var t = Task.Run(() => DataManager.savePlayersDatas());
-        t.Wait();
-        t = Task.Run(() => DataManager.saveAddresses());
-        t.Wait();
-        t = Task.Run(() => DataManager.saveCharactersDatas());
-        t.Wait();
+        bool playersDatasCompleted = await DataManager.savePlayersDatas();
+        bool addressesCompleted = await DataManager.saveAddresses();
+        bool charactersCompleted = await DataManager.saveCharactersDatas();
         GetTree().NetworkPeer = null;
         serverStarted = false;
         Network.Disconnect("peer_connected", this, "PeerConnected");
@@ -69,22 +67,23 @@ public class Server : Control{
         GetNode<Button>("StopServerBtn").Disabled = true;
         GetNode<Button>("StartServerBtn").Disabled = false;
         logPrint("!- SERVER STOPPED -!");
+        return true;
     }
 
-    private void PeerConnected(int playerId) {
-        logPrint(playerId + " connected.");
+    private void PeerConnected(int userId) {
+        logPrint(userId + " connected.");
     }
 
-    private void PeerDisconnected(int playerId) {
-        logPrint(playerId + " disconnected.");
-        DataManager.playerDisconnected(playerId);
+    private void PeerDisconnected(int userId) {
+        logPrint(userId + " disconnected.");
+        DataManager.playerDisconnected(userId);
     }
 
     //Kicks a player
-    public void kickPlayer(int playerId, string reason = "Disconnected from server."){
-        logPrint("!- " + playerId + " was kicked: " + reason + " -!");
-        RpcId(playerId, "kickedFromServer", reason);
-        DataManager.playerDisconnected(playerId);
+    public void kickPlayer(int userId, string reason = "Disconnected from server."){
+        RpcId(userId, "kicked", reason);
+        logPrint("!- " + userId + " was kicked: " + reason + " -!");
+        DataManager.playerDisconnected(userId);
     }
 
 
@@ -150,10 +149,10 @@ public class Server : Control{
 
 
 //DATAS RELATED
-    private void autoSave(){
-        DataManager.savePlayersDatas();
-        DataManager.saveAddresses();
-        DataManager.saveCharactersDatas();
+    private async void autoSave(){
+        bool saved = await DataManager.savePlayersDatas();
+        saved = await DataManager.saveAddresses();
+        saved = await DataManager.saveCharactersDatas();
     }
 
     //Prints a line in the server console
@@ -172,23 +171,14 @@ public class Server : Control{
     private async void quitConfirm(){
         GetNode<Control>("QuitConfirm/UI").Visible = false;
         GetNode<Control>("QuitConfirm/WaitToQuit").Visible = true;
-        Timer timer = new Timer();
-        timer.WaitTime = 0.5F;
-        timer.Autostart = true;
-        this.AddChild(timer);
-        await ToSignal(timer, "timeout");
-        timer.QueueFree();
+        await ToSignal(GetTree().CreateTimer(0.2F), "timeout");
         //Saves before quitting
         if(serverStarted){
-            var t = Task.Run(() =>  stopServer());
-            t.Wait();
+            bool serverStopped = await stopServer();
         } else {
-            var t = Task.Run(() => DataManager.savePlayersDatas());
-            t.Wait();
-            t = Task.Run(() => DataManager.saveAddresses());
-            t.Wait();
-            t = Task.Run(() => DataManager.saveCharactersDatas());
-            t.Wait();
+            bool saved = await DataManager.savePlayersDatas();
+            saved = await DataManager.saveAddresses();
+            saved = await DataManager.saveCharactersDatas();
         }
         GetTree().Quit();
     }

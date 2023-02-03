@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scripts/UI/ErrorPage.cs" type="Script" id=2]
+
+[node name="ErrorPage" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( -856, -216 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bg" type="Polygon2D" parent="."]
+position = Vector2( -1680, 0 )
+scale = Vector2( 1.875, 1 )
+color = Color( 0, 0, 0, 0.423529 )
+polygon = PoolVector2Array( 896, 0, 1920, 0, 1920, 1080, 896, 1080 )
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.191
+anchor_top = 0.178
+anchor_right = 0.812
+anchor_bottom = 0.533
+margin_left = -0.720001
+margin_top = -0.240005
+margin_right = -5.04004
+margin_bottom = 0.359924
+custom_fonts/font = ExtResource( 1 )
+text = "ERROR"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OkBtn" type="Button" parent="."]
+anchor_left = 0.433
+anchor_top = 0.652
+anchor_right = 0.567
+anchor_bottom = 0.711
+margin_left = -0.360046
+margin_top = -0.160034
+margin_right = -1.64001
+margin_bottom = 0.119995
+custom_fonts/font = ExtResource( 1 )
+text = "Ok"
+__meta__ = {
+"_edit_use_anchors_": false
+}

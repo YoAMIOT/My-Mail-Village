@@ -47,14 +47,14 @@ public class Server : Node{
     }
 
     //Triggered by the server to kick the player
+        
     [Remote]
-    public void kickedFromServer(string reason){
-        GD.Print("You were kicked from server: " + reason);
-        var t = Task.Run(() => GetTree().ChangeScene("res://scenes/UI/Authentication.tscn"));
-        t.Wait();
-        Network.DisconnectPeer(GetTree().GetNetworkUniqueId(), true);
+    public void kicked(string reason){
+        PackedScene ErrorScene =  ResourceLoader.Load<PackedScene>("res://scenes/UI/ErrorPage.tscn");
+        ErrorPage err = (ErrorPage)ErrorScene.Instance();
+        err.setError(reason);
+        GetTree().CurrentScene.AddChild(err);
         resetNetwork();
-        authError("You were kicked from server: " + reason);
     }
 
 
