@@ -114,7 +114,7 @@ public class Server : Control{
 
         if(everySteps == true){
             //Gets in the game
-            RpcId(userId, "logIn");
+            RpcId(userId, "logIn", DataManager.charactersDatas[username]);
         } else if (everySteps == false){
             //Gets in the address selection etc...
             RpcId(userId, "goThroughFirstSteps", firstSteps, AddressManager.addresses);

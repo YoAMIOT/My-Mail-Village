@@ -8,6 +8,7 @@ public class Server : Node{
     private int port = 4180;
     public Godot.Collections.Dictionary addresses = new Godot.Collections.Dictionary();
     string name = "";
+    Godot.Collections.Dictionary characterAttribute = new Godot.Collections.Dictionary();
 
     public override void _Ready(){
         connectToServer();
@@ -49,8 +50,11 @@ public class Server : Node{
     [Remote]
     public void kickedFromServer(string reason){
         GD.Print("You were kicked from server: " + reason);
+        var t = Task.Run(() => GetTree().ChangeScene("res://scenes/UI/Authentication.tscn"));
+        t.Wait();
         Network.DisconnectPeer(GetTree().GetNetworkUniqueId(), true);
         resetNetwork();
+        authError("You were kicked from server: " + reason);
     }
 
 
@@ -72,7 +76,8 @@ public class Server : Node{
 
     //Gets in the game
     [Remote]
-    public void logIn(){
+    public void logIn(Godot.Collections.Dictionary character){
+        characterAttribute = character;
         GetTree().ChangeScene("res://scenes/3D/TestWorld.tscn");
     }
 
