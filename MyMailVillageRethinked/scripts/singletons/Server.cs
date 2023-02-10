@@ -7,8 +7,8 @@ public class Server : Node{
     private string ip = "90.8.118.48";
     private int port = 4180;
     public Godot.Collections.Dictionary addresses = new Godot.Collections.Dictionary();
-    string name = "";
-    Godot.Collections.Dictionary characterAttribute = new Godot.Collections.Dictionary();
+    public string name = "";
+    public Godot.Collections.Dictionary characterAttribute = new Godot.Collections.Dictionary();
 
     public override void _Ready(){
         connectToServer();
@@ -26,23 +26,29 @@ public class Server : Node{
     }
 
     //Reset the network peer
-    public void resetNetwork(){
+    public async void resetNetwork(){
         Network.Disconnect("connection_failed", this, "connectionFailed");
         Network.Disconnect("connection_succeeded", this, "connectionSucceeded");
+        Network.CloseConnection();
         GetTree().NetworkPeer = null;
+        await ToSignal(GetTree().CreateTimer(1), "timeout");
+        connectToServer();
     }
 
     //Triggered when connection to server has failed 
     private void connectionFailed(){
         if (GetParent().HasNode("Authentication")){
-            GetNode<Authentication>("/root/Authentication").authError("Failed to connect to the server");
+            Authentication auth = GetNode<Authentication>("/root/Authentication");
+            auth.connectionFailed("Failed to connect to the server");
         }
+        resetNetwork();
     }
 
     //Triggered when connection to server succeeded 
     private void connectionSucceeded(){
         if (GetParent().HasNode("Authentication")){
-            GetNode<Control>("/root/Authentication/Login").Visible = true;
+            Authentication auth = GetNode<Authentication>("/root/Authentication");
+            auth.connectionSucceeded();
         }
     }
 

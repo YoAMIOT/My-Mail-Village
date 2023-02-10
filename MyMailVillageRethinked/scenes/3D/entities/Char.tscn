@@ -477,7 +477,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 2.75375e-09, 2.40232e-07, -4.48803e-09, 0.999973, 0.00721955, -2.40205e-07, -0.00721955, 0.999973, -5.73177e-09, 2.48564, 0.0276021 )
+transform = Transform( 1, -7.78179e-09, 2.37559e-07, 1.08629e-08, 0.999915, -0.0129726, -2.37438e-07, 0.0129726, 0.999915, 1.57846e-08, 2.50074, -0.0139454 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]

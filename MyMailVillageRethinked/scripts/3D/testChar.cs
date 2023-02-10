@@ -9,6 +9,29 @@ public class testChar : KinematicBody{
     private const float ZOOM_MIN = 4F;
     private const float ZOOM_MAX = 20F;
     private const float ZOOM_SPEED = 4F;
+    private Godot.Collections.Dictionary characterAttribute;
+    private Server Server;
+
+    public override void _Ready(){
+        Server = GetNode<Server>("/root/Server");
+        characterAttribute = Server.characterAttribute;
+        string hair = (string)characterAttribute["hairStyle"];
+        string eyes = (string)characterAttribute["eyesType"];
+        string nose = (string)characterAttribute["noseType"];
+        PackedScene hairScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/hair/" + hair.ToLower() + ".glb");
+        PackedScene eyesScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/eyes/" + eyes.ToLower() + ".glb");
+        PackedScene noseScene = GD.Load<PackedScene>("res://ressources/meshes/attributes/noses/" + nose.ToLower() + ".glb");
+        Spatial hairInstance = (Spatial)hairScene.Instance();
+        Spatial eyesInstance = (Spatial)eyesScene.Instance();
+        Spatial noseInstance = (Spatial)noseScene.Instance();
+        hairInstance.GetChild<MeshInstance>(0).MaterialOverride = GD.Load<Material>("res://ressources/meshes/attributes/hair/hair.material");
+        noseInstance.GetChild<MeshInstance>(0).MaterialOverride = GD.Load<Material>("res://ressources/meshes/skin.material");
+        hairInstance.GetChild<MeshInstance>(0).MaterialOverride.Set("albedo_color", new Color((string)characterAttribute["hairColor"]));
+        noseInstance.GetChild<MeshInstance>(0).MaterialOverride.Set("albedo_color", new Color((string)characterAttribute["skinColor"]));
+        GetNode<Position3D>("Armature/Skeleton/HeadAttachment/Position3D").AddChild(hairInstance);
+        GetNode<Position3D>("Armature/Skeleton/HeadAttachment/Position3D").AddChild(eyesInstance);
+        GetNode<Position3D>("Armature/Skeleton/HeadAttachment/Position3D").AddChild(noseInstance);
+    }
 
     public override void _Input(InputEvent @event){
         if (@event is InputEventMouseButton mouseEvent){

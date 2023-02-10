@@ -58,9 +58,6 @@ environment = SubResource( 6 )
 [node name="Char" parent="." instance=ExtResource( 1 )]
 transform = Transform( 0.898794, 0, 0.438371, 0, 1, 0, -0.438371, 0, 0.898794, 0, 0, 0 )
 
-[node name="Skeleton" parent="Char/Armature" index="0"]
-bones/1/bound_children = [ NodePath("HeadAttachment") ]
-
 [node name="HeadAttachment" parent="Char/Armature/Skeleton" index="1"]
 transform = Transform( 1, 4.44089e-14, 2.38419e-07, 1.0877e-08, 0.998958, -0.0456214, -2.3817e-07, 0.0456214, 0.998958, 2.34605e-14, 2.52329, -0.0811625 )
 
@@ -301,7 +298,7 @@ __meta__ = {
 position = Vector2( 960, 536 )
 scale = Vector2( 85.3333, 85.3333 )
 frames = SubResource( 7 )
-frame = 7
+frame = 4
 playing = true
 
 [node name="Label" type="Label" parent="Confirm/Checks"]

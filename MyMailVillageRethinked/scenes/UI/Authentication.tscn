@@ -1,13 +1,61 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://ressources/font/TiwipiFontSmall.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scripts/Authentication.cs" type="Script" id=3]
+[ext_resource path="res://ressources/animations/loading/loading6.png" type="Texture" id=4]
+[ext_resource path="res://ressources/animations/loading/loading3.png" type="Texture" id=5]
+[ext_resource path="res://ressources/animations/loading/loading8.png" type="Texture" id=6]
+[ext_resource path="res://ressources/animations/loading/loading2.png" type="Texture" id=7]
+[ext_resource path="res://ressources/animations/loading/loading5.png" type="Texture" id=8]
+[ext_resource path="res://ressources/animations/loading/loading7.png" type="Texture" id=9]
+[ext_resource path="res://ressources/animations/loading/loading1.png" type="Texture" id=10]
+[ext_resource path="res://ressources/animations/loading/loading4.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 11 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 9 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
 
 [node name="Authentication" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Connecting" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Connecting"]
+position = Vector2( 960, 536 )
+scale = Vector2( 85.3333, 85.3333 )
+frames = SubResource( 1 )
+frame = 5
+playing = true
+
+[node name="Label" type="Label" parent="Connecting"]
+anchor_left = 0.333
+anchor_top = 0.296
+anchor_right = 0.667
+anchor_bottom = 0.356
+margin_left = 0.640015
+margin_top = 0.320007
+margin_right = -0.640137
+margin_bottom = -0.480011
+custom_fonts/font = ExtResource( 1 )
+text = "Trying to connect..."
+align = 1
+valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -29,6 +77,10 @@ margin_left = 0.640015
 margin_top = -0.200012
 margin_right = -0.640015
 margin_bottom = 0.0799561
+focus_neighbour_top = NodePath("../RegisterBtn")
+focus_neighbour_bottom = NodePath("../PasswordInput")
+focus_next = NodePath("../PasswordInput")
+focus_previous = NodePath("../RegisterBtn")
 custom_fonts/font = ExtResource( 1 )
 align = 1
 max_length = 20
@@ -47,6 +99,10 @@ margin_left = 0.640015
 margin_top = 0.359924
 margin_right = -0.640015
 margin_bottom = -0.440063
+focus_neighbour_top = NodePath("../UsernameInput")
+focus_neighbour_bottom = NodePath("../LoginBtn")
+focus_next = NodePath("../LoginBtn")
+focus_previous = NodePath("../UsernameInput")
 custom_fonts/font = ExtResource( 1 )
 align = 1
 max_length = 20
@@ -65,6 +121,10 @@ margin_left = 0.639954
 margin_top = -0.160034
 margin_right = -0.640015
 margin_bottom = 0.119995
+focus_neighbour_top = NodePath("../PasswordInput")
+focus_neighbour_bottom = NodePath("../RegisterBtn")
+focus_next = NodePath("../RegisterBtn")
+focus_previous = NodePath("../PasswordInput")
 custom_fonts/font = ExtResource( 1 )
 disabled = true
 text = "Log in"
@@ -81,6 +141,10 @@ margin_left = -0.200012
 margin_top = 0.359985
 margin_right = 0.199951
 margin_bottom = -0.440063
+focus_neighbour_top = NodePath("../LoginBtn")
+focus_neighbour_bottom = NodePath("../UsernameInput")
+focus_next = NodePath("../UsernameInput")
+focus_previous = NodePath("../LoginBtn")
 custom_fonts/font = ExtResource( 2 )
 text = "First Connection"
 __meta__ = {

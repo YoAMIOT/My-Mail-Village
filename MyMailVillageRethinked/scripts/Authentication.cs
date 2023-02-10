@@ -21,6 +21,17 @@ public class Authentication : Control{
         GetNode<Button>("AuthError/OkButton").Connect("pressed", this, "okButtonError");
     }
 
+    public void connectionSucceeded(){
+        GetNode<Control>("Connecting").Visible = false;
+        GetNode<Control>("Login").Visible = true;
+    }
+
+    public void connectionFailed(string error){
+        GetNode<Control>("Connecting").Visible = true;
+        GetNode<Control>("Login").Visible = false;
+        GetNode<Control>("Register").Visible = false;
+        authError(error);
+    }
 
 
 //UI RELATED
