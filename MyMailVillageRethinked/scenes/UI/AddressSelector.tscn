@@ -34,8 +34,8 @@ anchor_bottom = 0.296
 margin_right = -3.05176e-05
 margin_bottom = 0.320007
 custom_fonts/font = ExtResource( 1 )
-text = "-First choose a letter in the menu under this text.
--Then choose a box in the menu at right."
+text = "-First choose a letter..
+-Then choose a box you like, pure magic test! ABSOLUTLY nothing to do with some timey-wimey thingy..."
 align = 1
 valign = 1
 autowrap = true
@@ -994,7 +994,7 @@ __meta__ = {
 position = Vector2( 960, 536 )
 scale = Vector2( 85.3333, 85.3333 )
 frames = SubResource( 1 )
-frame = 7
+frame = 3
 playing = true
 
 [node name="Select" type="Control" parent="Confirm"]

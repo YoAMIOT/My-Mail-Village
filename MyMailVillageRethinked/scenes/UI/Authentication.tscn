@@ -39,7 +39,7 @@ __meta__ = {
 position = Vector2( 960, 536 )
 scale = Vector2( 85.3333, 85.3333 )
 frames = SubResource( 1 )
-frame = 5
+frame = 7
 playing = true
 
 [node name="Label" type="Label" parent="Connecting"]
@@ -52,7 +52,7 @@ margin_top = 0.320007
 margin_right = -0.640137
 margin_bottom = -0.480011
 custom_fonts/font = ExtResource( 1 )
-text = "Trying to connect..."
+text = "Trying to reach the afterlife..."
 align = 1
 valign = 1
 autowrap = true
