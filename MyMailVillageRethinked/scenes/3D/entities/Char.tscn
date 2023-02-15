@@ -388,13 +388,13 @@ blend_point_1/pos = 1.0
 min_space = 0.0
 
 [sub_resource type="AnimationNodeBlendTree" id=13]
-graph_offset = Vector2( -353, -153 )
+graph_offset = Vector2( -340.331, 57.5 )
 nodes/BlendSpace1D/node = SubResource( 9 )
 nodes/BlendSpace1D/position = Vector2( 0, 140 )
 nodes/output/position = Vector2( 220, 140 )
 node_connections = [ "output", 0, "BlendSpace1D" ]
 
-[node name="Char" type="KinematicBody"]
+[node name="Char" type="KinematicBody" groups=["player"]]
 script = ExtResource( 1 )
 
 [node name="Armature" type="Spatial" parent="."]
@@ -477,7 +477,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -1.02838e-09, 2.39676e-07, -3.52079e-09, 0.999819, 0.0189798, -2.39652e-07, -0.0189798, 0.999819, 1.93625e-09, 2.47642, 0.0518128 )
+transform = Transform( 1, 1.25284e-09, 2.40055e-07, -4.49098e-09, 0.999909, 0.0134897, -2.40016e-07, -0.0134897, 0.999909, -2.70257e-09, 2.48076, 0.0405058 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
