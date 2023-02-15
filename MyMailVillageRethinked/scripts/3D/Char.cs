@@ -2,6 +2,8 @@ using Godot;
 using System;
 
 public class Char : KinematicBody{
+    public const int MAX_HEALTH = 100;
+    public int health = MAX_HEALTH;
     private const float FALL_ACCELERATION = 75;
     private const int SPEED = 7;
     private Vector3 _velocity = Vector3.Zero;
@@ -90,5 +92,23 @@ public class Char : KinematicBody{
         }
 
         _velocity = MoveAndSlide(_velocity, Vector3.Up);
+    }
+
+    public void getsHit(int damage){
+        health -= damage;
+        checkHealth();
+    }
+
+    public void checkHealth(){
+        GD.Print(health);
+        if(health <= 0){
+            die();
+        } else if(health > MAX_HEALTH){
+            health = MAX_HEALTH;
+        }
+    }
+
+    public void die(){
+        GD.Print("Player died");
     }
 }

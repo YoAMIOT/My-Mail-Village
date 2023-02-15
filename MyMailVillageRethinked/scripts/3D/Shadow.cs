@@ -2,8 +2,12 @@ using Godot;
 using System;
 
 public class Shadow : KinematicBody{
+    public const int MAX_HEALTH = 100;
+    public int health = MAX_HEALTH;
     private bool inFOV = false;
     private bool canAttack = true;
+    private int attackRange = 5;
+    private int baseDamage = 20;
     private Char player;
     private const float SPEED = 7.2f;
     private Vector3 velocity = Vector3.Zero;
@@ -22,7 +26,7 @@ public class Shadow : KinematicBody{
             velocity = Translation.DirectionTo(player.Translation) * SPEED;
             velocity = MoveAndSlide(velocity);
         }
-        if (Translation.DistanceTo(player.Translation) < 4 && canAttack){
+        if (Translation.DistanceTo(player.Translation) < attackRange && canAttack){
             attack();
         }
     }
@@ -38,10 +42,14 @@ public class Shadow : KinematicBody{
         }
     }
 
-    private void attack(){
+    private async void attack(){
         canAttack = false;
         GetNode<Timer>("AttackCooldown").Start();
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Attack");
+        await ToSignal(GetTree().CreateTimer(0.7f), "timeout");
+        if (Translation.DistanceTo(player.Translation) < attackRange){
+            player.getsHit(baseDamage);
+        }
     }
 
     private void animationFinished(string animation){
@@ -52,5 +60,22 @@ public class Shadow : KinematicBody{
 
     private void cooldownTimeout(){
         canAttack = true;
+    }
+
+    public void getsHit(int damage){
+        health -= damage;
+        checkHealth();
+    }
+
+    public void checkHealth(){
+        if(health <= 0){
+            die();
+        } else if(health > MAX_HEALTH){
+            health = MAX_HEALTH;
+        }
+    }
+
+    public void die(){
+        QueueFree();
     }
 }
