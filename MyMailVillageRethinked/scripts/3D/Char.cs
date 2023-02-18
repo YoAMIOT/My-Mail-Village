@@ -13,6 +13,7 @@ public class Char : KinematicBody{
     private const float ZOOM_SPEED = 4F;
     private Godot.Collections.Dictionary characterAttribute;
     private Server Server;
+    private string target = "";
 
     public override void _Ready(){
         // Server = GetNode<Server>("/root/Server");
@@ -35,33 +36,30 @@ public class Char : KinematicBody{
         // GetNode<Position3D>("Armature/Skeleton/HeadAttachment/Position3D").AddChild(noseInstance);
     }
 
-    public override void _Input(InputEvent @event){
-        if (@event is InputEventMouseButton mouseEvent){
-            if (mouseEvent.IsPressed() && !GetNode<Tween>("ZoomTween").IsActive()){
-                if (mouseEvent.ButtonIndex == (int)ButtonList.WheelUp){
-                    if(GetNode<SpringArm>("SpringArm").SpringLength >= ZOOM_MIN + ZOOM_SPEED){
-                        GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength - ZOOM_SPEED, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
-                        GetNode<Tween>("ZoomTween").Start();
-                    }
-                } if (mouseEvent.ButtonIndex == (int)ButtonList.WheelDown){
-                    if(GetNode<SpringArm>("SpringArm").SpringLength <= ZOOM_MAX - ZOOM_SPEED){
-                        GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength + ZOOM_SPEED, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
-                        GetNode<Tween>("ZoomTween").Start();
-                    }
-                }
-            }
-        }
-    }
-
     public override void _PhysicsProcess(float delta){
         Vector3 direction = Vector3.Zero;
-        if (Input.IsActionJustPressed("cameraRotateLeft") && !GetNode<Tween>("CamTween").IsActive()){
+
+        //CAMERA RELATED
+        if (Input.IsActionJustPressed("zoomIn") && !GetNode<Tween>("ZoomTween").IsActive()){
+            if(GetNode<SpringArm>("SpringArm").SpringLength >= ZOOM_MIN + ZOOM_SPEED){
+                GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength - ZOOM_SPEED, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
+                GetNode<Tween>("ZoomTween").Start();
+            }
+        } if (Input.IsActionJustPressed("zoomOut") && !GetNode<Tween>("ZoomTween").IsActive()){
+            if(GetNode<SpringArm>("SpringArm").SpringLength <= ZOOM_MAX - ZOOM_SPEED){
+                GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength + ZOOM_SPEED, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
+                GetNode<Tween>("ZoomTween").Start();
+            }
+        } if (Input.IsActionJustPressed("cameraRotateLeft") && !GetNode<Tween>("CamTween").IsActive()){
             GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y + 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);
             GetNode<Tween>("CamTween").Start();
         } if (Input.IsActionJustPressed("cameraRotateRight") && !GetNode<Tween>("CamTween").IsActive()){
             GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y - 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);
             GetNode<Tween>("CamTween").Start();
-        } if (Input.IsActionPressed("right")){
+        } 
+        
+        //MOVEMENT RELATED
+        if (Input.IsActionPressed("right")){
             direction.x += 1f;
         } if (Input.IsActionPressed("left")){
             direction.x -= 1f;
@@ -92,6 +90,8 @@ public class Char : KinematicBody{
         }
 
         _velocity = MoveAndSlide(_velocity, Vector3.Up);
+
+        manageTargetPointer();
     }
 
     public void getsHit(int damage){
@@ -110,5 +110,24 @@ public class Char : KinematicBody{
 
     public void die(){
         GD.Print("Player died");
+    }
+
+    public void setTarget(string targetName){
+        if (target != ""){
+            GetParent().GetNode<MeshInstance>("Ennemies/" + target + "/Appearance/MeshInstance/Selected").Visible = false;
+        }
+        GetParent().GetNode<MeshInstance>("Ennemies/" + targetName + "/Appearance/MeshInstance/Selected").Visible = true;
+        target = targetName;
+    }
+
+    public void manageTargetPointer(){
+        MeshInstance pointer = GetNode<MeshInstance>("TargetPointer");
+        if(target == ""){
+            pointer.Visible = false;
+        } else if(target != ""){
+            pointer.Visible = true;
+            pointer.LookAt(GetParent().GetNode<Spatial>("Ennemies/" + target + "/Appearance").GlobalTransform.origin, Vector3.Up);
+            pointer.Rotation = new Vector3(pointer.Rotation.x + 80, pointer.Rotation.y, pointer.Rotation.z);
+        }
     }
 }

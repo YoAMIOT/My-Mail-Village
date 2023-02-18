@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
+[ext_resource path="res://ressources/meshes/Target.tres" type="Material" id=3]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Char_Sphere003"
@@ -65,6 +66,14 @@ bind/13/bone = -1
 bind/13/pose = Transform( 7.9535e-08, 0.90141, 0.432965, 3.89637e-08, -0.432965, 0.90141, 1, -1.14815e-07, -5.51478e-08, -0.37847, 0.278288, 0.599392 )
 
 [sub_resource type="CapsuleShape" id=10]
+
+[sub_resource type="SphereMesh" id=14]
+material = ExtResource( 3 )
+radius = 0.5
+height = 1.0
+radial_segments = 4
+rings = 1
+is_hemisphere = true
 
 [sub_resource type="Animation" id=3]
 resource_name = "default"
@@ -409,7 +418,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [  ]
+bones/1/bound_children = [ NodePath("HeadAttachment") ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -477,7 +486,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 1.25284e-09, 2.40055e-07, -4.49098e-09, 0.999909, 0.0134897, -2.40016e-07, -0.0134897, 0.999909, -2.70257e-09, 2.48076, 0.0405058 )
+transform = Transform( 1, -1.32671e-08, 2.36795e-07, 1.08373e-08, 0.999947, 0.0102581, -2.36918e-07, -0.0102581, 0.999947, 2.69971e-08, 2.48328, 0.0338629 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -495,6 +504,12 @@ spring_length = 12.0
 [node name="Camera" type="Camera" parent="SpringArm"]
 current = true
 fov = 102.5
+
+[node name="TargetPointer" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.18961, 0 )
+visible = false
+mesh = SubResource( 14 )
+material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/default = SubResource( 3 )

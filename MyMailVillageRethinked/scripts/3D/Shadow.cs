@@ -17,6 +17,7 @@ public class Shadow : KinematicBody{
         GetNode<Area>("FOV").Connect("body_exited", this, "bodyExitedFOV");
         GetNode<AnimationPlayer>("AnimationPlayer").Connect("animation_finished", this, "animationFinished");
         GetNode<Timer>("AttackCooldown").Connect("timeout", this, "cooldownTimeout");
+        GetNode<Area>("Appearance/MeshInstance/SelectArea").Connect("input_event", this, "selected");
         player = GetParent().GetParent().GetNode<Char>("Char");
     }
 
@@ -46,8 +47,9 @@ public class Shadow : KinematicBody{
         canAttack = false;
         GetNode<Timer>("AttackCooldown").Start();
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Attack");
-        await ToSignal(GetTree().CreateTimer(0.7f), "timeout");
+        await ToSignal(GetTree().CreateTimer(0.65f), "timeout");
         if (Translation.DistanceTo(player.Translation) < attackRange){
+            GetNode<Particles>("Appearance/HitParticles").Emitting = true;
             player.getsHit(baseDamage);
         }
     }
@@ -72,6 +74,12 @@ public class Shadow : KinematicBody{
             die();
         } else if(health > MAX_HEALTH){
             health = MAX_HEALTH;
+        }
+    }
+
+    public void selected(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shapeIdx){
+        if(@event is InputEventMouseButton btn && btn.ButtonIndex == (int)ButtonList.Right && @event.IsPressed()){
+            player.setTarget(this.Name);
         }
     }
 

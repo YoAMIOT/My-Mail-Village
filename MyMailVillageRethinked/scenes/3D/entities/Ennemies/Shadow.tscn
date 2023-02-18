@@ -1,34 +1,27 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://ressources/meshes/Shadow.tres" type="Material" id=1]
 [ext_resource path="res://scripts/3D/Shadow.cs" type="Script" id=2]
+[ext_resource path="res://ressources/materials/ShadowParticles.tres" type="Material" id=3]
+[ext_resource path="res://ressources/materials/ShadowHitParticles.tres" type="Material" id=4]
+[ext_resource path="res://ressources/meshes/Target.tres" type="Material" id=5]
 
 [sub_resource type="SphereMesh" id=8]
 material = ExtResource( 1 )
-
-[sub_resource type="Curve" id=10]
-_data = [ Vector2( 0, 0 ), 0.0, -0.274797, 0, 0, Vector2( 1, 0 ), -3.62085, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=11]
-curve = SubResource( 10 )
-
-[sub_resource type="ParticlesMaterial" id=6]
-lifetime_randomness = 1.0
-emission_shape = 1
-emission_sphere_radius = 1.0
-spread = 164.41
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1.0
-initial_velocity_random = 1.0
-angular_velocity_random = 1.0
-scale = 0.5
-scale_random = 1.0
-scale_curve = SubResource( 11 )
 
 [sub_resource type="SphereMesh" id=7]
 material = ExtResource( 1 )
 
 [sub_resource type="SphereShape" id=9]
+
+[sub_resource type="SphereMesh" id=18]
+material = ExtResource( 5 )
+radial_segments = 4
+rings = 1
+is_hemisphere = true
+
+[sub_resource type="SphereMesh" id=16]
+material = ExtResource( 1 )
 
 [sub_resource type="CylinderShape" id=3]
 
@@ -70,13 +63,28 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1, 2 )
 }
 
+[sub_resource type="Animation" id=19]
+resource_name = "normal"
+length = 1.5
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("../Appearance/MeshInstance/Selected:translation:z")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -4.91719, -0.25, 0, 0.25, 0, -3.999, -0.25, 0, 0.25, 0, -4.91719, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.7, 1.5 )
+}
+
 [node name="Shadow" type="KinematicBody"]
 script = ExtResource( 2 )
 
 [node name="Appearance" type="Spatial" parent="."]
 
 [node name="MeshInstance" type="MeshInstance" parent="Appearance"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.19209e-07, 0 )
 mesh = SubResource( 8 )
 skeleton = NodePath("../..")
 material/0 = null
@@ -87,8 +95,34 @@ amount = 20
 lifetime = 2.0
 speed_scale = 0.41
 randomness = 1.0
-process_material = SubResource( 6 )
+process_material = ExtResource( 3 )
 draw_pass_1 = SubResource( 7 )
+
+[node name="SelectArea" type="Area" parent="Appearance/MeshInstance"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Appearance/MeshInstance/SelectArea"]
+transform = Transform( 3, 0, 0, 0, -1.31134e-07, -3, 0, 3, -1.31134e-07, 0, 0, 0 )
+shape = SubResource( 9 )
+
+[node name="Selected" type="MeshInstance" parent="Appearance/MeshInstance"]
+transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, 0, -4.88206 )
+visible = false
+cast_shadow = 0
+mesh = SubResource( 18 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="HitParticles" type="Particles" parent="Appearance"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.401176, -1.17546 )
+emitting = false
+amount = 10
+lifetime = 0.05
+one_shot = true
+speed_scale = 0.41
+randomness = 1.0
+process_material = ExtResource( 4 )
+draw_pass_1 = SubResource( 16 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
@@ -104,6 +138,11 @@ shape = SubResource( 3 )
 autoplay = "Idle"
 anims/Attack = SubResource( 12 )
 anims/Idle = SubResource( 5 )
+
+[node name="SelectedArrowAnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimationPlayer")
+autoplay = "normal"
+anims/normal = SubResource( 19 )
 
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 2.5
