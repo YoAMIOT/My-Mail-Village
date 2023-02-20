@@ -19,12 +19,26 @@ public class Char : KinematicBody{
     private bool lightOn = false;
     private const float LIGHT_CONSUMPTION_COOLDOWN = 0.75F;
     private const int LIGHT_CONSUMPTION = 1;
+    private string[] Spells = {"Heal", "Mana", "Repulse", "", ""};
+    private string selectedSpell = "";
+    private bool canCast = true;
 
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
         initializePhysicalAttributes();
         GetNode<Timer>("Light/Timer").Connect("timeout", this, "lightManaCooldown");
         GetNode<Timer>("Light/Timer").WaitTime = LIGHT_CONSUMPTION_COOLDOWN;
+        int i = 0;
+        foreach (Button b in GetNode<Control>("SpellMenu").GetChildren()){
+            b.Connect("pressed", this, "spellSelected", new Godot.Collections.Array((Button)b));
+            b.Text = Spells[i];
+            i++;
+            if(b.Text == ""){
+                b.Disabled = true;
+            }
+        }
+        selectedSpell = Spells[0].ToLower();
+        GetNode<Timer>("SpellCooldown").Connect("timeout", this, "castCooldown");
     }
 
 //INPUT RELATED
@@ -73,6 +87,10 @@ public class Char : KinematicBody{
         if (Input.IsActionJustPressed("switchLight") && mana > 0){
             lightOn = !lightOn;
             switchLight(lightOn);
+        } if (Input.IsActionJustPressed("castSpell") && GetNode<Control>("SpellMenu").Visible == false && canCast){
+            castSpell();
+        } if (Input.IsActionJustPressed("selectSpell")){
+            GetNode<Control>("SpellMenu").Visible = !GetNode<Control>("SpellMenu").Visible;
         }
 
         direction = direction.Normalized();
@@ -127,9 +145,15 @@ public class Char : KinematicBody{
         checkHealth();
     }
 
+    private void regainHealth(int amount){
+        health += amount;
+        checkHealth();
+    }
+
     public void checkHealth(){
         updateHealthBar();
         if(health <= 0){
+            health = 0;
             die();
         } else if(health > MAX_HEALTH){
             health = MAX_HEALTH;
@@ -150,9 +174,15 @@ public class Char : KinematicBody{
         checkMana();
     }
 
+    private void regainMana(int amount){
+        mana += amount;
+        checkMana();
+    }
+
     public void checkMana(){
         updateManaBar();
         if(mana <= 0){
+            mana = 0;
             if (lightOn){
                 switchLight(false);
             }
@@ -199,5 +229,47 @@ public class Char : KinematicBody{
             GetNode<Timer>("Light/Timer").Stop();
             GetNode<Timer>("Light/Timer").WaitTime = LIGHT_CONSUMPTION_COOLDOWN;
         }
+    }
+
+    private void castSpell(){
+        Timer SpellCooldown = GetNode<Timer>("SpellCooldown");
+        bool hasCasted = false;
+        switch(selectedSpell){
+            case "heal":
+                if (mana - 20 > 0){
+                    canCast = false;
+                    consumeMana(20);
+                    regainHealth(30);
+                    SpellCooldown.WaitTime = 2F;
+                    hasCasted = true;
+                }
+                break;
+            case "mana":
+                canCast = false;
+                regainMana(30);
+                SpellCooldown.WaitTime = 5F;
+                hasCasted = true;
+                break;
+            case "repulse":
+                if (mana - 15 > 0){
+                    canCast = false;
+                    SpellCooldown.WaitTime = 4F;
+                    consumeMana(15);
+                    hasCasted = true;
+                }
+                break;
+        } if (hasCasted){
+            SpellCooldown.Start();
+            checkHealth();
+        }
+    }
+
+    private void spellSelected(Button button){
+        selectedSpell = button.Text.ToLower();
+        GetNode<Control>("SpellMenu").Visible = false;
+    }
+
+    private void castCooldown(){
+        canCast = true;
     }
 }

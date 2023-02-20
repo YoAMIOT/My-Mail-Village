@@ -403,7 +403,7 @@ blend_point_1/pos = 1.0
 min_space = 0.0
 
 [sub_resource type="AnimationNodeBlendTree" id=13]
-graph_offset = Vector2( -340.331, 57.5 )
+graph_offset = Vector2( -155, 31 )
 nodes/BlendSpace1D/node = SubResource( 9 )
 nodes/BlendSpace1D/position = Vector2( 0, 140 )
 nodes/output/position = Vector2( 220, 140 )
@@ -469,7 +469,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [ NodePath("HeadAttachment") ]
+bones/1/bound_children = [  ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -537,7 +537,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -8.39466e-09, 2.37481e-07, 1.08607e-08, 0.999946, -0.0103861, -2.3738e-07, 0.0103861, 0.999946, 1.70337e-08, 2.49886, -0.00862193 )
+transform = Transform( 1, 7.09209e-09, 2.40688e-07, -4.47935e-09, 0.999941, -0.0108535, -2.4075e-07, 0.0108535, 0.999941, -1.4465e-08, 2.4992, -0.00959529 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -671,3 +671,75 @@ wait_time = 0.75
 anims/RESET = SubResource( 19 )
 anims/lightOff = SubResource( 20 )
 anims/lightOn = SubResource( 18 )
+
+[node name="SpellMenu" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spell1" type="Button" parent="SpellMenu"]
+anchor_left = 0.467
+anchor_top = 0.322
+anchor_right = 0.533
+anchor_bottom = 0.441
+margin_left = -0.640015
+margin_top = 0.23996
+margin_right = 0.639893
+margin_bottom = -0.280029
+custom_fonts/font = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spell2" type="Button" parent="SpellMenu"]
+anchor_left = 0.533
+anchor_top = 0.441
+anchor_right = 0.6
+anchor_bottom = 0.559
+margin_left = 0.639893
+margin_top = -0.280029
+margin_bottom = 0.279968
+custom_fonts/font = ExtResource( 4 )
+
+[node name="Spell3" type="Button" parent="SpellMenu"]
+anchor_left = 0.504
+anchor_top = 0.56
+anchor_right = 0.571
+anchor_bottom = 0.679
+margin_left = 0.320007
+margin_top = 0.200012
+margin_right = -0.320068
+margin_bottom = -0.320007
+custom_fonts/font = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spell4" type="Button" parent="SpellMenu"]
+anchor_left = 0.429
+anchor_top = 0.56
+anchor_right = 0.496
+anchor_bottom = 0.679
+margin_left = 0.319946
+margin_top = 0.200012
+margin_right = -0.320068
+margin_bottom = -0.320007
+custom_fonts/font = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spell5" type="Button" parent="SpellMenu"]
+anchor_left = 0.4
+anchor_top = 0.441
+anchor_right = 0.467
+anchor_bottom = 0.559
+margin_top = -0.280029
+margin_right = -0.640015
+margin_bottom = 0.279968
+custom_fonts/font = ExtResource( 4 )
+
+[node name="SpellCooldown" type="Timer" parent="."]
