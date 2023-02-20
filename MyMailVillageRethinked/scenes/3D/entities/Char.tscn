@@ -1,8 +1,10 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
 [ext_resource path="res://ressources/meshes/Target.tres" type="Material" id=3]
+[ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=4]
+[ext_resource path="res://ressources/meshes/TargetBack.tres" type="Material" id=5]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Char_Sphere003"
@@ -70,10 +72,14 @@ bind/13/pose = Transform( 7.9535e-08, 0.90141, 0.432965, 3.89637e-08, -0.432965,
 [sub_resource type="SphereMesh" id=14]
 material = ExtResource( 3 )
 radius = 0.5
-height = 1.0
+height = 0.5
 radial_segments = 4
 rings = 1
 is_hemisphere = true
+
+[sub_resource type="CubeMesh" id=15]
+material = ExtResource( 5 )
+size = Vector3( 0.25, 0.5, 0.25 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "default"
@@ -403,6 +409,10 @@ nodes/BlendSpace1D/position = Vector2( 0, 140 )
 nodes/output/position = Vector2( 220, 140 )
 node_connections = [ "output", 0, "BlendSpace1D" ]
 
+[sub_resource type="StyleBoxFlat" id=16]
+
+[sub_resource type="StyleBoxFlat" id=17]
+
 [node name="Char" type="KinematicBody" groups=["player"]]
 script = ExtResource( 1 )
 
@@ -418,7 +428,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [ NodePath("HeadAttachment") ]
+bones/1/bound_children = [  ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -486,7 +496,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -1.32671e-08, 2.36795e-07, 1.08373e-08, 0.999947, 0.0102581, -2.36918e-07, -0.0102581, 0.999947, 2.69971e-08, 2.48328, 0.0338629 )
+transform = Transform( 1, -8.55977e-10, 2.38337e-07, 1.08767e-08, 0.999115, -0.0420474, -2.3809e-07, 0.0420474, 0.999115, 1.7306e-09, 2.52093, -0.0737979 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -505,10 +515,19 @@ spring_length = 12.0
 current = true
 fov = 102.5
 
-[node name="TargetPointer" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.18961, 0 )
+[node name="TargetPointer" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0 )
 visible = false
+
+[node name="ArrowTip" type="MeshInstance" parent="TargetPointer"]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, -0.125 )
 mesh = SubResource( 14 )
+skeleton = NodePath("../..")
+material/0 = null
+
+[node name="ArrowBody" type="MeshInstance" parent="TargetPointer"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.125 )
+mesh = SubResource( 15 )
 material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -525,3 +544,84 @@ tree_root = SubResource( 13 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/BlendSpace1D/blend_position = 0
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="ProgressBar" parent="HUD"]
+self_modulate = Color( 1, 0, 0, 1 )
+anchor_left = 0.5
+anchor_top = 0.948
+anchor_right = 0.633
+anchor_bottom = 0.993
+margin_top = 0.159912
+margin_right = 0.640015
+margin_bottom = -0.440063
+custom_styles/fg = SubResource( 16 )
+step = 1.0
+value = 100.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Health"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 4 )
+text = "Health"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mana" type="ProgressBar" parent="HUD"]
+self_modulate = Color( 0.101961, 1, 0, 1 )
+anchor_left = 0.367
+anchor_top = 0.948
+anchor_right = 0.5
+anchor_bottom = 0.993
+margin_left = 255.36
+margin_top = 0.159973
+margin_right = 256.0
+margin_bottom = -0.439941
+rect_scale = Vector2( -1, 1 )
+custom_styles/fg = SubResource( 17 )
+step = 1.0
+value = 100.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Mana"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_top = 6.10352e-05
+margin_right = 256.0
+margin_bottom = 6.10352e-05
+rect_scale = Vector2( -1, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Mana"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Light" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )
+visible = false
+light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
+light_bake_mode = 2
+omni_range = 28.805
+
+[node name="Timer" type="Timer" parent="Light"]
+wait_time = 0.75

@@ -24,6 +24,7 @@ public class Shadow : KinematicBody{
     public override void _PhysicsProcess(float delta){
         if (inFOV){
             GetNode<Spatial>("Appearance").LookAt(player.Translation, Vector3.Up);
+            GetNode<Spatial>("Appearance").RotationDegrees = new Vector3(0, GetNode<Spatial>("Appearance").RotationDegrees.y, 0);
             velocity = Translation.DirectionTo(player.Translation) * SPEED;
             velocity = MoveAndSlide(velocity);
         }
