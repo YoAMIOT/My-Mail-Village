@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
@@ -413,6 +413,9 @@ node_connections = [ "output", 0, "BlendSpace1D" ]
 
 [sub_resource type="StyleBoxFlat" id=17]
 
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 1, 1, 1, 1 )
+
 [sub_resource type="Animation" id=19]
 length = 0.001
 tracks/0/type = "bezier"
@@ -537,7 +540,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 7.09209e-09, 2.40688e-07, -4.47935e-09, 0.999941, -0.0108535, -2.4075e-07, 0.0108535, 0.999941, -1.4465e-08, 2.4992, -0.00959529 )
+transform = Transform( 1, -8.03282e-09, 2.37527e-07, 1.0862e-08, 0.999929, -0.0119134, -2.37414e-07, 0.0119134, 0.999929, 1.62961e-08, 2.49997, -0.0117655 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -657,6 +660,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CastCooldown" type="ProgressBar" parent="HUD"]
+anchor_left = 0.371
+anchor_top = 0.926
+anchor_right = 0.629
+anchor_bottom = 0.946
+margin_left = -0.320068
+margin_top = -0.0800781
+margin_right = 0.319946
+margin_bottom = 0.319946
+custom_styles/fg = SubResource( 21 )
+step = 1.0
+percent_visible = false
+
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )
 light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
@@ -743,3 +759,4 @@ margin_bottom = 0.279968
 custom_fonts/font = ExtResource( 4 )
 
 [node name="SpellCooldown" type="Timer" parent="."]
+one_shot = true

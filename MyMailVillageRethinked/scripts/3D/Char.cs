@@ -116,6 +116,10 @@ public class Char : KinematicBody{
         _velocity = MoveAndSlide(_velocity, Vector3.Up);
 
         manageTargetPointer();
+
+        if(GetNode<Timer>("SpellCooldown").TimeLeft > 0){
+            manageCastCooldownBar();
+        }
     }
 
 //INITIALIZE PHYSICAL APPEARANCE
@@ -271,5 +275,12 @@ public class Char : KinematicBody{
 
     private void castCooldown(){
         canCast = true;
+    }
+
+    private void manageCastCooldownBar(){
+        float totalTime = GetNode<Timer>("SpellCooldown").WaitTime;
+        float timeLeft = GetNode<Timer>("SpellCooldown").TimeLeft;
+        float percentage = (timeLeft / totalTime) * 100;
+        GetNode<ProgressBar>("HUD/CastCooldown").Value = percentage;
     }
 }
