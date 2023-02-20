@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
@@ -413,6 +413,47 @@ node_connections = [ "output", 0, "BlendSpace1D" ]
 
 [sub_resource type="StyleBoxFlat" id=17]
 
+[sub_resource type="Animation" id=19]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "lightOff"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "lightOn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
 [node name="Char" type="KinematicBody" groups=["player"]]
 script = ExtResource( 1 )
 
@@ -428,7 +469,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [  ]
+bones/1/bound_children = [ NodePath("HeadAttachment") ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -496,7 +537,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -8.55977e-10, 2.38337e-07, 1.08767e-08, 0.999115, -0.0420474, -2.3809e-07, 0.0420474, 0.999115, 1.7306e-09, 2.52093, -0.0737979 )
+transform = Transform( 1, -8.39466e-09, 2.37481e-07, 1.08607e-08, 0.999946, -0.0103861, -2.3738e-07, 0.0103861, 0.999946, 1.70337e-08, 2.49886, -0.00862193 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -618,10 +659,15 @@ __meta__ = {
 
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )
-visible = false
 light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
+light_energy = 0.0
 light_bake_mode = 2
 omni_range = 28.805
 
 [node name="Timer" type="Timer" parent="Light"]
 wait_time = 0.75
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Light"]
+anims/RESET = SubResource( 19 )
+anims/lightOff = SubResource( 20 )
+anims/lightOn = SubResource( 18 )

@@ -10,6 +10,9 @@ size = Vector2( 200, 200 )
 data = PoolVector3Array( 40, 0, 40, -40, 0, 40, 40, 0, -40, -40, 0, 40, -40, 0, -40, 40, 0, -40 )
 
 [sub_resource type="Environment" id=6]
+background_mode = 2
+background_energy = 0.0
+ambient_light_energy = 0.0
 
 [node name="TestWorld" type="Spatial"]
 

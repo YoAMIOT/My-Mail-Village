@@ -191,10 +191,11 @@ public class Char : KinematicBody{
     }
 
     private void switchLight(bool status){
-        GetNode<OmniLight>("Light").Visible = status;
         if(status){
+            GetNode<AnimationPlayer>("Light/AnimationPlayer").Play("lightOn");
             GetNode<Timer>("Light/Timer").Start();
         } else if(!status){
+            GetNode<AnimationPlayer>("Light/AnimationPlayer").Play("lightOff");
             GetNode<Timer>("Light/Timer").Stop();
             GetNode<Timer>("Light/Timer").WaitTime = LIGHT_CONSUMPTION_COOLDOWN;
         }
