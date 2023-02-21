@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
@@ -411,7 +411,190 @@ node_connections = [ "output", 0, "BlendSpace1D" ]
 
 [sub_resource type="StyleBoxFlat" id=16]
 
+[sub_resource type="Animation" id=23]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1000, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1024, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.5 ) ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath(".:rect_scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath(".:rect_scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "heal"
+length = 1.2
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rect_scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:rect_scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.7, 1 )
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "hit"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 960, -0.25, 0, 0.25, 0, 1000, -0.25, 0, 0.1, -38.5903, 960, -0.25, 0, 0.1, 0.204102 ),
+"times": PoolRealArray( 0, 0.1, 0.2 )
+}
+
 [sub_resource type="StyleBoxFlat" id=17]
+
+[sub_resource type="Animation" id=25]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Mana:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -0.5, 0.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Mana:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 909, 1034 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../Armature/Skeleton/BoneAttachment/ManaLight:omni_range")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.65263 ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("../Mana:rect_scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( -1.1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("../Mana:rect_scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1.1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "regain"
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../Armature/Skeleton/BoneAttachment/ManaLight:omni_range")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.65263, 3.407, 3.407, 1.65263 ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "use"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../Armature/Skeleton/BoneAttachment/ManaLight:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 16.0, 1.299, 2.791, 1.299, 16.0 ]
+}
 
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 1, 1, 1, 1 )
@@ -472,7 +655,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [ NodePath("HeadAttachment") ]
+bones/1/bound_children = [  ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -517,7 +700,7 @@ bones/10/name = "hand.r"
 bones/10/parent = 9
 bones/10/rest = Transform( 0.998287, 0.0578355, -0.00887448, -0.0578319, 0.998326, 0.000668298, 0.00889827, -0.000153926, 0.99996, -1.49011e-07, 0.287411, -3.89937e-09 )
 bones/10/enabled = true
-bones/10/bound_children = [ NodePath("BoneAttachment") ]
+bones/10/bound_children = [  ]
 bones/11/name = "upperleg.r"
 bones/11/parent = 0
 bones/11/rest = Transform( 0, 4.47035e-08, 1, 0.209842, -0.977736, 4.47035e-08, 0.977735, 0.209842, 0, -0.599392, 0.106393, -0.0298723 )
@@ -540,21 +723,21 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 6.73885e-09, 2.40654e-07, -4.48006e-09, 0.999955, -0.00938478, -2.40706e-07, 0.00938478, 0.999955, -1.37551e-08, 2.49813, -0.00657216 )
+transform = Transform( 1, -1.28449e-08, 2.36858e-07, 1.08398e-08, 0.999964, 0.00846337, -2.36958e-07, -0.00846337, 0.999964, 2.61313e-08, 2.48467, 0.0301696 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.971344, -0.237641, 0.00439559, 0.235079, -0.957808, 0.165355, -0.0350849, 0.161649, 0.986224, -1.09773, 2.10619, 0.0608537 )
+transform = Transform( -0.961219, -0.275766, -0.00355753, 0.270974, -0.946756, 0.173859, -0.0513123, 0.166152, 0.984763, -1.10159, 2.09631, 0.0910528 )
 bone_name = "hand.r"
 
 [node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
 transform = Transform( 0.98729, 0.154714, 0.0363398, -0.153771, 0.987724, -0.0274771, -0.0401452, 0.02154, 0.998962, 0.461146, 0.953488, 0.117467 )
 light_color = Color( 0, 1, 0, 1 )
-light_energy = 16.0
-omni_range = 1.65263
+light_energy = 1.299
+omni_range = 2.52982
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 2.25, 0 )
@@ -613,9 +796,9 @@ anchor_left = 0.5
 anchor_top = 0.948
 anchor_right = 0.633
 anchor_bottom = 0.993
-margin_top = 0.159912
+margin_top = 0.159973
 margin_right = 0.640015
-margin_bottom = -0.440063
+margin_bottom = -0.439941
 custom_styles/fg = SubResource( 16 )
 step = 1.0
 value = 100.0
@@ -635,17 +818,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Health"]
+reset_on_save = false
+anims/RESET = SubResource( 23 )
+anims/heal = SubResource( 24 )
+anims/hit = SubResource( 22 )
+
 [node name="Mana" type="ProgressBar" parent="HUD"]
 self_modulate = Color( 0.101961, 1, 0, 1 )
-anchor_left = 0.367
+anchor_left = 0.365
 anchor_top = 0.948
 anchor_right = 0.5
 anchor_bottom = 0.993
-margin_left = 255.36
-margin_top = 0.159973
+margin_left = 259.2
+margin_top = 0.159912
 margin_right = 256.0
 margin_bottom = -0.439941
-rect_scale = Vector2( -1, 1 )
+rect_scale = Vector2( -1.01439, 1.01439 )
 custom_styles/fg = SubResource( 17 )
 step = 1.0
 value = 100.0
@@ -669,6 +858,13 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Mana"]
+root_node = NodePath("../../Health")
+reset_on_save = false
+anims/RESET = SubResource( 25 )
+anims/regain = SubResource( 27 )
+anims/use = SubResource( 26 )
 
 [node name="CastCooldown" type="ProgressBar" parent="HUD"]
 anchor_left = 0.371

@@ -148,11 +148,15 @@ public class Char : KinematicBody{
     public void getsHit(int damage){
         health -= damage;
         checkHealth();
+        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Stop();
+        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Play("hit");
     }
 
     private void regainHealth(int amount){
         health += amount;
         checkHealth();
+        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Stop();
+        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Play("heal");
     }
 
     public void checkHealth(){
@@ -177,11 +181,15 @@ public class Char : KinematicBody{
     private void consumeMana(int amount){
         mana -= amount;
         checkMana();
+        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Stop();
+        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Play("use");
     }
 
     private void regainMana(int amount){
         mana += amount;
         checkMana();
+        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Stop();
+        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Play("regain");
     }
 
     public void checkMana(){
