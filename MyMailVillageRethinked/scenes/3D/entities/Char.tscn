@@ -403,7 +403,7 @@ blend_point_1/pos = 1.0
 min_space = 0.0
 
 [sub_resource type="AnimationNodeBlendTree" id=13]
-graph_offset = Vector2( -155, 31 )
+graph_offset = Vector2( -228, 50 )
 nodes/BlendSpace1D/node = SubResource( 9 )
 nodes/BlendSpace1D/position = Vector2( 0, 140 )
 nodes/output/position = Vector2( 220, 140 )
@@ -472,7 +472,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [  ]
+bones/1/bound_children = [ NodePath("HeadAttachment") ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -517,7 +517,7 @@ bones/10/name = "hand.r"
 bones/10/parent = 9
 bones/10/rest = Transform( 0.998287, 0.0578355, -0.00887448, -0.0578319, 0.998326, 0.000668298, 0.00889827, -0.000153926, 0.99996, -1.49011e-07, 0.287411, -3.89937e-09 )
 bones/10/enabled = true
-bones/10/bound_children = [  ]
+bones/10/bound_children = [ NodePath("BoneAttachment") ]
 bones/11/name = "upperleg.r"
 bones/11/parent = 0
 bones/11/rest = Transform( 0, 4.47035e-08, 1, 0.209842, -0.977736, 4.47035e-08, 0.977735, 0.209842, 0, -0.599392, 0.106393, -0.0298723 )
@@ -540,11 +540,21 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -8.03282e-09, 2.37527e-07, 1.0862e-08, 0.999929, -0.0119134, -2.37414e-07, 0.0119134, 0.999929, 1.62961e-08, 2.49997, -0.0117655 )
+transform = Transform( 1, 6.73885e-09, 2.40654e-07, -4.48006e-09, 0.999955, -0.00938478, -2.40706e-07, 0.00938478, 0.999955, -1.37551e-08, 2.49813, -0.00657216 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
+
+[node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
+transform = Transform( -0.971344, -0.237641, 0.00439559, 0.235079, -0.957808, 0.165355, -0.0350849, 0.161649, 0.986224, -1.09773, 2.10619, 0.0608537 )
+bone_name = "hand.r"
+
+[node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
+transform = Transform( 0.98729, 0.154714, 0.0363398, -0.153771, 0.987724, -0.0274771, -0.0401452, 0.02154, 0.998962, 0.461146, 0.953488, 0.117467 )
+light_color = Color( 0, 1, 0, 1 )
+light_energy = 16.0
+omni_range = 1.65263
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 2.25, 0 )
@@ -673,21 +683,6 @@ custom_styles/fg = SubResource( 21 )
 step = 1.0
 percent_visible = false
 
-[node name="Light" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )
-light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
-light_energy = 0.0
-light_bake_mode = 2
-omni_range = 28.805
-
-[node name="Timer" type="Timer" parent="Light"]
-wait_time = 0.75
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Light"]
-anims/RESET = SubResource( 19 )
-anims/lightOff = SubResource( 20 )
-anims/lightOn = SubResource( 18 )
-
 [node name="SpellMenu" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
@@ -757,6 +752,21 @@ margin_top = -0.280029
 margin_right = -0.640015
 margin_bottom = 0.279968
 custom_fonts/font = ExtResource( 4 )
+
+[node name="Light" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )
+light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
+light_energy = 0.0
+light_bake_mode = 2
+omni_range = 28.805
+
+[node name="Timer" type="Timer" parent="Light"]
+wait_time = 0.75
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Light"]
+anims/RESET = SubResource( 19 )
+anims/lightOff = SubResource( 20 )
+anims/lightOn = SubResource( 18 )
 
 [node name="SpellCooldown" type="Timer" parent="."]
 one_shot = true

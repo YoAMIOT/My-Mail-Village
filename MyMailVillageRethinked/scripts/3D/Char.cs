@@ -7,7 +7,8 @@ public class Char : KinematicBody{
     private const int MAX_MANA = 100;
     private int mana = MAX_MANA;
     private const float FALL_ACCELERATION = 75;
-    private const int SPEED = 7;
+    private const int MAX_SPEED = 7;
+    private int speed = MAX_SPEED;
     private Vector3 _velocity = Vector3.Zero;
     private const float LERP_VAL = .15F;
     private const float ZOOM_MIN = 8F;
@@ -96,8 +97,8 @@ public class Char : KinematicBody{
         direction = direction.Normalized();
         direction = direction.Rotated(Vector3.Up, GetNode<Spatial>("SpringArm").Rotation.y);
         if (direction != Vector3.Zero){  
-            _velocity.x = Mathf.Lerp(_velocity.x, direction.x * SPEED, LERP_VAL);
-            _velocity.z = Mathf.Lerp(_velocity.z, direction.z * SPEED, LERP_VAL);   
+            _velocity.x = Mathf.Lerp(_velocity.x, direction.x * speed, LERP_VAL);
+            _velocity.z = Mathf.Lerp(_velocity.z, direction.z * speed, LERP_VAL);   
             if(GetNode<Spatial>("Armature").Rotation.y != (float)Math.Atan2(_velocity.x, _velocity.z)){
                 float newAngle = (float)Mathf.LerpAngle(GetNode<Spatial>("Armature").Rotation.y, (float)Math.Atan2(_velocity.x, _velocity.z), delta * 12);
                 GetNode<Spatial>("Armature").Rotation = new Vector3(GetNode<Spatial>("Armature").Rotation.x, newAngle, GetNode<Spatial>("Armature").Rotation.z);
@@ -107,7 +108,7 @@ public class Char : KinematicBody{
             _velocity.z = Mathf.Lerp(_velocity.z, 0.0F, LERP_VAL);  
         }
         
-        GetNode<AnimationTree>("AnimationTree").Set("parameters/BlendSpace1D/blend_position", _velocity.Length() / SPEED);
+        GetNode<AnimationTree>("AnimationTree").Set("parameters/BlendSpace1D/blend_position", _velocity.Length() / speed);
 
         if(!IsOnFloor()){
             _velocity.y -= FALL_ACCELERATION * delta;
@@ -185,6 +186,7 @@ public class Char : KinematicBody{
 
     public void checkMana(){
         updateManaBar();
+        manageManaLight();
         if(mana <= 0){
             mana = 0;
             if (lightOn){
@@ -197,6 +199,14 @@ public class Char : KinematicBody{
     
     private void updateManaBar(){
         GetNode<ProgressBar>("HUD/Mana").Value = mana;
+    }
+
+    private void manageManaLight(){
+        float manaSpent = (int)(MAX_MANA - mana);
+        manaSpent = manaSpent / 100;
+        float currentMana = mana;
+        currentMana = currentMana / 100;
+        GetNode<OmniLight>("Armature/Skeleton/BoneAttachment/ManaLight").LightColor = new Color(manaSpent, currentMana, 0, 1);
     }
 
 //TARGET SYSTEM RELATED
@@ -235,36 +245,49 @@ public class Char : KinematicBody{
         }
     }
 
-    private void castSpell(){
+    private async void castSpell(){
         Timer SpellCooldown = GetNode<Timer>("SpellCooldown");
         bool hasCasted = false;
+        int healCost = 20;
+        int repulseCost = 15;
+        int healCooldown = 2;
+        int manaCooldown = 5;
+        int repulseCooldown = 4;
+        int manaRegain = 5;
+        int healthRegain = 30;
+
         switch(selectedSpell){
             case "heal":
-                if (mana - 20 > 0){
+                if (mana - healCost > 0){
                     canCast = false;
-                    consumeMana(20);
-                    regainHealth(30);
-                    SpellCooldown.WaitTime = 2F;
+                    SpellCooldown.WaitTime = healCooldown;
                     hasCasted = true;
+                    consumeMana(healCost);
+                    regainHealth(healthRegain);
                 }
                 break;
             case "mana":
                 canCast = false;
-                regainMana(30);
-                SpellCooldown.WaitTime = 5F;
-                hasCasted = true;
+                SpellCooldown.WaitTime = manaCooldown;
+                SpellCooldown.Start();
+                regainMana(manaRegain);
+                for (int i = 0; i < manaCooldown; i++){
+                    await ToSignal(GetTree().CreateTimer(1), "timeout");
+                    regainMana(manaRegain);
+                }
                 break;
             case "repulse":
-                if (mana - 15 > 0){
+                if (mana - repulseCost > 0){
                     canCast = false;
-                    SpellCooldown.WaitTime = 4F;
-                    consumeMana(15);
+                    SpellCooldown.WaitTime = repulseCooldown;
+                    consumeMana(repulseCost);
                     hasCasted = true;
                 }
                 break;
         } if (hasCasted){
             SpellCooldown.Start();
             checkHealth();
+            checkMana();
         }
     }
 
