@@ -10,7 +10,11 @@ public class Shadow : KinematicBody{
     private int baseDamage = 20;
     private Char player;
     private const float SPEED = 7.2f;
+    private const float FALL_ACCELERATION = 75;
     private Vector3 velocity = Vector3.Zero;
+    private bool repulsed = false;
+    private const float REPULSE_POWER = SPEED * 200;
+    private bool alreadyJumped = false;
 
     public override void _Ready(){
         GetNode<Area>("FOV").Connect("body_entered", this, "bodyEnteredFOV");
@@ -21,18 +25,29 @@ public class Shadow : KinematicBody{
         player = GetParent().GetParent().GetNode<Char>("Char");
     }
 
-    public override void _PhysicsProcess(float delta){
-        if (inFOV){
-            GetNode<Spatial>("Appearance").LookAt(player.Translation, Vector3.Up);
-            GetNode<Spatial>("Appearance").RotationDegrees = new Vector3(0, GetNode<Spatial>("Appearance").RotationDegrees.y, 0);
+    public override void _PhysicsProcess(float delta){ 
+        if (inFOV && !repulsed){
             velocity = Translation.DirectionTo(player.Translation) * SPEED;
-            velocity = MoveAndSlide(velocity);
+        } 
+        if (repulsed){
+            velocity = Translation.DirectionTo(player.Translation) * -REPULSE_POWER / Translation.DistanceTo(player.Translation);
+            velocity.y = 0;
+            GD.Print(velocity);
         }
+        velocity.y -= FALL_ACCELERATION * delta;
+        velocity = MoveAndSlide(velocity);
+
+        //Look at player
+        GetNode<Spatial>("Appearance").LookAt(player.Translation, Vector3.Up);
+        GetNode<Spatial>("Appearance").RotationDegrees = new Vector3(0, GetNode<Spatial>("Appearance").RotationDegrees.y, 0);
+
+        //Manage attacking
         if (Translation.DistanceTo(player.Translation) < attackRange && canAttack){
             attack();
         }
     }
 
+//FOV RELATED
     private void bodyEnteredFOV(Node body){
         if(body == player){
             inFOV = true;
@@ -44,6 +59,7 @@ public class Shadow : KinematicBody{
         }
     }
 
+//ATTACK RELATED
     private async void attack(){
         canAttack = false;
         GetNode<Timer>("AttackCooldown").Start();
@@ -65,6 +81,7 @@ public class Shadow : KinematicBody{
         canAttack = true;
     }
 
+//HEALTH RELATED
     public void getsHit(int damage){
         health -= damage;
         checkHealth();
@@ -78,13 +95,22 @@ public class Shadow : KinematicBody{
         }
     }
 
+    public void die(){
+        QueueFree();
+    }
+
+//TARGET SYSTEM RELATED
     public void selected(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shapeIdx){
         if(@event is InputEventMouseButton btn && btn.ButtonIndex == (int)ButtonList.Right && @event.IsPressed()){
             player.setTarget(this.Name);
         }
     }
 
-    public void die(){
-        QueueFree();
+//SPELL EFFECTS RELATED
+    public async void repulse(){
+        repulsed = true;
+        await ToSignal(GetTree().CreateTimer(0.1F), "timeout");
+        alreadyJumped = false;
+        repulsed = false;
     }
 }

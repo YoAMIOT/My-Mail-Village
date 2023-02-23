@@ -110,9 +110,7 @@ public class Char : KinematicBody{
         
         GetNode<AnimationTree>("AnimationTree").Set("parameters/BlendSpace1D/blend_position", _velocity.Length() / speed);
 
-        if(!IsOnFloor()){
-            _velocity.y -= FALL_ACCELERATION * delta;
-        }
+        _velocity.y -= FALL_ACCELERATION * delta;
 
         _velocity = MoveAndSlide(_velocity, Vector3.Up);
 
@@ -263,6 +261,7 @@ public class Char : KinematicBody{
         int repulseCooldown = 4;
         int manaRegain = 5;
         int healthRegain = 30;
+        int repulseRange = 5;
 
         switch(selectedSpell){
             case "heal":
@@ -290,6 +289,11 @@ public class Char : KinematicBody{
                     SpellCooldown.WaitTime = repulseCooldown;
                     consumeMana(repulseCost);
                     hasCasted = true;
+                    foreach (Shadow ennemy in GetParent().GetNode<Spatial>("Ennemies").GetChildren()){
+                        if (Translation.DistanceTo(ennemy.Translation) < repulseRange){
+                            ennemy.repulse();
+                        }
+                    }
                 }
                 break;
         } if (hasCasted){

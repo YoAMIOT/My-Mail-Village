@@ -31,10 +31,7 @@ shape = SubResource( 5 )
 [node name="Ennemies" type="Spatial" parent="."]
 
 [node name="Shadow" parent="Ennemies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 44.3984, 1.20964, -10.5533 )
-
-[node name="Shadow2" parent="Ennemies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 44.3984, 1.20964, 20.1709 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.654934, 10.6036, -16.3218 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 6 )
