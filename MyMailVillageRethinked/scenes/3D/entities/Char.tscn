@@ -723,14 +723,14 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 6.71738e-09, 2.40652e-07, -4.48011e-09, 0.999956, -0.0092955, -2.40703e-07, 0.0092955, 0.999956, -1.3712e-08, 2.49806, -0.00638843 )
+transform = Transform( 1, -1.39983e-08, 2.36683e-07, 1.08329e-08, 0.99991, 0.0133686, -2.36848e-07, -0.0133686, 0.99991, 2.84973e-08, 2.48085, 0.0402634 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.971297, -0.237834, 0.0043531, 0.235261, -0.957757, 0.165396, -0.0351676, 0.161673, 0.986217, -1.09775, 2.10614, 0.0610045 )
+transform = Transform( -0.958141, -0.286245, -0.00548527, 0.280841, -0.943427, 0.176279, -0.0556339, 0.16736, 0.984324, -1.10267, 2.09353, 0.0993852 )
 bone_name = "hand.r"
 
 [node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]

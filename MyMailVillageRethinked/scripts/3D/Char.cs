@@ -11,9 +11,9 @@ public class Char : KinematicBody{
     private int speed = MAX_SPEED;
     private Vector3 _velocity = Vector3.Zero;
     private const float LERP_VAL = .15F;
-    private const float ZOOM_MIN = 8F;
-    private const float ZOOM_MAX = 20F;
-    private const float ZOOM_SPEED = 4F;
+    private const float ZOOM_STEP = 4F;
+    private const float ZOOM_MIN = ZOOM_STEP * 2;
+    private const float ZOOM_MAX = ZOOM_STEP * 5;
     private Godot.Collections.Dictionary characterAttribute;
     private Server Server;
     public string target = "";
@@ -45,35 +45,28 @@ public class Char : KinematicBody{
     }
 
 //INPUT RELATED
-    public override void _Input(InputEvent @event){
-        if (@event is InputEventMouseButton mouseEvent){
-            if (mouseEvent.IsPressed() && !GetNode<Tween>("ZoomTween").IsActive()){
-                if (mouseEvent.ButtonIndex == (int)ButtonList.WheelUp){
-                    if(GetNode<SpringArm>("SpringArm").SpringLength >= ZOOM_MIN + ZOOM_SPEED){
-                        GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength - ZOOM_SPEED, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
-                        GetNode<Tween>("ZoomTween").Start();
-                    }
-                } if (mouseEvent.ButtonIndex == (int)ButtonList.WheelDown){
-                    if(GetNode<SpringArm>("SpringArm").SpringLength <= ZOOM_MAX - ZOOM_SPEED){
-                        GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength + ZOOM_SPEED, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
-                        GetNode<Tween>("ZoomTween").Start();
-                    }
-                }
-            }
-        }
-    }
-
     public override void _PhysicsProcess(float delta){
         Vector3 direction = Vector3.Zero;
 
-        //CAMERA RELATED
+        //CAMERA ROTATION RELATED
         if (Input.IsActionJustPressed("cameraRotateLeft") && !GetNode<Tween>("CamTween").IsActive()){
             GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y + 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);
             GetNode<Tween>("CamTween").Start();
         } if (Input.IsActionJustPressed("cameraRotateRight") && !GetNode<Tween>("CamTween").IsActive()){
             GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y - 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);
             GetNode<Tween>("CamTween").Start();
-        } 
+        }
+
+        //CAMERA ZOOM RELATED
+        if (Input.IsActionJustPressed("zoomCycle") && !GetNode<Tween>("ZoomTween").IsActive()){
+            float currentZoom = GetNode<SpringArm>("SpringArm").SpringLength;
+            if (GetNode<SpringArm>("SpringArm").SpringLength < ZOOM_MAX){
+                GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength + ZOOM_STEP, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
+            } else if (GetNode<SpringArm>("SpringArm").SpringLength == ZOOM_MAX){
+                GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, ZOOM_MIN, 0.5F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
+            }
+            GetNode<Tween>("ZoomTween").Start();
+        }
         
         //MOVEMENT RELATED
         if (Input.IsActionPressed("right")){
