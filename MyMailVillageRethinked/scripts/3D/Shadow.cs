@@ -15,6 +15,7 @@ public class Shadow : KinematicBody{
     private bool repulsed = false;
     private const float REPULSE_POWER = SPEED * 200;
     private bool alreadyJumped = false;
+    private bool dying = false;
 
     public override void _Ready(){
         GetNode<Area>("FOV").Connect("body_entered", this, "bodyEnteredFOV");
@@ -32,7 +33,6 @@ public class Shadow : KinematicBody{
         if (repulsed){
             velocity = Translation.DirectionTo(player.Translation) * -REPULSE_POWER / Translation.DistanceTo(player.Translation);
             velocity.y = 0;
-            GD.Print(velocity);
         }
         velocity.y -= FALL_ACCELERATION * delta;
         velocity = MoveAndSlide(velocity);
@@ -62,12 +62,14 @@ public class Shadow : KinematicBody{
 //ATTACK RELATED
     private async void attack(){
         canAttack = false;
-        GetNode<Timer>("AttackCooldown").Start();
-        GetNode<AnimationPlayer>("AnimationPlayer").Play("Attack");
-        await ToSignal(GetTree().CreateTimer(0.65f), "timeout");
-        if (Translation.DistanceTo(player.Translation) < attackRange){
-            GetNode<Particles>("Appearance/HitParticles").Emitting = true;
-            player.getsHit(baseDamage);
+        if (!dying){
+            GetNode<Timer>("AttackCooldown").Start();
+            GetNode<AnimationPlayer>("AnimationPlayer").Play("Attack");
+            await ToSignal(GetTree().CreateTimer(0.65f), "timeout");
+            if (Translation.DistanceTo(player.Translation) < attackRange){
+                GetNode<Particles>("Appearance/HitParticles").Emitting = true;
+                player.getsHit(baseDamage);
+            }
         }
     }
 
@@ -87,28 +89,45 @@ public class Shadow : KinematicBody{
         checkHealth();
     }
 
-    public void checkHealth(){
-        if(health <= 0){
+    private void checkHealth(){
+        float lightRatio = ((float)(MAX_HEALTH - health)/100);
+        if (lightRatio >= 0.01f && GetNode<MeshInstance>("Appearance/MeshInstance/Light").Visible == false){
+            GetNode<MeshInstance>("Appearance/MeshInstance/Light").Visible = true;
+        } if (!dying){
+            GetNode<MeshInstance>("Appearance/MeshInstance/Light").Scale = new Vector3(lightRatio, lightRatio, lightRatio);
+            GetNode<OmniLight>("Appearance/MeshInstance/Light/OmniLight").LightEnergy = lightRatio;
+        }
+
+        if (health <= 0){
             die();
-        } else if(health > MAX_HEALTH){
+        } else if (health > MAX_HEALTH){
             health = MAX_HEALTH;
         }
     }
 
-    public void die(){
+    private async void die(){
+        if (player.target == this.Name){
+            player.resetTarget();
+        }
+        dying = true;
+        GetNode<Timer>("AttackCooldown").Stop();
+        GetNode<AnimationPlayer>("AnimationPlayer").Stop();
+        GetNode<AnimationPlayer>("AnimationPlayer").Play("Dying");
+        await ToSignal(GetNode<AnimationPlayer>("AnimationPlayer"), "animation_finished");
         QueueFree();
     }
 
 //TARGET SYSTEM RELATED
-    public void selected(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shapeIdx){
+    private void selected(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shapeIdx){
         if(@event is InputEventMouseButton btn && btn.ButtonIndex == (int)ButtonList.Right && @event.IsPressed()){
             player.setTarget(this.Name);
         }
     }
 
 //SPELL EFFECTS RELATED
-    public async void repulse(){
+    public async void repulse(int damage){
         repulsed = true;
+        getsHit(damage);
         await ToSignal(GetTree().CreateTimer(0.1F), "timeout");
         alreadyJumped = false;
         repulsed = false;

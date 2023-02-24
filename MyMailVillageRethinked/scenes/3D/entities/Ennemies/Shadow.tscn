@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://ressources/meshes/Shadow.tres" type="Material" id=1]
 [ext_resource path="res://scripts/3D/Shadow.cs" type="Script" id=2]
@@ -9,16 +9,29 @@
 [sub_resource type="SphereMesh" id=8]
 material = ExtResource( 1 )
 
-[sub_resource type="SphereMesh" id=7]
-material = ExtResource( 1 )
+[sub_resource type="SpatialMaterial" id=22]
+flags_unshaded = true
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="SphereMesh" id=23]
+material = SubResource( 22 )
 
 [sub_resource type="SphereShape" id=9]
+radius = 1.5
 
 [sub_resource type="SphereMesh" id=18]
 material = ExtResource( 5 )
 radial_segments = 4
 rings = 1
 is_hemisphere = true
+
+[sub_resource type="SpatialMaterial" id=21]
+flags_unshaded = true
+flags_no_depth_test = true
+albedo_color = Color( 0.933333, 0.905882, 0.709804, 1 )
+
+[sub_resource type="SphereMesh" id=20]
+material = SubResource( 21 )
 
 [sub_resource type="SphereMesh" id=16]
 material = ExtResource( 1 )
@@ -48,6 +61,71 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 0.7 )
 }
 
+[sub_resource type="Animation" id=24]
+resource_name = "Dying"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0.933333, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0.905882, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0.709804, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Appearance/MeshInstance/Light:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1.2, 1.2, 1.2 ) ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Appearance/MeshInstance/Light/OmniLight:omni_range")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 3, -0.25, 0, 0.25, 0, 5, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.001, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Appearance/MeshInstance/Light/OmniLight:light_energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 3, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
 [sub_resource type="Animation" id=5]
 resource_name = "Idle"
 length = 2.0
@@ -61,6 +139,81 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "points": PoolRealArray( -1.19209e-07, -0.25, 0, 1.1, 0.0220101, 0.445666, -0.3, -0.233046, 0.5, 0.0930049, 0, -0.1, 0.761058, 0.3, 0.000273228 ),
 "times": PoolRealArray( 0, 1, 2 )
+}
+
+[sub_resource type="Animation" id=25]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0.933333, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0.905882, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0.709804, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Appearance/MeshInstance/Particles:draw_pass_1:material:albedo_color:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Appearance/MeshInstance/Light:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1.2, 1.2, 1.2 ) ]
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Appearance/MeshInstance/Light/OmniLight:omni_range")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Appearance/MeshInstance/Light/OmniLight:light_energy")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
 
 [sub_resource type="Animation" id=19]
@@ -96,7 +249,7 @@ lifetime = 2.0
 speed_scale = 0.41
 randomness = 1.0
 process_material = ExtResource( 3 )
-draw_pass_1 = SubResource( 7 )
+draw_pass_1 = SubResource( 23 )
 
 [node name="SelectArea" type="Area" parent="Appearance/MeshInstance"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
@@ -106,12 +259,21 @@ transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 shape = SubResource( 9 )
 
 [node name="Selected" type="MeshInstance" parent="Appearance/MeshInstance"]
-transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, 0, -4.88206 )
+transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, 0, -4.91719 )
 visible = false
 cast_shadow = 0
 mesh = SubResource( 18 )
 skeleton = NodePath("../../..")
 material/0 = null
+
+[node name="Light" type="MeshInstance" parent="Appearance/MeshInstance"]
+visible = false
+mesh = SubResource( 20 )
+material/0 = null
+
+[node name="OmniLight" type="OmniLight" parent="Appearance/MeshInstance/Light"]
+light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
+omni_range = 3.0
 
 [node name="HitParticles" type="Particles" parent="Appearance"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.401176, -1.17546 )
@@ -135,8 +297,11 @@ shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
+reset_on_save = false
 anims/Attack = SubResource( 12 )
+anims/Dying = SubResource( 24 )
 anims/Idle = SubResource( 5 )
+anims/RESET = SubResource( 25 )
 
 [node name="SelectedArrowAnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimationPlayer")

@@ -16,13 +16,14 @@ public class Char : KinematicBody{
     private const float ZOOM_SPEED = 4F;
     private Godot.Collections.Dictionary characterAttribute;
     private Server Server;
-    private string target = "";
+    public string target = "";
     private bool lightOn = false;
-    private const float LIGHT_CONSUMPTION_COOLDOWN = 0.75F;
+    private const float LIGHT_CONSUMPTION_COOLDOWN = 0.5F;
     private const int LIGHT_CONSUMPTION = 1;
-    private string[] Spells = {"Heal", "Mana", "Repulse", "", ""};
+    private string[] Spells = {"Heal", "Repulse", "Dmg1", "", ""};
     private string selectedSpell = "";
     private bool canCast = true;
+    private const int MANA_REGENERATION = 2;
 
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
@@ -40,6 +41,7 @@ public class Char : KinematicBody{
         }
         selectedSpell = Spells[0].ToLower();
         GetNode<Timer>("SpellCooldown").Connect("timeout", this, "castCooldown");
+        GetNode<Timer>("ManaCooldown").Connect("timeout", this, "manaCooldown");
     }
 
 //INPUT RELATED
@@ -157,7 +159,7 @@ public class Char : KinematicBody{
         GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Play("heal");
     }
 
-    public void checkHealth(){
+    private void checkHealth(){
         updateHealthBar();
         if(health <= 0){
             health = 0;
@@ -171,7 +173,7 @@ public class Char : KinematicBody{
         GetNode<ProgressBar>("HUD/Health").Value = health;
     }
 
-    public void die(){
+    private void die(){
         GD.Print("Player died");
     }
 
@@ -190,7 +192,13 @@ public class Char : KinematicBody{
         GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Play("regain");
     }
 
-    public void checkMana(){
+    private void manaCooldown(){
+        if (mana < 100){
+            regainMana(MANA_REGENERATION);
+        }
+    }
+
+    private void checkMana(){
         updateManaBar();
         manageManaLight();
         if(mana <= 0){
@@ -224,7 +232,7 @@ public class Char : KinematicBody{
         target = targetName;
     }
 
-    public void manageTargetPointer(){
+    private void manageTargetPointer(){
         Spatial pointer = GetNode<Spatial>("TargetPointer");
         if(target == ""){
             pointer.Visible = false;
@@ -233,6 +241,10 @@ public class Char : KinematicBody{
             pointer.LookAt(GetParent().GetNode<Spatial>("Ennemies/" + target + "/Appearance").GlobalTransform.origin, Vector3.Up);
             pointer.Rotation = new Vector3(pointer.Rotation.x, pointer.Rotation.y, pointer.Rotation.z);
         }
+    }
+
+    public void resetTarget(){
+        target = "";
     }
 
 //SPELL RELATED
@@ -251,36 +263,28 @@ public class Char : KinematicBody{
         }
     }
 
-    private async void castSpell(){
+    private void castSpell(){
         Timer SpellCooldown = GetNode<Timer>("SpellCooldown");
         bool hasCasted = false;
         int healCost = 20;
-        int repulseCost = 15;
         int healCooldown = 2;
-        int manaCooldown = 5;
-        int repulseCooldown = 4;
-        int manaRegain = 5;
         int healthRegain = 30;
+        int repulseCost = 30;
+        int repulseCooldown = 4;
         int repulseRange = 5;
+        int repulseDamage = 20;
+        int dmg1Cost = 15;
+        int dmg1Cooldown = 2;
+        int dmg1Damage = 30;
 
         switch(selectedSpell){
             case "heal":
                 if (mana - healCost > 0){
                     canCast = false;
                     SpellCooldown.WaitTime = healCooldown;
-                    hasCasted = true;
                     consumeMana(healCost);
+                    hasCasted = true;
                     regainHealth(healthRegain);
-                }
-                break;
-            case "mana":
-                canCast = false;
-                SpellCooldown.WaitTime = manaCooldown;
-                SpellCooldown.Start();
-                regainMana(manaRegain);
-                for (int i = 0; i < manaCooldown; i++){
-                    await ToSignal(GetTree().CreateTimer(1), "timeout");
-                    regainMana(manaRegain);
                 }
                 break;
             case "repulse":
@@ -291,9 +295,18 @@ public class Char : KinematicBody{
                     hasCasted = true;
                     foreach (Shadow ennemy in GetParent().GetNode<Spatial>("Ennemies").GetChildren()){
                         if (Translation.DistanceTo(ennemy.Translation) < repulseRange){
-                            ennemy.repulse();
+                            ennemy.repulse(repulseDamage);
                         }
                     }
+                }
+                break;
+            case "dmg1":
+                if (mana - dmg1Cost > 0 && target != ""){
+                    canCast = false;
+                    SpellCooldown.WaitTime = dmg1Cooldown;
+                    consumeMana(dmg1Cost);
+                    hasCasted = true;
+                    GetParent().GetNode<Shadow>("Ennemies/" + target).getsHit(dmg1Damage);
                 }
                 break;
         } if (hasCasted){

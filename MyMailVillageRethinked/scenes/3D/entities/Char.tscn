@@ -723,14 +723,14 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 8.94095e-09, 2.40858e-07, -4.47558e-09, 0.999828, -0.018533, -2.40982e-07, 0.018533, 0.999828, -1.81765e-08, 2.50475, -0.0254022 )
+transform = Transform( 1, 6.71738e-09, 2.40652e-07, -4.48011e-09, 0.999956, -0.0092955, -2.40703e-07, 0.0092955, 0.999956, -1.3712e-08, 2.49806, -0.00638843 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.975946, -0.217834, 0.00892791, 0.216399, -0.962908, 0.161187, -0.0265151, 0.159241, 0.986883, -1.09566, 2.11094, 0.0454249 )
+transform = Transform( -0.971297, -0.237834, 0.0043531, 0.235261, -0.957757, 0.165396, -0.0351676, 0.161673, 0.986217, -1.09775, 2.10614, 0.0610045 )
 bone_name = "hand.r"
 
 [node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
@@ -957,7 +957,7 @@ light_bake_mode = 2
 omni_range = 28.805
 
 [node name="Timer" type="Timer" parent="Light"]
-wait_time = 0.75
+wait_time = 0.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Light"]
 anims/RESET = SubResource( 19 )
@@ -966,3 +966,7 @@ anims/lightOn = SubResource( 18 )
 
 [node name="SpellCooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="ManaCooldown" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
