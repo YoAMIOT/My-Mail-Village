@@ -87,6 +87,7 @@ public class Shadow : KinematicBody{
     public void getsHit(int damage){
         health -= damage;
         checkHealth();
+        GetNode<Particles>("Appearance/HurtParticles").Emitting = true;
     }
 
     private void checkHealth(){
