@@ -4,7 +4,6 @@ using System;
 public class Shadow : KinematicBody{
     public const int MAX_HEALTH = 100;
     public int health = MAX_HEALTH;
-    private bool inFOV = false;
     private bool canAttack = true;
     private int attackRange = 5;
     private int baseDamage = 20;
@@ -18,8 +17,6 @@ public class Shadow : KinematicBody{
     private bool dying = false;
 
     public override void _Ready(){
-        GetNode<Area>("FOV").Connect("body_entered", this, "bodyEnteredFOV");
-        GetNode<Area>("FOV").Connect("body_exited", this, "bodyExitedFOV");
         GetNode<AnimationPlayer>("AnimationPlayer").Connect("animation_finished", this, "animationFinished");
         GetNode<Timer>("AttackCooldown").Connect("timeout", this, "cooldownTimeout");
         GetNode<Area>("Appearance/MeshInstance/SelectArea").Connect("input_event", this, "selected");
@@ -27,7 +24,7 @@ public class Shadow : KinematicBody{
     }
 
     public override void _PhysicsProcess(float delta){ 
-        if (inFOV && !repulsed){
+        if (Translation.DistanceTo(player.Translation) <= 40 && !repulsed){
             velocity = Translation.DirectionTo(player.Translation) * SPEED;
         } 
         if (repulsed){
@@ -44,18 +41,6 @@ public class Shadow : KinematicBody{
         //Manage attacking
         if (Translation.DistanceTo(player.Translation) < attackRange && canAttack){
             attack();
-        }
-    }
-
-//FOV RELATED
-    private void bodyEnteredFOV(Node body){
-        if(body == player){
-            inFOV = true;
-        }
-    }
-    private void bodyExitedFOV(Node body){
-        if(body == player){
-            inFOV = false;
         }
     }
 
@@ -116,13 +101,6 @@ public class Shadow : KinematicBody{
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Dying");
         await ToSignal(GetNode<AnimationPlayer>("AnimationPlayer"), "animation_finished");
         QueueFree();
-    }
-
-//TARGET SYSTEM RELATED
-    private void selected(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shapeIdx){
-        if(@event is InputEventMouseButton btn && btn.ButtonIndex == (int)ButtonList.Right && @event.IsPressed()){
-            player.setTarget(this.Name);
-        }
     }
 
 //SPELL EFFECTS RELATED

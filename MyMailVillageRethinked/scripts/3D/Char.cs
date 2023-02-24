@@ -24,6 +24,9 @@ public class Char : KinematicBody{
     private string selectedSpell = "";
     private bool canCast = true;
     private const int MANA_REGENERATION = 2;
+    private const float MOUSE_SENS = 0.05f;
+    private const int SPRINGARM_MIN_PITCH = -70;
+    private const int SPRINGARM_MAX_PITCH = 50;
 
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
@@ -42,20 +45,13 @@ public class Char : KinematicBody{
         selectedSpell = Spells[0].ToLower();
         GetNode<Timer>("SpellCooldown").Connect("timeout", this, "castCooldown");
         GetNode<Timer>("ManaCooldown").Connect("timeout", this, "manaCooldown");
+        Input.SetMouseMode(Input.MouseMode.Captured);
+        GetNode<SpringArm>("SpringArm").SpringLength = ZOOM_MIN;
     }
 
 //INPUT RELATED
     public override void _PhysicsProcess(float delta){
         Vector3 direction = Vector3.Zero;
-
-        //CAMERA ROTATION RELATED
-        if (Input.IsActionJustPressed("cameraRotateLeft") && !GetNode<Tween>("CamTween").IsActive()){
-            GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y + 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);
-            GetNode<Tween>("CamTween").Start();
-        } if (Input.IsActionJustPressed("cameraRotateRight") && !GetNode<Tween>("CamTween").IsActive()){
-            GetNode<Tween>("CamTween").InterpolateProperty(GetNode<Spatial>("SpringArm"),"rotation_degrees", GetNode<Spatial>("SpringArm").RotationDegrees, new Vector3(GetNode<Spatial>("SpringArm").RotationDegrees.x, GetNode<Spatial>("SpringArm").RotationDegrees.y - 90, GetNode<Spatial>("SpringArm").RotationDegrees.z), 0.4F, Tween.TransitionType.Sine, Tween.EaseType.InOut);
-            GetNode<Tween>("CamTween").Start();
-        }
 
         //CAMERA ZOOM RELATED
         if (Input.IsActionJustPressed("zoomCycle") && !GetNode<Tween>("ZoomTween").IsActive()){
@@ -89,6 +85,15 @@ public class Char : KinematicBody{
             GetNode<Control>("SpellMenu").Visible = !GetNode<Control>("SpellMenu").Visible;
         }
 
+        //TARGETTING RELATED
+        if (Input.IsActionJustPressed("target")){
+            Area collider = (Area)GetNode<RayCast>("SpringArm/Camera/RayCast").GetCollider();
+            if (collider != null && collider.GetPath().ToString().StartsWith("/root/TestWorld/Ennemies/")){
+                string wantedTarget = collider.GetParent().GetParent().GetParent().Name;
+                setTarget(wantedTarget);
+            }
+        }
+
         direction = direction.Normalized();
         direction = direction.Rotated(Vector3.Up, GetNode<Spatial>("SpringArm").Rotation.y);
         if (direction != Vector3.Zero){  
@@ -113,6 +118,16 @@ public class Char : KinematicBody{
 
         if(GetNode<Timer>("SpellCooldown").TimeLeft > 0){
             manageCastCooldownBar();
+        }
+    }
+
+    public override void _Input(InputEvent @event){
+        if (@event is InputEventMouseMotion mouseEvent){
+            Vector3 armRotation = GetNode<SpringArm>("SpringArm").RotationDegrees;
+            armRotation.y -= mouseEvent.Relative.x * MOUSE_SENS;
+            armRotation.x -= mouseEvent.Relative.y * MOUSE_SENS;
+            armRotation.x = Mathf.Clamp(armRotation.x, SPRINGARM_MIN_PITCH, SPRINGARM_MAX_PITCH);
+            GetNode<SpringArm>("SpringArm").RotationDegrees = armRotation;
         }
     }
 

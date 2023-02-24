@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://ressources/meshes/Shadow.tres" type="Material" id=1]
 [ext_resource path="res://scripts/3D/Shadow.cs" type="Script" id=2]
@@ -35,8 +35,6 @@ material = ExtResource( 1 )
 
 [sub_resource type="SphereMesh" id=26]
 material = ExtResource( 6 )
-
-[sub_resource type="CylinderShape" id=3]
 
 [sub_resource type="Animation" id=12]
 resource_name = "Attack"
@@ -299,12 +297,6 @@ draw_pass_1 = SubResource( 26 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 9 )
-
-[node name="FOV" type="Area" parent="."]
-
-[node name="CollisionShape" type="CollisionShape" parent="FOV"]
-transform = Transform( 40, 0, 0, 0, 1, 0, 0, 0, 40, 0, 0, 0 )
-shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"

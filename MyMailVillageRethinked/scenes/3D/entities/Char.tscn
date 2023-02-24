@@ -655,7 +655,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [  ]
+bones/1/bound_children = [ NodePath("HeadAttachment") ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -700,7 +700,7 @@ bones/10/name = "hand.r"
 bones/10/parent = 9
 bones/10/rest = Transform( 0.998287, 0.0578355, -0.00887448, -0.0578319, 0.998326, 0.000668298, 0.00889827, -0.000153926, 0.99996, -1.49011e-07, 0.287411, -3.89937e-09 )
 bones/10/enabled = true
-bones/10/bound_children = [  ]
+bones/10/bound_children = [ NodePath("BoneAttachment") ]
 bones/11/name = "upperleg.r"
 bones/11/parent = 0
 bones/11/rest = Transform( 0, 4.47035e-08, 1, 0.209842, -0.977736, 4.47035e-08, 0.977735, 0.209842, 0, -0.599392, 0.106393, -0.0298723 )
@@ -723,14 +723,14 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -1.39983e-08, 2.36683e-07, 1.08329e-08, 0.99991, 0.0133686, -2.36848e-07, -0.0133686, 0.99991, 2.84973e-08, 2.48085, 0.0402634 )
+transform = Transform( 1, 7.15325e-09, 2.40694e-07, -4.47923e-09, 0.999938, -0.0111078, -2.40758e-07, 0.0111078, 0.999938, -1.45878e-08, 2.49939, -0.0101187 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.958141, -0.286245, -0.00548527, 0.280841, -0.943427, 0.176279, -0.0556339, 0.16736, 0.984324, -1.10267, 2.09353, 0.0993852 )
+transform = Transform( -0.972244, -0.233915, 0.00522242, 0.231566, -0.958801, 0.164559, -0.0334856, 0.161201, 0.986353, -1.09734, 2.10709, 0.0579444 )
 bone_name = "hand.r"
 
 [node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
@@ -745,12 +745,20 @@ visible = false
 shape = SubResource( 10 )
 
 [node name="SpringArm" type="SpringArm" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 2.54873, 0 )
+transform = Transform( 1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 6.60959, 0 )
 spring_length = 12.0
+margin = 0.2
 
 [node name="Camera" type="Camera" parent="SpringArm"]
 current = true
 fov = 102.5
+
+[node name="RayCast" type="RayCast" parent="SpringArm/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -150 )
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_custom_color = Color( 1, 0, 0, 1 )
 
 [node name="TargetPointer" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0 )
@@ -878,6 +886,12 @@ margin_bottom = 0.319946
 custom_styles/fg = SubResource( 21 )
 step = 1.0
 percent_visible = false
+
+[node name="Polygon2D" type="Polygon2D" parent="HUD"]
+position = Vector2( 960, 534 )
+rotation = 0.785398
+offset = Vector2( -4, -8 )
+polygon = PoolVector2Array( 4, 8, 12, 8, 12, 16, 4, 16 )
 
 [node name="SpellMenu" type="Control" parent="."]
 visible = false
