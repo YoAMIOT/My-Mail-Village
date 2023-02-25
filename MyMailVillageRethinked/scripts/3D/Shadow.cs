@@ -99,6 +99,7 @@ public class Shadow : KinematicBody{
         GetNode<Timer>("AttackCooldown").Stop();
         GetNode<AnimationPlayer>("AnimationPlayer").Stop();
         GetNode<AnimationPlayer>("AnimationPlayer").Play("Dying");
+        GetNode<Particles>("Appearance/MeshInstance/Particles").QueueFree();
         await ToSignal(GetNode<AnimationPlayer>("AnimationPlayer"), "animation_finished");
         QueueFree();
     }

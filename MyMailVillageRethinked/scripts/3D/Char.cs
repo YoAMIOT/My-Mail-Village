@@ -20,7 +20,7 @@ public class Char : KinematicBody{
     private bool lightOn = false;
     private const float LIGHT_CONSUMPTION_COOLDOWN = 0.5F;
     private const int LIGHT_CONSUMPTION = 1;
-    private string[] Spells = {"Heal", "Repulse", "Dmg1", "", ""};
+    private string[] Spells = {"Heal", "Repulse", "Dmg1"};
     private string selectedSpell = "";
     private bool canCast = true;
     private const int MANA_REGENERATION = 2;
@@ -33,20 +33,11 @@ public class Char : KinematicBody{
         initializePhysicalAttributes();
         GetNode<Timer>("Light/Timer").Connect("timeout", this, "lightManaCooldown");
         GetNode<Timer>("Light/Timer").WaitTime = LIGHT_CONSUMPTION_COOLDOWN;
-        int i = 0;
-        foreach (Button b in GetNode<Control>("SpellMenu").GetChildren()){
-            b.Connect("pressed", this, "spellSelected", new Godot.Collections.Array((Button)b));
-            b.Text = Spells[i];
-            i++;
-            if(b.Text == ""){
-                b.Disabled = true;
-            }
-        }
-        selectedSpell = Spells[0].ToLower();
         GetNode<Timer>("SpellCooldown").Connect("timeout", this, "castCooldown");
         GetNode<Timer>("ManaCooldown").Connect("timeout", this, "manaCooldown");
         Input.SetMouseMode(Input.MouseMode.Captured);
         GetNode<SpringArm>("SpringArm").SpringLength = ZOOM_MIN;
+        selectSpell(Spells[0]);
     }
 
 //INPUT RELATED
@@ -79,10 +70,8 @@ public class Char : KinematicBody{
         if (Input.IsActionJustPressed("switchLight") && mana > 0){
             lightOn = !lightOn;
             switchLight(lightOn);
-        } if (Input.IsActionJustPressed("castSpell") && GetNode<Control>("SpellMenu").Visible == false && canCast){
+        } if (Input.IsActionJustPressed("castSpell") && canCast){
             castSpell();
-        } if (Input.IsActionJustPressed("selectSpell")){
-            GetNode<Control>("SpellMenu").Visible = !GetNode<Control>("SpellMenu").Visible;
         }
 
         //TARGETTING RELATED
@@ -90,7 +79,11 @@ public class Char : KinematicBody{
             Area collider = (Area)GetNode<RayCast>("SpringArm/Camera/RayCast").GetCollider();
             if (collider != null && collider.GetPath().ToString().StartsWith("/root/TestWorld/Ennemies/")){
                 string wantedTarget = collider.GetParent().GetParent().GetParent().Name;
-                setTarget(wantedTarget);
+                if (target != wantedTarget){
+                    setTarget(wantedTarget);
+                } else if (target == wantedTarget){
+                    resetTarget();
+                }
             }
         }
 
@@ -122,12 +115,41 @@ public class Char : KinematicBody{
     }
 
     public override void _Input(InputEvent @event){
-        if (@event is InputEventMouseMotion mouseEvent){
+        if (@event is InputEventMouseMotion mouseMotionEvent){
             Vector3 armRotation = GetNode<SpringArm>("SpringArm").RotationDegrees;
-            armRotation.y -= mouseEvent.Relative.x * MOUSE_SENS;
-            armRotation.x -= mouseEvent.Relative.y * MOUSE_SENS;
+            armRotation.y -= mouseMotionEvent.Relative.x * MOUSE_SENS;
+            armRotation.x -= mouseMotionEvent.Relative.y * MOUSE_SENS;
             armRotation.x = Mathf.Clamp(armRotation.x, SPRINGARM_MIN_PITCH, SPRINGARM_MAX_PITCH);
             GetNode<SpringArm>("SpringArm").RotationDegrees = armRotation;
+        }
+        if (@event is InputEventMouseButton mouseButtonEvent){
+            if (mouseButtonEvent.IsPressed()){
+                if (mouseButtonEvent.ButtonIndex == (int)ButtonList.WheelUp){
+                    int idx = 0;
+                    for (int i = 0; i < Spells.Length; i++){
+                        if (Spells[i] == selectedSpell){
+                            if (i == 0){
+                                idx = Spells.Length - 1;
+                            } else {
+                                idx = i - 1;
+                            }
+                        }
+                    }
+                    selectSpell(Spells[idx]);
+                } if (mouseButtonEvent.ButtonIndex == (int)ButtonList.WheelDown){
+                    int idx = 0;
+                    for (int i = 0; i < Spells.Length; i++){
+                        if (Spells[i] == selectedSpell){
+                            if (i == Spells.Length - 1){
+                                idx = 0;
+                            } else {
+                                idx = i + 1;
+                            }
+                        }
+                    }
+                    selectSpell(Spells[idx]);
+                }
+            }
         }
     }
 
@@ -252,6 +274,9 @@ public class Char : KinematicBody{
     }
 
     public void resetTarget(){
+        if (target != ""){
+            GetParent().GetNode<MeshInstance>("Ennemies/" + target + "/Appearance/MeshInstance/Selected").Visible = false;
+        }
         target = "";
     }
 
@@ -286,7 +311,7 @@ public class Char : KinematicBody{
         int dmg1Damage = 30;
 
         switch(selectedSpell){
-            case "heal":
+            case "Heal":
                 if (mana - healCost > 0){
                     canCast = false;
                     SpellCooldown.WaitTime = healCooldown;
@@ -295,7 +320,7 @@ public class Char : KinematicBody{
                     regainHealth(healthRegain);
                 }
                 break;
-            case "repulse":
+            case "Repulse":
                 if (mana - repulseCost > 0){
                     canCast = false;
                     SpellCooldown.WaitTime = repulseCooldown;
@@ -308,7 +333,7 @@ public class Char : KinematicBody{
                     }
                 }
                 break;
-            case "dmg1":
+            case "Dmg1":
                 if (mana - dmg1Cost > 0 && target != ""){
                     canCast = false;
                     SpellCooldown.WaitTime = dmg1Cooldown;
@@ -324,11 +349,6 @@ public class Char : KinematicBody{
         }
     }
 
-    private void spellSelected(Button button){
-        selectedSpell = button.Text.ToLower();
-        GetNode<Control>("SpellMenu").Visible = false;
-    }
-
     private void castCooldown(){
         canCast = true;
     }
@@ -338,5 +358,10 @@ public class Char : KinematicBody{
         float timeLeft = GetNode<Timer>("SpellCooldown").TimeLeft;
         float percentage = (timeLeft / totalTime) * 100;
         GetNode<ProgressBar>("HUD/CastCooldown").Value = percentage;
+    }
+
+    private void selectSpell(string spell){
+        selectedSpell = spell;
+        GetNode<Label>("HUD/SelectedSpellLabel").Text = selectedSpell;
     }
 }

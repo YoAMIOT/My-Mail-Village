@@ -723,14 +723,14 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 7.15325e-09, 2.40694e-07, -4.47923e-09, 0.999938, -0.0111078, -2.40758e-07, 0.0111078, 0.999938, -1.45878e-08, 2.49939, -0.0101187 )
+transform = Transform( 1, -1.17307e-08, 2.37022e-07, 1.08458e-08, 0.999993, 0.00373283, -2.37064e-07, -0.00373283, 0.999993, 2.3849e-08, 2.48831, 0.0204348 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.972244, -0.233915, 0.00522242, 0.231566, -0.958801, 0.164559, -0.0334856, 0.161201, 0.986353, -1.09734, 2.10709, 0.0579444 )
+transform = Transform( -0.964073, -0.265635, -0.00160161, 0.261433, -0.949854, 0.171557, -0.0470928, 0.164975, 0.985172, -1.10054, 2.09895, 0.0830291 )
 bone_name = "hand.r"
 
 [node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
@@ -893,75 +893,20 @@ rotation = 0.785398
 offset = Vector2( -4, -8 )
 polygon = PoolVector2Array( 4, 8, 12, 8, 12, 16, 4, 16 )
 
-[node name="SpellMenu" type="Control" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="SelectedSpellLabel" type="Label" parent="HUD"]
+anchor_left = 0.375
+anchor_top = 0.889
+anchor_right = 0.625
+anchor_bottom = 0.924
+margin_left = -6.10352e-05
+margin_top = -0.120056
+margin_bottom = 0.0799561
+custom_fonts/font = ExtResource( 4 )
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Spell1" type="Button" parent="SpellMenu"]
-anchor_left = 0.467
-anchor_top = 0.322
-anchor_right = 0.533
-anchor_bottom = 0.441
-margin_left = -0.640015
-margin_top = 0.23996
-margin_right = 0.639893
-margin_bottom = -0.280029
-custom_fonts/font = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Spell2" type="Button" parent="SpellMenu"]
-anchor_left = 0.533
-anchor_top = 0.441
-anchor_right = 0.6
-anchor_bottom = 0.559
-margin_left = 0.639893
-margin_top = -0.280029
-margin_bottom = 0.279968
-custom_fonts/font = ExtResource( 4 )
-
-[node name="Spell3" type="Button" parent="SpellMenu"]
-anchor_left = 0.504
-anchor_top = 0.56
-anchor_right = 0.571
-anchor_bottom = 0.679
-margin_left = 0.320007
-margin_top = 0.200012
-margin_right = -0.320068
-margin_bottom = -0.320007
-custom_fonts/font = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Spell4" type="Button" parent="SpellMenu"]
-anchor_left = 0.429
-anchor_top = 0.56
-anchor_right = 0.496
-anchor_bottom = 0.679
-margin_left = 0.319946
-margin_top = 0.200012
-margin_right = -0.320068
-margin_bottom = -0.320007
-custom_fonts/font = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Spell5" type="Button" parent="SpellMenu"]
-anchor_left = 0.4
-anchor_top = 0.441
-anchor_right = 0.467
-anchor_bottom = 0.559
-margin_top = -0.280029
-margin_right = -0.640015
-margin_bottom = 0.279968
-custom_fonts/font = ExtResource( 4 )
 
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )

@@ -7,7 +7,6 @@ _data = [ Vector2( 0, 0 ), 0.0, -0.274797, 0, 0, Vector2( 1, 0 ), -3.62085, 0.0,
 curve = SubResource( 10 )
 
 [resource]
-lifetime_randomness = 1.0
 emission_shape = 1
 emission_sphere_radius = 1.0
 spread = 164.41
