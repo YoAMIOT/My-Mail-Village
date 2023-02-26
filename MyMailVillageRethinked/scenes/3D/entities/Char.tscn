@@ -723,14 +723,14 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -1.17307e-08, 2.37022e-07, 1.08458e-08, 0.999993, 0.00373283, -2.37064e-07, -0.00373283, 0.999993, 2.3849e-08, 2.48831, 0.0204348 )
+transform = Transform( 1, 4.76123e-10, 2.3996e-07, -4.49245e-09, 0.999859, 0.0167378, -2.39918e-07, -0.0167378, 0.999859, -1.13248e-09, 2.4782, 0.0471942 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.964073, -0.265635, -0.00160161, 0.261433, -0.949854, 0.171557, -0.0470928, 0.164975, 0.985172, -1.10054, 2.09895, 0.0830291 )
+transform = Transform( -0.955958, -0.293428, -0.00674964, 0.287602, -0.941071, 0.177961, -0.0585705, 0.168182, 0.984014, -1.10341, 2.0916, 0.105114 )
 bone_name = "hand.r"
 
 [node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
@@ -745,7 +745,7 @@ visible = false
 shape = SubResource( 10 )
 
 [node name="SpringArm" type="SpringArm" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 6.60959, 0 )
+transform = Transform( 1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 6.60959, 0 )
 spring_length = 12.0
 margin = 0.2
 
