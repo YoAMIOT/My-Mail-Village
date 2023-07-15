@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
@@ -68,6 +68,123 @@ bind/13/bone = -1
 bind/13/pose = Transform( 7.9535e-08, 0.90141, 0.432965, 3.89637e-08, -0.432965, 0.90141, 1, -1.14815e-07, -5.51478e-08, -0.37847, 0.278288, 0.599392 )
 
 [sub_resource type="CapsuleShape" id=10]
+
+[sub_resource type="Animation" id=22]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath(".:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath(".:rotation_degrees:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( -4.259, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath(".:rotation_degrees:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 3.988, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath(".:rotation_degrees:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 3.605, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath(".:fov")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "hurt"
+length = 0.4
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rotation_degrees:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -4.259, -0.25, 0, 0.2, 4.26043, 0, -0.2, -4.22418, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:rotation_degrees:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 3.988, -0.25, 0, 0.2, -4.01265, 0, -0.2, 3.9923, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath(".:rotation_degrees:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 3.605, -0.25, 0, 0.2, -3.59413, 0, -0.2, 3.59743, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath(".:fov")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 103, -0.25, 0, 0.25, 0, 90, -0.25, 0, 0.2, 12.9083, 103, -0.2, -12.8963, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.2, 0.4 )
+}
 
 [sub_resource type="SphereMesh" id=14]
 material = ExtResource( 3 )
@@ -403,7 +520,7 @@ blend_point_1/pos = 1.0
 min_space = 0.0
 
 [sub_resource type="AnimationNodeBlendTree" id=13]
-graph_offset = Vector2( -228, 50 )
+graph_offset = Vector2( -356, 61 )
 nodes/BlendSpace1D/node = SubResource( 9 )
 nodes/BlendSpace1D/position = Vector2( 0, 140 )
 nodes/output/position = Vector2( 220, 140 )
@@ -411,234 +528,8 @@ node_connections = [ "output", 0, "BlendSpace1D" ]
 
 [sub_resource type="StyleBoxFlat" id=16]
 
-[sub_resource type="Animation" id=23]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/path = NodePath(".:rect_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 1000, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath(".:rect_position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 1024, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:rect_scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0.8, 0.5 ) ]
-}
-tracks/3/type = "bezier"
-tracks/3/path = NodePath(".:rect_scale:x")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/4/type = "bezier"
-tracks/4/path = NodePath(".:rect_scale:y")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-
-[sub_resource type="Animation" id=24]
-resource_name = "heal"
-length = 1.2
-tracks/0/type = "bezier"
-tracks/0/path = NodePath(".:rect_scale:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2 )
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath(".:rect_scale:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1.1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.2, 0.4, 0.7, 1 )
-}
-
-[sub_resource type="Animation" id=22]
-resource_name = "hit"
-length = 0.3
-tracks/0/type = "bezier"
-tracks/0/path = NodePath(".:rect_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 960, -0.25, 0, 0.25, 0, 1000, -0.25, 0, 0.1, -38.5903, 960, -0.25, 0, 0.1, 0.204102 ),
-"times": PoolRealArray( 0, 0.1, 0.2 )
-}
-
-[sub_resource type="StyleBoxFlat" id=17]
-
-[sub_resource type="Animation" id=25]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../Mana:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -0.5, 0.5 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("../Mana:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 909, 1034 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("../../Armature/Skeleton/BoneAttachment/ManaLight:omni_range")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.65263 ]
-}
-tracks/3/type = "bezier"
-tracks/3/path = NodePath("../Mana:rect_scale:x")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"points": PoolRealArray( -1.1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("../Mana:rect_scale:y")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"points": PoolRealArray( 1.1, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-
-[sub_resource type="Animation" id=27]
-resource_name = "regain"
-tracks/0/type = "value"
-tracks/0/path = NodePath("../../Armature/Skeleton/BoneAttachment/ManaLight:omni_range")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.65263, 3.407, 3.407, 1.65263 ]
-}
-
-[sub_resource type="Animation" id=26]
-resource_name = "use"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/path = NodePath("../../Armature/Skeleton/BoneAttachment/ManaLight:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 16.0, 1.299, 2.791, 1.299, 16.0 ]
-}
-
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="Animation" id=19]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/path = NodePath(".:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-
-[sub_resource type="Animation" id=20]
-resource_name = "lightOff"
-tracks/0/type = "bezier"
-tracks/0/path = NodePath(".:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "lightOn"
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:light_energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 1.0 ]
-}
 
 [node name="Char" type="KinematicBody" groups=["player"]]
 script = ExtResource( 1 )
@@ -655,7 +546,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [ NodePath("HeadAttachment") ]
+bones/1/bound_children = [  ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -700,7 +591,7 @@ bones/10/name = "hand.r"
 bones/10/parent = 9
 bones/10/rest = Transform( 0.998287, 0.0578355, -0.00887448, -0.0578319, 0.998326, 0.000668298, 0.00889827, -0.000153926, 0.99996, -1.49011e-07, 0.287411, -3.89937e-09 )
 bones/10/enabled = true
-bones/10/bound_children = [ NodePath("BoneAttachment") ]
+bones/10/bound_children = [  ]
 bones/11/name = "upperleg.r"
 bones/11/parent = 0
 bones/11/rest = Transform( 0, 4.47035e-08, 1, 0.209842, -0.977736, 4.47035e-08, 0.977735, 0.209842, 0, -0.599392, 0.106393, -0.0298723 )
@@ -723,21 +614,11 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, 4.76123e-10, 2.3996e-07, -4.49245e-09, 0.999859, 0.0167378, -2.39918e-07, -0.0167378, 0.999859, -1.13248e-09, 2.4782, 0.0471942 )
+transform = Transform( 1, 1.18621e-08, 2.41096e-07, -4.46957e-09, 0.99953, -0.030639, -2.41346e-07, 0.030639, 0.99953, -2.4028e-08, 2.51323, -0.0503211 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 8.88178e-16, 1, -1.11759e-08, -4.37114e-08, 0, 0.927929, 1.036 )
-
-[node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.955958, -0.293428, -0.00674964, 0.287602, -0.941071, 0.177961, -0.0585705, 0.168182, 0.984014, -1.10341, 2.0916, 0.105114 )
-bone_name = "hand.r"
-
-[node name="ManaLight" type="OmniLight" parent="Armature/Skeleton/BoneAttachment"]
-transform = Transform( 0.98729, 0.154714, 0.0363398, -0.153771, 0.987724, -0.0274771, -0.0401452, 0.02154, 0.998962, 0.461146, 0.953488, 0.117467 )
-light_color = Color( 0, 1, 0, 1 )
-light_energy = 1.299
-omni_range = 2.52982
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1.5, 0, 0, 0, -6.55671e-08, -1.5, 0, 1.5, -6.55671e-08, 0, 2.25, 0 )
@@ -750,15 +631,21 @@ spring_length = 12.0
 margin = 0.2
 
 [node name="Camera" type="Camera" parent="SpringArm"]
+transform = Transform( 0.99528, -0.0678801, 0.0693555, 0.062704, 0.995265, 0.0742651, -0.0740682, -0.0695657, 0.994824, 0, 0, 0 )
 current = true
-fov = 102.5
+fov = 90.0
 
 [node name="RayCast" type="RayCast" parent="SpringArm/Camera"]
 enabled = true
-cast_to = Vector3( 0, 0, -150 )
+cast_to = Vector3( 0, 0, -50 )
 collide_with_areas = true
 collide_with_bodies = false
 debug_shape_custom_color = Color( 1, 0, 0, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SpringArm/Camera"]
+reset_on_save = false
+anims/RESET = SubResource( 22 )
+anims/hurt = SubResource( 23 )
 
 [node name="TargetPointer" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0 )
@@ -780,15 +667,13 @@ anims/default = SubResource( 3 )
 anims/idle_loop = SubResource( 4 )
 anims/walk_loop = SubResource( 5 )
 
-[node name="CamTween" type="Tween" parent="."]
-
-[node name="ZoomTween" type="Tween" parent="."]
-
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 13 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/BlendSpace1D/blend_position = 0
+
+[node name="ZoomTween" type="Tween" parent="."]
 
 [node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
@@ -800,16 +685,18 @@ __meta__ = {
 
 [node name="Health" type="ProgressBar" parent="HUD"]
 self_modulate = Color( 1, 0, 0, 1 )
-anchor_left = 0.5
+anchor_left = 0.433
 anchor_top = 0.948
-anchor_right = 0.633
+anchor_right = 0.567
 anchor_bottom = 0.993
-margin_top = 0.159973
-margin_right = 0.640015
-margin_bottom = -0.439941
+margin_left = 0.639954
+margin_top = 0.159912
+margin_right = -0.640015
+margin_bottom = -0.440063
 custom_styles/fg = SubResource( 16 )
+max_value = 10.0
 step = 1.0
-value = 100.0
+value = 10.0
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -826,66 +713,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Health"]
-reset_on_save = false
-anims/RESET = SubResource( 23 )
-anims/heal = SubResource( 24 )
-anims/hit = SubResource( 22 )
-
-[node name="Mana" type="ProgressBar" parent="HUD"]
-self_modulate = Color( 0.101961, 1, 0, 1 )
-anchor_left = 0.365
-anchor_top = 0.948
-anchor_right = 0.5
-anchor_bottom = 0.993
-margin_left = 259.2
-margin_top = 0.159912
-margin_right = 256.0
-margin_bottom = -0.439941
-rect_scale = Vector2( -1.01439, 1.01439 )
-custom_styles/fg = SubResource( 17 )
-step = 1.0
-value = 100.0
-percent_visible = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="HUD/Mana"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 256.0
-margin_top = 6.10352e-05
-margin_right = 256.0
-margin_bottom = 6.10352e-05
-rect_scale = Vector2( -1, 1 )
-custom_fonts/font = ExtResource( 4 )
-text = "Mana"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/Mana"]
-root_node = NodePath("../../Health")
-reset_on_save = false
-anims/RESET = SubResource( 25 )
-anims/regain = SubResource( 27 )
-anims/use = SubResource( 26 )
-
 [node name="CastCooldown" type="ProgressBar" parent="HUD"]
-anchor_left = 0.371
+anchor_left = 0.433
 anchor_top = 0.926
-anchor_right = 0.629
+anchor_right = 0.567
 anchor_bottom = 0.946
-margin_left = -0.320068
+margin_left = 0.639954
 margin_top = -0.0800781
-margin_right = 0.319946
-margin_bottom = 0.319946
+margin_right = -0.640015
+margin_bottom = 0.320007
 custom_styles/fg = SubResource( 21 )
 step = 1.0
 percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Polygon2D" type="Polygon2D" parent="HUD"]
 position = Vector2( 960, 534 )
@@ -911,21 +753,10 @@ __meta__ = {
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.28464, 0 )
 light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
-light_energy = 0.0
 light_bake_mode = 2
-omni_range = 28.805
+omni_range = 30.0
 
-[node name="Timer" type="Timer" parent="Light"]
-wait_time = 0.5
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Light"]
-anims/RESET = SubResource( 19 )
-anims/lightOff = SubResource( 20 )
-anims/lightOn = SubResource( 18 )
+[node name="LightTween" type="Tween" parent="Light"]
 
 [node name="SpellCooldown" type="Timer" parent="."]
 one_shot = true
-
-[node name="ManaCooldown" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true

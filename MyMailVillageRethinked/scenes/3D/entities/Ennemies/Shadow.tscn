@@ -47,6 +47,38 @@ material = ExtResource( 6 )
 
 [sub_resource type="Animation" id=12]
 resource_name = "Attack"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Appearance/MeshInstance:translation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 2.00819, -0.4, -2.00218, 0.2, -1.79252, -2.17466e-08, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.7, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Appearance/MeshInstance:translation:z")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 3.45583, -0.25, 0, 0.2, -3.33525, -1.3585, -0.3, -0.0380288, 0.25, 0, 0, -0.3, 0.0151538, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.7, 1 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Appearance/HitParticles:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.55 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=24]
 resource_name = "Dying"
@@ -111,6 +143,16 @@ tracks/4/keys = {
 resource_name = "Idle"
 length = 2.0
 loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Appearance/MeshInstance:translation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.9, 0.0235305, 0.749646, -0.6, -0.0031029, 0.6, 0.000407696, 0, -0.8, 0.0235305, 0.25, 0 ),
+"times": PoolRealArray( 0, 1, 2 )
+}
 
 [sub_resource type="SpatialMaterial" id=27]
 flags_unshaded = true
@@ -226,6 +268,36 @@ tracks/9/keys = {
 "update": 0,
 "values": [ false ]
 }
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("Appearance/MeshInstance:translation:x")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("Appearance/MeshInstance:translation:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("Appearance/MeshInstance:translation:z")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=19]
 resource_name = "normal"
@@ -248,7 +320,7 @@ script = ExtResource( 2 )
 [node name="Appearance" type="Spatial" parent="."]
 
 [node name="MeshInstance" type="MeshInstance" parent="Appearance"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.19209e-07, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2.17466e-08, -1.3585 )
 mesh = SubResource( 1 )
 skeleton = NodePath("")
 material/0 = ExtResource( 1 )
@@ -263,7 +335,6 @@ draw_pass_1 = SubResource( 28 )
 
 [node name="DyingParticles" type="Particles" parent="Appearance/MeshInstance"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -1.7536e-08, -0.401176 )
-visible = false
 emitting = false
 amount = 15
 lifetime = 0.7
@@ -280,7 +351,7 @@ transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
 shape = SubResource( 9 )
 
 [node name="Selected" type="MeshInstance" parent="Appearance/MeshInstance"]
-transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, -5.21079e-15, -4.91719 )
+transform = Transform( -1, 8.74228e-08, 0, 3.82137e-15, 4.37114e-08, 1, 8.74228e-08, 1, -4.37114e-08, 0, -5.21079e-15, -4.20314 )
 visible = false
 cast_shadow = 0
 mesh = SubResource( 18 )
@@ -288,7 +359,7 @@ skeleton = NodePath("../../..")
 material/0 = null
 
 [node name="Light" type="MeshInstance" parent="Appearance/MeshInstance"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+transform = Transform( 1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0 )
 visible = false
 mesh = SubResource( 20 )
 skeleton = NodePath("")
@@ -296,11 +367,10 @@ material/0 = null
 
 [node name="OmniLight" type="OmniLight" parent="Appearance/MeshInstance/Light"]
 light_color = Color( 0.933333, 0.905882, 0.709804, 1 )
-omni_range = 3.0
+light_energy = 3.0
 
 [node name="HitParticles" type="Particles" parent="Appearance"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.401176, -1.17546 )
-visible = false
 emitting = false
 amount = 10
 lifetime = 0.05

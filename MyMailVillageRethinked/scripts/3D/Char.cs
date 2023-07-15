@@ -2,39 +2,33 @@ using Godot;
 using System;
 
 public class Char : KinematicBody{
-    public const int MAX_HEALTH = 100;
-    public int health = MAX_HEALTH;
-    private const int MAX_MANA = 100;
-    private int mana = MAX_MANA;
+    public const int MAX_HEALTH = 10;
+    private const int MAX_MANA = 10;
+    private const int MAX_LIGHT_RANGE = 30;
     private const float FALL_ACCELERATION = 75;
     private const int MAX_SPEED = 7;
-    private int speed = MAX_SPEED;
-    private Vector3 _velocity = Vector3.Zero;
     private const float LERP_VAL = .15F;
     private const float ZOOM_STEP = 4F;
     private const float ZOOM_MIN = ZOOM_STEP * 2;
     private const float ZOOM_MAX = ZOOM_STEP * 5;
-    private Godot.Collections.Dictionary characterAttribute;
-    private Server Server;
-    public string target = "";
-    private bool lightOn = false;
-    private const float LIGHT_CONSUMPTION_COOLDOWN = 0.5F;
-    private const int LIGHT_CONSUMPTION = 1;
-    private string[] Spells = {"Heal", "Repulse", "Dmg1"};
-    private string selectedSpell = "";
-    private bool canCast = true;
-    private const int MANA_REGENERATION = 2;
     private const float MOUSE_SENS = 0.05f;
     private const int SPRINGARM_MIN_PITCH = -70;
     private const int SPRINGARM_MAX_PITCH = 50;
+    public int health = MAX_HEALTH;
+    private int mana = MAX_MANA;
+    private int speed = MAX_SPEED;
+    private Vector3 _velocity = Vector3.Zero;
+    private Godot.Collections.Dictionary characterAttribute;
+    private Server Server;
+    public string target = "";
+    private string[] Spells = {"Heal", "Repulse", "Dmg1"};
+    private string selectedSpell = "";
+    private bool canCast = true;
 
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
         initializePhysicalAttributes();
-        GetNode<Timer>("Light/Timer").Connect("timeout", this, "lightManaCooldown");
-        GetNode<Timer>("Light/Timer").WaitTime = LIGHT_CONSUMPTION_COOLDOWN;
         GetNode<Timer>("SpellCooldown").Connect("timeout", this, "castCooldown");
-        GetNode<Timer>("ManaCooldown").Connect("timeout", this, "manaCooldown");
         Input.SetMouseMode(Input.MouseMode.Captured);
         GetNode<SpringArm>("SpringArm").SpringLength = ZOOM_MIN;
         selectSpell(Spells[0]);
@@ -67,10 +61,7 @@ public class Char : KinematicBody{
         }
 
         //SPELL RELATED
-        if (Input.IsActionJustPressed("switchLight") && mana > 0){
-            lightOn = !lightOn;
-            switchLight(lightOn);
-        } if (Input.IsActionJustPressed("castSpell") && canCast){
+        if (Input.IsActionJustPressed("castSpell") && canCast){
             castSpell();
         }
 
@@ -178,15 +169,12 @@ public class Char : KinematicBody{
     public void getsHit(int damage){
         health -= damage;
         checkHealth();
-        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Stop();
-        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Play("hit");
+        GetNode<AnimationPlayer>("SpringArm/Camera/AnimationPlayer").Play("hurt");
     }
 
     private void regainHealth(int amount){
         health += amount;
         checkHealth();
-        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Stop();
-        GetNode<AnimationPlayer>("HUD/Health/AnimationPlayer").Play("heal");
     }
 
     private void checkHealth(){
@@ -211,46 +199,29 @@ public class Char : KinematicBody{
     private void consumeMana(int amount){
         mana -= amount;
         checkMana();
-        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Stop();
-        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Play("use");
     }
 
     private void regainMana(int amount){
         mana += amount;
         checkMana();
-        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Stop();
-        GetNode<AnimationPlayer>("HUD/Mana/AnimationPlayer").Play("regain");
-    }
-
-    private void manaCooldown(){
-        if (mana < 100){
-            regainMana(MANA_REGENERATION);
-        }
     }
 
     private void checkMana(){
-        updateManaBar();
-        manageManaLight();
+        updateManaLight();
         if(mana <= 0){
             mana = 0;
-            if (lightOn){
-                switchLight(false);
-            }
         } else if(mana > MAX_MANA){
             mana = MAX_MANA;
         }
     }
-    
-    private void updateManaBar(){
-        GetNode<ProgressBar>("HUD/Mana").Value = mana;
-    }
 
-    private void manageManaLight(){
-        float manaSpent = (int)(MAX_MANA - mana);
-        manaSpent = manaSpent / 100;
-        float currentMana = mana;
-        currentMana = currentMana / 100;
-        GetNode<OmniLight>("Armature/Skeleton/BoneAttachment/ManaLight").LightColor = new Color(manaSpent, currentMana, 0, 1);
+    private void updateManaLight(){
+        float manaPercentage = (float)((mana * 100) / MAX_MANA);
+        float lightRangePercentage = (float)((manaPercentage * MAX_LIGHT_RANGE) / 100);
+        float lightEnergy = manaPercentage / 100;
+        GetNode<Tween>("Light/LightTween").InterpolateProperty(GetNode<OmniLight>("Light"), "omni_range", GetNode<OmniLight>("Light").OmniRange, lightRangePercentage, 1F);
+        GetNode<Tween>("Light/LightTween").InterpolateProperty(GetNode<OmniLight>("Light"), "light_energy", GetNode<OmniLight>("Light").LightEnergy, lightEnergy, 1F);
+        GetNode<Tween>("Light/LightTween").Start();
     }
 
 //TARGET SYSTEM RELATED
@@ -281,38 +252,23 @@ public class Char : KinematicBody{
     }
 
 //SPELL RELATED
-    private void lightManaCooldown(){
-        consumeMana(LIGHT_CONSUMPTION);
-    }
-
-    private void switchLight(bool status){
-        if(status){
-            GetNode<AnimationPlayer>("Light/AnimationPlayer").Play("lightOn");
-            GetNode<Timer>("Light/Timer").Start();
-        } else if(!status){
-            GetNode<AnimationPlayer>("Light/AnimationPlayer").Play("lightOff");
-            GetNode<Timer>("Light/Timer").Stop();
-            GetNode<Timer>("Light/Timer").WaitTime = LIGHT_CONSUMPTION_COOLDOWN;
-        }
-    }
-
     private void castSpell(){
         Timer SpellCooldown = GetNode<Timer>("SpellCooldown");
         bool hasCasted = false;
-        int healCost = 20;
+        int healCost = 2;
         int healCooldown = 2;
-        int healthRegain = 30;
-        int repulseCost = 30;
+        int healthRegain = 3;
+        int repulseCost = 1;
         int repulseCooldown = 4;
-        int repulseRange = 5;
-        int repulseDamage = 20;
-        int dmg1Cost = 15;
+        int repulseRange = 6;
+        int repulseDamage = 1;
+        int dmg1Cost = 1;
         int dmg1Cooldown = 2;
-        int dmg1Damage = 30;
+        int dmg1Damage = 1;
 
         switch(selectedSpell){
             case "Heal":
-                if (mana - healCost > 0){
+                if (mana - healCost >= 0){
                     canCast = false;
                     SpellCooldown.WaitTime = healCooldown;
                     consumeMana(healCost);
@@ -321,7 +277,7 @@ public class Char : KinematicBody{
                 }
                 break;
             case "Repulse":
-                if (mana - repulseCost > 0){
+                if (mana - repulseCost >= 0){
                     canCast = false;
                     SpellCooldown.WaitTime = repulseCooldown;
                     consumeMana(repulseCost);
@@ -334,7 +290,7 @@ public class Char : KinematicBody{
                 }
                 break;
             case "Dmg1":
-                if (mana - dmg1Cost > 0 && target != ""){
+                if (mana - dmg1Cost >= 0 && target != ""){
                     canCast = false;
                     SpellCooldown.WaitTime = dmg1Cooldown;
                     consumeMana(dmg1Cost);

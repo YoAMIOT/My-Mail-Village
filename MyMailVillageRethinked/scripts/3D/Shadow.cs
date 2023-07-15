@@ -2,18 +2,17 @@ using Godot;
 using System;
 
 public class Shadow : KinematicBody{
-    public const int MAX_HEALTH = 100;
+    public const int MAX_HEALTH = 2;
     public int health = MAX_HEALTH;
-    private bool canAttack = true;
-    private int attackRange = 5;
-    private int baseDamage = 20;
-    private Char player;
+    private const int BASE_DAMAGE = 1;
+    private const int ATTACK_RANGE = 5;
     private const float SPEED = 7.2f;
-    private const float FALL_ACCELERATION = 75;
-    private Vector3 velocity = Vector3.Zero;
-    private bool repulsed = false;
     private const float REPULSE_POWER = SPEED * 200;
-    private bool alreadyJumped = false;
+    private const int FALL_ACCELERATION = 75;
+    private Vector3 velocity = Vector3.Zero;
+    private bool canAttack = true;
+    private Char player;
+    private bool repulsed = false;
     private bool dying = false;
 
     public override void _Ready(){
@@ -21,6 +20,7 @@ public class Shadow : KinematicBody{
         GetNode<Timer>("AttackCooldown").Connect("timeout", this, "cooldownTimeout");
         GetNode<Area>("Appearance/MeshInstance/SelectArea").Connect("input_event", this, "selected");
         player = GetParent().GetParent().GetNode<Char>("Char");
+        checkHealth();
     }
 
     public override void _PhysicsProcess(float delta){ 
@@ -39,7 +39,7 @@ public class Shadow : KinematicBody{
         GetNode<Spatial>("Appearance").RotationDegrees = new Vector3(0, GetNode<Spatial>("Appearance").RotationDegrees.y, 0);
 
         //Manage attacking
-        if (Translation.DistanceTo(player.Translation) < attackRange && canAttack){
+        if (Translation.DistanceTo(player.Translation) < ATTACK_RANGE && canAttack){
             attack();
         }
     }
@@ -51,9 +51,9 @@ public class Shadow : KinematicBody{
             GetNode<Timer>("AttackCooldown").Start();
             GetNode<AnimationPlayer>("AnimationPlayer").Play("Attack");
             await ToSignal(GetTree().CreateTimer(0.65f), "timeout");
-            if (Translation.DistanceTo(player.Translation) < attackRange){
+            if (Translation.DistanceTo(player.Translation) < ATTACK_RANGE){
                 GetNode<Particles>("Appearance/HitParticles").Emitting = true;
-                player.getsHit(baseDamage);
+                player.getsHit(BASE_DAMAGE);
             }
         }
     }
@@ -76,7 +76,10 @@ public class Shadow : KinematicBody{
     }
 
     private void checkHealth(){
-        float lightRatio = ((float)(MAX_HEALTH - health)/100);
+        float spentHealth = MAX_HEALTH - health;
+        float spentHealthPercent = (float)((spentHealth * 100) / MAX_HEALTH);
+        float lightRatio = (float)(spentHealthPercent / 100);
+
         if (lightRatio >= 0.01f && GetNode<MeshInstance>("Appearance/MeshInstance/Light").Visible == false){
             GetNode<MeshInstance>("Appearance/MeshInstance/Light").Visible = true;
         } if (!dying){
@@ -110,7 +113,6 @@ public class Shadow : KinematicBody{
         repulsed = true;
         getsHit(damage);
         await ToSignal(GetTree().CreateTimer(0.1F), "timeout");
-        alreadyJumped = false;
         repulsed = false;
     }
 }
