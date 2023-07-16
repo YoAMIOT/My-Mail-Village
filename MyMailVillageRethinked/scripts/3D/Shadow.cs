@@ -95,9 +95,6 @@ public class Shadow : KinematicBody{
     }
 
     private async void die(){
-        if (player.target == this.Name){
-            player.resetTarget();
-        }
         dying = true;
         GetNode<Timer>("AttackCooldown").Stop();
         GetNode<AnimationPlayer>("AnimationPlayer").Stop();
@@ -105,6 +102,10 @@ public class Shadow : KinematicBody{
         GetNode<Particles>("Appearance/MeshInstance/Particles").SpeedScale = 1.5f;
         GetNode<Particles>("Appearance/MeshInstance/Particles").Emitting = false;
         await ToSignal(GetNode<AnimationPlayer>("AnimationPlayer"), "animation_finished");
+        GetNode<CollisionShape>("Appearance/MeshInstance/SelectArea/CollisionShape").Disabled = true;
+        if (player.target == this.Name){
+            player.resetTarget();
+        }
         QueueFree();
     }
 

@@ -8,9 +8,6 @@ public class Char : KinematicBody{
     private const float FALL_ACCELERATION = 75;
     private const int MAX_SPEED = 7;
     private const float LERP_VAL = .15F;
-    private const float ZOOM_STEP = 4F;
-    private const float ZOOM_MIN = ZOOM_STEP * 2;
-    private const float ZOOM_MAX = ZOOM_STEP * 5;
     private const float MOUSE_SENS = 0.05f;
     private const int SPRINGARM_MIN_PITCH = -70;
     private const int SPRINGARM_MAX_PITCH = 50;
@@ -24,13 +21,13 @@ public class Char : KinematicBody{
     private string[] Spells = {"Heal", "Repulse", "Dmg1"};
     private string selectedSpell = "";
     private bool canCast = true;
+    private bool echolocation = false;
 
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
         initializePhysicalAttributes();
         GetNode<Timer>("SpellCooldown").Connect("timeout", this, "castCooldown");
         Input.SetMouseMode(Input.MouseMode.Captured);
-        GetNode<SpringArm>("SpringArm").SpringLength = ZOOM_MIN;
         selectSpell(Spells[0]);
     }
 
@@ -38,17 +35,6 @@ public class Char : KinematicBody{
     public override void _PhysicsProcess(float delta){
         Vector3 direction = Vector3.Zero;
 
-        //CAMERA ZOOM RELATED
-        if (Input.IsActionJustPressed("zoomCycle") && !GetNode<Tween>("ZoomTween").IsActive()){
-            float currentZoom = GetNode<SpringArm>("SpringArm").SpringLength;
-            if (GetNode<SpringArm>("SpringArm").SpringLength < ZOOM_MAX){
-                GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, GetNode<SpringArm>("SpringArm").SpringLength + ZOOM_STEP, 0.25F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
-            } else if (GetNode<SpringArm>("SpringArm").SpringLength == ZOOM_MAX){
-                GetNode<Tween>("ZoomTween").InterpolateProperty(GetNode<SpringArm>("SpringArm"), "spring_length", GetNode<SpringArm>("SpringArm").SpringLength, ZOOM_MIN, 0.5F, Tween.TransitionType.Linear, Tween.EaseType.OutIn);
-            }
-            GetNode<Tween>("ZoomTween").Start();
-        }
-        
         //MOVEMENT RELATED
         if (Input.IsActionPressed("right")){
             direction.x += 1f;
@@ -67,7 +53,7 @@ public class Char : KinematicBody{
 
         //TARGETTING RELATED
         if (Input.IsActionJustPressed("target")){
-            Area collider = (Area)GetNode<RayCast>("SpringArm/Camera/RayCast").GetCollider();
+            Area collider = (Area)GetNode<RayCast>("SpringArm/Offset/Camera/RayCast").GetCollider();
             if (collider != null && collider.GetPath().ToString().StartsWith("/root/TestWorld/Ennemies/")){
                 string wantedTarget = collider.GetParent().GetParent().GetParent().Name;
                 if (target != wantedTarget){
@@ -144,6 +130,8 @@ public class Char : KinematicBody{
         }
     }
 
+
+
 //INITIALIZE PHYSICAL APPEARANCE
     private void initializePhysicalAttributes(){
         // characterAttribute = Server.characterAttribute;
@@ -165,11 +153,13 @@ public class Char : KinematicBody{
         // GetNode<Position3D>("Armature/Skeleton/HeadAttachment/Position3D").AddChild(noseInstance);
     }
 
+
+
 //HEALTH RELATED
     public void getsHit(int damage){
         health -= damage;
         checkHealth();
-        GetNode<AnimationPlayer>("SpringArm/Camera/AnimationPlayer").Play("hurt");
+        GetNode<AnimationPlayer>("SpringArm/Offset/Camera/AnimationPlayer").Play("hurt");
     }
 
     private void regainHealth(int amount){
@@ -195,6 +185,8 @@ public class Char : KinematicBody{
         GD.Print("Player died");
     }
 
+
+
 //MANA RELATED
     private void consumeMana(int amount){
         mana -= amount;
@@ -213,6 +205,12 @@ public class Char : KinematicBody{
         } else if(mana > MAX_MANA){
             mana = MAX_MANA;
         }
+
+        if(mana <= 1 && echolocation == false){
+            Echolation(true);
+        } else if (mana > 1 && echolocation == true){
+            Echolation(false);
+        }
     }
 
     private void updateManaLight(){
@@ -223,6 +221,16 @@ public class Char : KinematicBody{
         GetNode<Tween>("Light/LightTween").InterpolateProperty(GetNode<OmniLight>("Light"), "light_energy", GetNode<OmniLight>("Light").LightEnergy, lightEnergy, 1F);
         GetNode<Tween>("Light/LightTween").Start();
     }
+
+
+
+//ECHOLOCATION RELATED
+    public void Echolation(bool Status){
+        GetNode<Spatial>("Sonar").Visible = Status;
+        echolocation = Status;
+    }
+
+
 
 //TARGET SYSTEM RELATED
     public void setTarget(string targetName){
@@ -250,6 +258,8 @@ public class Char : KinematicBody{
         }
         target = "";
     }
+
+
 
 //SPELL RELATED
     private void castSpell(){
