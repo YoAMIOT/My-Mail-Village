@@ -22,6 +22,7 @@ public class Char : KinematicBody{
     private string selectedSpell = "";
     private bool canCast = true;
     private bool echolocation = false;
+    private int manaRubyCount = 0;
 
     public override void _Ready(){
         Server = GetNode<Server>("/root/Server");
@@ -188,6 +189,21 @@ public class Char : KinematicBody{
 
 
 //MANA RELATED
+    private void useManaRuby(){
+        manaRubyCount -= 1;
+        regainMana(5);
+        updateManaRubyLabel();
+    }
+
+    public void pickManaRuby(){
+        manaRubyCount += 1;
+        updateManaRubyLabel();
+    }
+
+    private void updateManaRubyLabel(){
+        GetNode<Label>("HUD/ManaRubiesCount").Text = manaRubyCount.ToString();
+    }
+
     private void consumeMana(int amount){
         mana -= amount;
         checkMana();
@@ -199,12 +215,13 @@ public class Char : KinematicBody{
     }
 
     private void checkMana(){
-        updateManaLight();
         if(mana <= 0){
             mana = 0;
         } else if(mana > MAX_MANA){
             mana = MAX_MANA;
         }
+
+        updateManaLight();
 
         if(mana <= 1 && echolocation == false){
             Echolation(true);

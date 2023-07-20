@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scripts/3D/Char.cs" type="Script" id=1]
 [ext_resource path="res://ressources/meshes/skin.material" type="Material" id=2]
 [ext_resource path="res://ressources/meshes/Target.tres" type="Material" id=3]
 [ext_resource path="res://ressources/font/TiwipiFont.tres" type="DynamicFont" id=4]
 [ext_resource path="res://ressources/meshes/TargetBack.tres" type="Material" id=5]
+[ext_resource path="res://ressources/sprites/ManaRuby.png" type="Texture" id=6]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Char_Sphere003"
@@ -600,7 +601,7 @@ bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, -2.09225e-08, 9.19806e-10, 2.09225e-08, 0.996142, -0.0877553, 9.19804e-10, 0.0877553, 0.996142, -1.33227e-15, 1.92244, 3.72529e-09 )
 bones/1/enabled = true
-bones/1/bound_children = [ NodePath("HeadAttachment") ]
+bones/1/bound_children = [  ]
 bones/2/name = "upperarm.l"
 bones/2/parent = 0
 bones/2/rest = Transform( -0.312218, 0.944163, 0.105246, -0.949163, -0.305342, -0.0765172, -0.0401087, -0.123786, 0.991498, 0.570914, 1.95381, 0.0825611 )
@@ -668,7 +669,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="HeadAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 1, -1.02811e-08, 2.37227e-07, 1.08529e-08, 0.999997, -0.00241041, -2.37201e-07, 0.00241041, 0.999997, 2.08842e-08, 2.49295, 0.00779234 )
+transform = Transform( 1, -4.77002e-10, 2.38374e-07, 1.08768e-08, 0.999047, -0.0436302, -2.38126e-07, 0.0436302, 0.999047, 9.64306e-10, 2.52198, -0.0770591 )
 bone_name = "head"
 
 [node name="Position3D" type="Position3D" parent="Armature/Skeleton/HeadAttachment"]
@@ -786,8 +787,9 @@ __meta__ = {
 }
 
 [node name="Polygon2D" type="Polygon2D" parent="HUD"]
-position = Vector2( 960, 534 )
+position = Vector2( 960, 537 )
 rotation = 0.785398
+scale = Vector2( 0.5, 0.5 )
 offset = Vector2( -4, -8 )
 polygon = PoolVector2Array( 4, 8, 12, 8, 12, 16, 4, 16 )
 
@@ -802,6 +804,28 @@ margin_bottom = 0.0799561
 custom_fonts/font = ExtResource( 4 )
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManaRubies" type="Sprite" parent="HUD"]
+position = Vector2( 1144, 1024 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+
+[node name="ManaRubiesCount" type="Label" parent="HUD"]
+anchor_left = 0.6
+anchor_top = 0.959
+anchor_right = 0.629
+anchor_bottom = 0.993
+margin_top = 0.279907
+margin_right = 0.319946
+margin_bottom = -0.440063
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+align = 1
+valign = 1
+max_lines_visible = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
