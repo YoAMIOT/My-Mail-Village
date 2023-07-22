@@ -103,11 +103,15 @@ public class Shadow : KinematicBody{
         GetNode<Particles>("Appearance/MeshInstance/Particles").Emitting = false;
         await ToSignal(GetNode<AnimationPlayer>("AnimationPlayer"), "animation_finished");
         GetNode<CollisionShape>("Appearance/MeshInstance/SelectArea/CollisionShape").Disabled = true;
-
-        PackedScene scene = GD.Load<PackedScene>("res://scenes/3D/entities/ManaSource.tscn");
-        ManaSource manaSource = (ManaSource) scene.Instance();
-        GetParent<Spatial>().GetParent<Spatial>().AddChild(manaSource);
-        manaSource.Translation = this.Translation;
+        
+        Random rnd = new Random();
+        int chance = rnd.Next(1,3);
+        if (chance == 1){
+            PackedScene scene = GD.Load<PackedScene>("res://scenes/3D/entities/ManaSource.tscn");
+            ManaSource manaSource = (ManaSource) scene.Instance();
+            GetParent<Spatial>().GetParent<Spatial>().AddChild(manaSource);
+            manaSource.Translation = this.Translation;
+        }
 
         if (player.target == this.Name){
             player.resetTarget();

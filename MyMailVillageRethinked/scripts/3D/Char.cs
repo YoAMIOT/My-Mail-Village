@@ -52,6 +52,11 @@ public class Char : KinematicBody{
             castSpell();
         }
 
+        //ITEM RELATED
+        if (Input.IsActionJustPressed("useManaRuby") && manaRubyCount > 0){
+            useManaRuby();
+        }
+
         //TARGETTING RELATED
         if (Input.IsActionJustPressed("target")){
             Area collider = (Area)GetNode<RayCast>("SpringArm/Offset/Camera/RayCast").GetCollider();

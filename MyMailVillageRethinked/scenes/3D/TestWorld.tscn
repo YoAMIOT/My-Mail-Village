@@ -36,5 +36,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.654934, 1.25392, -31.6455 )
 [node name="Shadow2" parent="Ennemies" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4908, 1.25392, -25.6358 )
 
+[node name="Shadow3" parent="Ennemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.5525, 1.25392, -73.3071 )
+
+[node name="Shadow4" parent="Ennemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 65.6983, 1.25392, -67.2973 )
+
+[node name="Shadow5" parent="Ennemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -67.7918, 1.25392, 23.3488 )
+
+[node name="Shadow6" parent="Ennemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50.646, 1.25392, 29.3585 )
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 6 )
