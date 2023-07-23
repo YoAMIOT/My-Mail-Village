@@ -1,13 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/3D/entities/Char.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/3D/entities/Ennemies/Shadow.tscn" type="PackedScene" id=2]
-
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2( 200, 200 )
-
-[sub_resource type="ConcavePolygonShape" id=5]
-data = PoolVector3Array( 40, 0, 40, -40, 0, 40, 40, 0, -40, -40, 0, 40, -40, 0, -40, 40, 0, -40 )
+[ext_resource path="res://scenes/3D/Room.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Environment" id=6]
 background_mode = 2
@@ -16,15 +11,7 @@ ambient_light_energy = 0.0
 
 [node name="TestWorld" type="Spatial"]
 
-[node name="Ground" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="StaticBody" type="StaticBody" parent="Ground"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Ground/StaticBody"]
-transform = Transform( 2.5, 0, 0, 0, 1, 0, 0, 0, 2.5, 0, 0, 0 )
-shape = SubResource( 5 )
+[node name="Room" parent="." instance=ExtResource( 3 )]
 
 [node name="Char" parent="." instance=ExtResource( 1 )]
 
